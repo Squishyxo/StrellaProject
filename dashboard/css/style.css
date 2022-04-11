@@ -52,22 +52,13 @@ nav ul li a {
 nav ul li a:hover {
     color: rgb(206, 206, 206);
     background-color: #2e2e2e;
-    transition: 0.3s ease;
+    transition: 0.6s ease-in-out;
     border-right-color: rgb(206, 206, 206);
 }
 
 nav ul ul {
     position: static;
     display: none;
-}
-
-nav ul ul {
-    position: static;
-    display: none;
-}
-
-nav ul .inner-show.show {
-    display: block;
 }
 
 nav ul ul li {
@@ -87,10 +78,11 @@ nav ul li a span {
     transform: translateY(-50%);
     font-size: 22px;
     transition: transform 0.3s;
+    transform: translateY(-50%) rotate(-90deg);
 }
 
 nav ul li a:hover span {
-    transform: translateY(-50%) rotate(-90deg);
+    transform: translateY(-50%);
 }
 
 nav ul li:hover>ul {
