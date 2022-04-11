@@ -21,8 +21,10 @@
     font-weight: 600;
     line-height: 65px;
     text-align: center;
-    background-color: #464545;
+    background-color: #333333;
     letter-spacing: 1px;
+    top: 50px;
+    position: relative;
 }
 
 nav ul {
@@ -30,6 +32,8 @@ nav ul {
     height: 100%;
     width: 100%;
     list-style-type: none;
+    top: 100px;
+    position: relative;
 }
 
 nav ul li {
@@ -88,4 +92,10 @@ nav ul li a:hover span {
 nav ul li:hover>ul {
     display: block;
     transition: 0.8s ease;
+}
+
+.active-side {
+    color: rgb(255, 245, 154);
+    border-right-color: rgb(255, 245, 154);
+    ;
 }
