@@ -165,6 +165,42 @@ article:nth-child(2) {
     color: var(--primary-color);
 }
 
+.logo-container {
+    width: 100vh;
+    height: 100vh;
+    margin-top: 70px;
+    border: 1px solid red;
+}
+
+.primary-logo {
+    display: flex;
+    align-items: center;
+    border: 1px solid black;
+}
+
+.primary-logo div img {
+    padding: 0 20px;
+}
+
+.white-background {
+    background-color: #fff;
+    width: 50%;
+    height: 30vh;
+}
+
+.black-background {
+    background-color: black;
+    width: 50%;
+    height: 70vh;
+}
+
+.logo-footer {
+    color: red;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+}
+
 
 /* #side-column {
     display: flex;
