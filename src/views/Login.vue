@@ -6,7 +6,7 @@
               <h2>Log in</h2>
               <input type="password" placeholder="Access Token">
               <p>Forgot Token</p>
-              <router-link to="/"><button @click="logIn">Sign in</button></router-link>
+              <router-link to="/"><button @click="$store.commit('logIn')">Sign in</button></router-link>
           </form>
       </div>
       <div class="right"><img src="../images/Login.jpg" alt=""></div>
@@ -35,11 +35,13 @@ export default {
 .login-logo{
     width: 50%;
     padding: 6rem 0;
+    margin: auto;
 }
 form{
     border: 1px solid yellow;
     margin-top: 7rem;
-    width: 80%;
+    width: 50%;
+    margin: auto;
 }
 form p{
     cursor: pointer;

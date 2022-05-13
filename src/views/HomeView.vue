@@ -3,13 +3,12 @@
     <Navigation />
         <section class="content">
         <h1>Introduction</h1>
-        <button @click="logIn">login</button>
         <div>
             <p>Welcome to Balenciaga’s Brand Guide System. Within this Brand Guide System, the Balenciaga brand internally and externally is explained and you will find the tools necessary for successfully promoting and implementing the brand. Using our
                 brand guide ensures the consistency throughout any product or services that we offer. </p>
         </div>
     </section>
-    <div v-if="loggedIn">
+    <div v-if="$store.state.loggedIn">
         <div
             @mouseover="pencilHovered = true"
             @mouseleave="pencilHovered = false"
@@ -29,15 +28,15 @@ export default {
         data() {
         return {
             pencilHovered: false,
-            loggedIn: false,                                
+            // loggedIn: false,                                
 
     };
   },
-      methods: {
-        logIn(){
-            this.loggedIn = !this.loggedIn
-            }
-        }
+    //   methods: {
+    //     logIn(){
+    //         this.loggedIn = !this.loggedIn
+    //         }
+    //     }
 };
 </script>
 

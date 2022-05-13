@@ -11,9 +11,10 @@
             </ul>
         </nav>
         <div class="bottom-menu">
-            <div @click="changeTheme" class="c"><img src="../images/contrast.svg"></div>
+            <div @click="$store.commit('changeTheme')" class="c"><img src="../images/contrast.svg"></div>
             <div @click="logIn"><img src="../images/download.png"></div>
-            <router-link to="/Login"><div><img src="../images/edit.png"></div></router-link>
+            <router-link to="/Login"><div v-if="!$store.state.loggedIn"><img src="../images/edit.png"></div></router-link>
+            <button v-if="$store.state.loggedIn" @click="$store.commit('logOut')" class="logOut">Log out</button>
         </div>
     </section>
 </template>
@@ -25,28 +26,6 @@ export default {
         return{
         lightTheme: true
         }
-    },
-    methods:{
-        changeTheme() {
-        let darkBottomMenu = document.querySelector('.dark-bottom-menu');
-        let bottomMenu = document.querySelector('.bottom-menu');
-        this.lightTheme = !this.lightTheme;
-            if(this.lightTheme === false){
-                document.documentElement.style.setProperty('--primary-color', '#0D161C');
-                document.documentElement.style.setProperty('--secondary-color', '#fff');
-                document.documentElement.style.setProperty('--third-color', '#C4C4C4');
-                document.documentElement.style.setProperty('--color-1', '#A4A4A4');
-                darkBottomMenu.style.display = 'flex';
-                bottomMenu.style.display = 'none';
-            } else {
-                document.documentElement.style.setProperty('--primary-color', '#fff');
-                document.documentElement.style.setProperty('--secondary-color', '#0D161C');
-                document.documentElement.style.setProperty('--third-color', '#333333');
-                document.documentElement.style.setProperty('--color-1', '#0D161C');
-                darkBottomMenu.style.display = 'none';
-                bottomMenu.style.display = 'flex';
-            }
-        },
     },
 };
 </script>
@@ -151,6 +130,14 @@ body {
 .dark-theme{
     color: white;
 }
+.logOut{
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    width: 100px;
+    padding: 5px;
+    font-weight: 600;
+    margin-left: 30px;
+}
 @media (max-width: 1400px) {
     .logo {
         width: 360px;
@@ -173,6 +160,9 @@ body {
     }
     .bottom-menu div img {
         width: 40px;
+    }
+    .logOut{
+    margin-left: 5px;
     }
 }
 @media (max-width: 900px) {
@@ -197,6 +187,10 @@ body {
     }
     .bottom-menu div img {
         width: 30px;
+    }
+    .logOut{
+    width: 70px;
+    padding: 0;
     }
 }
 </style>
