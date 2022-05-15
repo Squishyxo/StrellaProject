@@ -2,11 +2,11 @@
   <div class="login">
       <div class="left">
           <img class="login-logo" src="../images/balenciaga-dark-mode-logo.png" alt="">
-          <form>
+          <form @submit.prevent="$store.commit('handleSubmit')">
               <h2>Log in</h2>
-              <input type="password" placeholder="Access Token">
+              <input v-model="$store.state.inputPassword" type="password" placeholder="Access Token" required>
               <p>Forgot Token</p>
-              <router-link to="/"><button @click="$store.commit('logIn')">Sign in</button></router-link>
+              <button type="submit" @click="$store.commit('logIn')">Sign in</button>
           </form>
       </div>
       <div class="right"><img src="../images/Login.jpg" alt=""></div>

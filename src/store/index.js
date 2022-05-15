@@ -2,7 +2,9 @@ import { createStore } from 'vuex'
 
 export default createStore({
     state: {
-        loggedIn: false
+        loggedIn: false,
+        token: '1223334444',
+        inputPassword: ''
     },
     getters: {},
     mutations: {
@@ -11,6 +13,14 @@ export default createStore({
         },
         logOut(state) {
             state.loggedIn = false
+        },
+        handleSubmit(state) {
+            if (state.token === state.inputPassword) {
+                console.log('correct password');
+                state.$router.push('/')
+            } else {
+                console.log('wrong password');
+            }
         },
         changeTheme() {
             let darkBottomMenu = document.querySelector('.dark-bottom-menu');
