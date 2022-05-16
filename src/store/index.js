@@ -1,4 +1,7 @@
 import { createStore } from 'vuex'
+import Vue from "vue";
+import {router} from "../main.js"
+import { vm } from '@/main'
 
 export default createStore({
     state: {
@@ -10,7 +13,7 @@ export default createStore({
     mutations: {
         logIn(state) {
             state.loggedIn = true
-            // this.$router.push('/')
+            // router.push('/colors')
         },
         logOut(state) {
             state.loggedIn = false
@@ -18,7 +21,7 @@ export default createStore({
         handleSubmit(state) {
             if (state.token === state.inputPassword) {
                 console.log('correct password');
-                state.$router.push('/')
+                vm.$router.push('/colors')
             } else {
                 console.log('wrong password');
             }
