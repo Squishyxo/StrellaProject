@@ -10,6 +10,7 @@ export default createStore({
     mutations: {
         logIn(state) {
             state.loggedIn = true
+            // this.$router.push('/')
         },
         logOut(state) {
             state.loggedIn = false

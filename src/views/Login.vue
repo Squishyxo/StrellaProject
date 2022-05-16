@@ -28,7 +28,6 @@ export default {
 }
 .login>*{
     width: 50%;
-    border: 1px solid red;
     height: 100vh;
     padding: 20px 120px;
 }
@@ -40,25 +39,31 @@ export default {
 form{
     border: 1px solid yellow;
     margin-top: 7rem;
-    width: 50%;
+    width: 90%;
+    height: 30vh;
     margin: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
 }
 form p{
     cursor: pointer;
     display: flex;
     justify-content: end;
+    /* margin-top: .5rem; */
 }
 h2{
     font-size: 2rem;
 }
 input{
-    width: 40%;
+    width: 100%;
     height: 4vh;
-    border-radius: 7px;
+    border-radius: 5px;
     border: 1px solid gray;
     padding: 0 10px;
     color: rgb(0, 0, 0);
     font-weight: 600;
+    /* margin-top: 7rem; */
 }
 button{
     width: 40%;
@@ -67,5 +72,7 @@ button{
     color: white;
     cursor: pointer;
     border-radius: 7px;
+    margin: auto;
+    /* margin-top: 2rem; */
 }
 </style>
