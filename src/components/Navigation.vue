@@ -1,6 +1,7 @@
 <template>
         <section id="side">
-            <div class="logo"><img src="../images/logo.png" alt=""></div>
+            <div v-if="$store.state.lightTheme" class="logo"><img src="../images/logo.png" alt=""></div>
+            <div v-else class="logo"><img src="../images/balenciaga-dark-mode-logo.png" alt=""></div>
         <nav class="side-menu">
             <ul>    
                <router-link to="/"><li><a>INTRODUCTION</a></li></router-link>
@@ -12,8 +13,12 @@
         </nav>
         <div class="bottom-menu">
             <div @click="$store.commit('changeTheme')" class="c"><img src="../images/contrast.svg"></div>
-            <div @click="logIn"><img src="../images/download.png"></div>
-            <router-link to="/Login"><div v-if="!$store.state.loggedIn"><img src="../images/edit.png"></div></router-link>
+            <div v-if="$store.state.lightTheme"><img src="../images/download.png"></div>
+            <div v-else><img src="../images/download-light-mode.png"></div>
+            <router-link to="/Login">
+            <div v-if="!$store.state.loggedIn && $store.state.lightTheme"><img src="../images/edit.png"></div>
+            <div v-if="!$store.state.loggedIn && !$store.state.lightTheme"><img src="../images/edit-light-mode.png"></div>
+            </router-link>
             <button v-if="$store.state.loggedIn" @click="$store.commit('logOut')" class="logOut">Log out</button>
         </div>
     </section>
@@ -60,7 +65,8 @@ body {
     clip-path: polygon(0 0, 100% 0, 67% 100%, 0% 100%);
     background-color: var(--third-color);
     width: 460px;
-    height: 121px;
+    /* height: 121px; */
+    height: 11vh;
     padding: 30px;
     border-bottom: 1px solid var(--secondary-color);
 }
@@ -100,7 +106,7 @@ body {
     clip-path: polygon(0 0, 84% 0, 100% 100%, 0% 100%);
     background-color: var(--color-1);
     width: 460px;
-    height: auto;
+    height: 12vh;
     border-top: 1px solid var(--secondary-color);
     overflow-y: hidden;
 }

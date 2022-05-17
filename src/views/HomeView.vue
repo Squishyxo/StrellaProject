@@ -33,9 +33,7 @@ export default {
         data() {
         return {
             pencilHovered: false,
-            editable: false,
-            text: ``                                
-
+            editable: false
     };
   },
     mounted:function(){
@@ -43,13 +41,12 @@ export default {
   },
     methods: {
         getText(){
-            fetch('https://s3-project-8f792-default-rtdb.europe-west1.firebasedatabase.app/text/-N2Ho-WTeE0lG8ALwtHG/introText.json').then(function (response) {
+              fetch('https://s3-project-8f792-default-rtdb.europe-west1.firebasedatabase.app/.json').then(function (response) {
                 if (response.ok){
                     return response.json();
                 }
             }).then(function(data){
-                console.log(data);
-                this.text = data; // Here is where i am wrong. I am inside fetch function, I can't access the data with "this" anymore. I want to store the fetched data to a variable that I declared in data
+                document.getElementById('intro-text').innerHTML = data.introText
             });
         },
        editText(){
@@ -57,13 +54,15 @@ export default {
            document.getElementById("intro-text").contentEditable = this.editable;
        },
        saveShanges(){
-           let updatedText = document.getElementById('intro-text').innerText;
-        //    localStorage.setItem("edited-text", updatedText);
-        //    localStorage.getItem("edited-text") == this.text;
-            // document.getElementById("intro-text").innerHTML = localStorage.getItem("edited-text");
-            this.text = updatedText;
-           console.log(localStorage);
-           console.log('siii');
+            let value = document.getElementById('intro-text').innerText;
+        fetch('https://s3-project-8f792-default-rtdb.europe-west1.firebasedatabase.app/.json', {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({"introText": value}),
+        });
+           this.editable = false;
        }
     }
 };
