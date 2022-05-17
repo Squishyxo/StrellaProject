@@ -4,17 +4,22 @@
         <section class="content">
         <h1>Introduction</h1>
         <div>
-            <p>Welcome to Balenciaga’s Brand Guide System. Within this Brand Guide System, the Balenciaga brand internally and externally is explained and you will find the tools necessary for successfully promoting and implementing the brand. Using our
-                brand guide ensures the consistency throughout any product or services that we offer. </p>
+            <p :class="[ editable ? 'edit-border' : '']" id="intro-text">{{text}}
+                <!-- Welcome to Balenciaga’s Brand Guide System. Within this Brand Guide System, the Balenciaga brand internally and externally is explained and you will find the tools necessary for successfully promoting and implementing the brand. Using our
+                brand guide ensures the consistency throughout any product or services that we offer.  -->
+                </p>
         </div>
     </section>
     <div v-if="$store.state.loggedIn">
         <div
+            @click="editText"
             @mouseover="pencilHovered = true"
             @mouseleave="pencilHovered = false"
          class="editBtn"><img src="../images/edit.png"></div>
-        <div v-if="pencilHovered" class="editOnHover">Change a font</div>
+        <div v-if="pencilHovered" class="editOnHover">edit text</div>
     </div>
+
+    <div class="save-changes" v-if="editable"><p>You can click on the text and start editing, when you finish click save.</p><button @click="saveShanges">SAVE CHANGES</button></div>
   </div>
 </template>
 
@@ -28,15 +33,24 @@ export default {
         data() {
         return {
             pencilHovered: false,
-            // loggedIn: false,                                
+            editable: false,
+            text: ''                                
 
     };
   },
-    //   methods: {
-    //     logIn(){
-    //         this.loggedIn = !this.loggedIn
-    //         }
-    //     }
+    methods: {
+       editText(){
+           this.editable = !this.editable;
+           document.getElementById("intro-text").contentEditable = this.editable;
+       },
+       saveShanges(){
+           let updatedText = document.getElementById('intro-text').innerText;
+           localStorage.setItem("edited-text", updatedText);
+           localStorage.getItem("edited-text") == this.text;
+            // document.getElementById("intro-text").innerHTML = localStorage.getItem("edited-text");
+           console.log(localStorage)
+       }
+    }
 };
 </script>
 
@@ -83,9 +97,34 @@ export default {
     top: 44%;
     border: 2px solid var(--secondary-color);
     padding: 10px;
-    width: 150px;
+    width: 10rem;
     height: 50px;
     text-align: center;
+    background-color: var(--primary-color);
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    text-transform: uppercase;
+}
+.edit-border{
+    border: .3rem inset var(--secondary-color);
+    padding: 2rem;
+}
+.save-changes{
+    border: .2rem solid var(--secondary-color);
+    position: absolute;
+    bottom: 20%;
+    right: 20%;
+    padding: 1rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 600;
+    text-transform: uppercase;
+    display: flex;
+}
+.save-changes p{
+    margin: auto;
+}
+.save-changes button{
+    width: 10rem;
+    margin: 0 2rem;
 }
 @media (max-width: 1400px) {
     .content h1 {
