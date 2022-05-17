@@ -4,7 +4,7 @@
         <section class="content">
         <h1>Introduction</h1>
         <div>
-            <p :class="[ editable ? 'edit-border' : '']" id="intro-text">{{text}}
+            <p :class="[ editable ? 'edit-border' : '']" id="intro-text" :v-model="text">{{text}}
                 <!-- Welcome to Balenciaga’s Brand Guide System. Within this Brand Guide System, the Balenciaga brand internally and externally is explained and you will find the tools necessary for successfully promoting and implementing the brand. Using our
                 brand guide ensures the consistency throughout any product or services that we offer.  -->
                 </p>
@@ -34,21 +34,36 @@ export default {
         return {
             pencilHovered: false,
             editable: false,
-            text: ''                                
+            text: ``                                
 
     };
   },
+    mounted:function(){
+        this.getText() 
+  },
     methods: {
+        getText(){
+            fetch('https://s3-project-8f792-default-rtdb.europe-west1.firebasedatabase.app/text/-N2Ho-WTeE0lG8ALwtHG/introText.json').then(function (response) {
+                if (response.ok){
+                    return response.json();
+                }
+            }).then(function(data){
+                console.log(data);
+                this.text = data; // Here is where i am wrong. I am inside fetch function, I can't access the data with "this" anymore. I want to store the fetched data to a variable that I declared in data
+            });
+        },
        editText(){
            this.editable = !this.editable;
            document.getElementById("intro-text").contentEditable = this.editable;
        },
        saveShanges(){
            let updatedText = document.getElementById('intro-text').innerText;
-           localStorage.setItem("edited-text", updatedText);
-           localStorage.getItem("edited-text") == this.text;
+        //    localStorage.setItem("edited-text", updatedText);
+        //    localStorage.getItem("edited-text") == this.text;
             // document.getElementById("intro-text").innerHTML = localStorage.getItem("edited-text");
-           console.log(localStorage)
+            this.text = updatedText;
+           console.log(localStorage);
+           console.log('siii');
        }
     }
 };
