@@ -102,8 +102,8 @@ nav ul li a {
     padding: 40px;
 }
 .logo img {
-    width: 320px;
-    padding: 2rem;
+    width: 290px;
+    padding: 1rem;
 }
 
 .bottom-menu div img{
