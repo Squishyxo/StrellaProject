@@ -1,6 +1,8 @@
 <template>
   <div>
-    <Navigation />
+    <Navigation v-if="!$store.state.lessSideBar"/>
+    <Navigation2 v-if="$store.state.lessSideBar"/>
+    <button class="toggle" @click="$store.commit('less')"></button>
         <section class="content">
         <h1>Introduction</h1>
         <div>
@@ -25,15 +27,18 @@
 
 <script>
 import Navigation from "@/components/Navigation.vue";
+import Navigation2 from "@/components/Navigation2.vue";
 export default {
   components: {
-    Navigation
+    Navigation,
+    Navigation2
   },
   name: "Home",
         data() {
         return {
             pencilHovered: false,
-            editable: false
+            editable: false,
+            text: ''
     };
   },
     mounted:function(){
@@ -41,12 +46,13 @@ export default {
   },
     methods: {
         getText(){
-              fetch('https://s3-project-8f792-default-rtdb.europe-west1.firebasedatabase.app/.json').then(function (response) {
+              fetch('https://s3-project-8f792-default-rtdb.europe-west1.firebasedatabase.app/.json').then((response) => {
                 if (response.ok){
                     return response.json();
                 }
-            }).then(function(data){
-                document.getElementById('intro-text').innerHTML = data.introText
+            }).then((data) => {
+                this.text = data.introText;
+                // document.getElementById('intro-text').innerHTML = data.introText
             });
         },
        editText(){
@@ -139,6 +145,13 @@ export default {
 .save-changes button{
     width: 10rem;
     margin: 0 2rem;
+}
+.toggle{
+    position: absolute;
+    top: 4rem;
+    left: 25rem;
+    width: 4rem;
+    background-color: var(--secondary-color);
 }
 @media (max-width: 1400px) {
     .content h1 {

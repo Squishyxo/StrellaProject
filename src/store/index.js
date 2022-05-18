@@ -5,7 +5,8 @@ export default createStore({
         loggedIn: false,
         token: '1223334444',
         inputPassword: '',
-        lightTheme: true
+        lightTheme: true,
+        lessSideBar: false
     },
     getters: {},
     mutations: {
@@ -14,6 +15,9 @@ export default createStore({
         },
         logOut(state) {
             state.loggedIn = false
+        },
+        less(state) {
+            state.lessSideBar = !state.lessSideBar
         },
         handleSubmit(state) {
             if (state.token === state.inputPassword) {
