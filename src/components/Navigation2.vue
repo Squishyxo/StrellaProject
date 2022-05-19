@@ -10,13 +10,13 @@
                <router-link to="/brand"><li><a>BRAND</a></li></router-link>
                <li><a>DOWNLOAD</a></li>
             </ul>
-            <div class="bottom-menu">
+            <div :class="[ $store.state.lessSideBar ? 'bottom-menu2' : 'bottom-menu']">
             <div @click="$store.commit('changeTheme')" class="c"><img src="../images/contrast.svg"></div>
             <router-link to="/Login">
             <div v-if="!$store.state.loggedIn && $store.state.lightTheme"><img src="../images/edit.png"></div>
             <div v-if="!$store.state.loggedIn && !$store.state.lightTheme"><img src="../images/edit-light-mode.png"></div>
             </router-link>
-            <button v-if="$store.state.loggedIn" @click="$store.commit('logOut')" class="logOut">Log out</button>
+            <button v-if="$store.state.loggedIn" @click="$store.commit('logOut')" class="logOut"><img src="../images/bx-log-in.svg" alt=""></button>
             </div>
         </nav>
 </template>
@@ -26,7 +26,7 @@ export default {
     name: "Navigation2",
     data(){
         return{
-        lightTheme: true
+        lightTheme: true,
         }
     },
 };
@@ -61,8 +61,8 @@ nav{
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    background-color: var(--secondary-color);
-    width: 17vw;
+    background-color: var(--nav-color);
+    width: 20rem;
     height: 100vh;
     position: fixed;
 }
@@ -93,20 +93,35 @@ nav ul li a {
 }
 .bottom-menu {
     display: flex;
+    align-items: center;
+    clip-path: polygon(0 0, 84% 0, 100% 100%, 0% 100%);
     background-color: var(--color-1);
+    width: 20rem;
+    height: 12vh;
+    border-top: 1px solid var(--secondary-color);
     overflow-y: hidden;
-    display: flex;
-    justify-content: space-evenly;
 }
-.bottom-menu div {
+.bottom-menu2 {
+    display: flex;
+    align-items: center;
+    background-color: var(--color-1);
+    width: 20rem;
+    height: 12vh;
+    border-top: 1px solid var(--secondary-color);
+    overflow-y: hidden;
+}
+.bottom-menu div, .bottom-menu2 div {
     padding: 40px;
 }
+.logo{
+    text-align: center;
+}
 .logo img {
-    width: 290px;
+    width: 18rem;
     padding: 1rem;
 }
 
-.bottom-menu div img{
+.bottom-menu div img, .bottom-menu2 div img{
     width: 3rem;
     height:4vh;
     cursor: pointer;
@@ -125,5 +140,44 @@ nav ul li a {
 
 .side-menu .router-link-active a {
     color: var(--secondary-color);
+}
+.logOut{
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+    width: 80px;
+    height: 50px;
+    margin-left: 35px;
+}
+@media (max-width: 1400px) {
+    .logo img {
+        width: 15rem;
+    }
+    .side-menu ul, nav {
+        width: 15rem;
+    }
+    .side-menu ul li a {
+        font-size: 1.5rem;
+    }
+    .bottom-menu div, .bottom-menu2 div{
+        padding: 20px;
+    }
+}
+@media (max-width: 900px) {
+    .logo img {
+        width: 10rem;
+    }
+    .side-menu ul, nav {
+        width: 10rem;
+    }
+    .side-menu ul li a {
+        font-size: 1rem;
+    }
+    .bottom-menu div, .bottom-menu2 div {
+        padding: 5px;
+    }
+    .bottom-menu div img, .bottom-menu  button, .bottom-menu2 div img, .bottom-menu2 button {
+        width: 50px;
+        height: 40px;
+    }
 }
 </style>

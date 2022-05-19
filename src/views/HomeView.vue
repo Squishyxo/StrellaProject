@@ -1,8 +1,11 @@
 <template>
   <div>
     <Navigation v-if="!$store.state.lessSideBar"/>
-    <Navigation2 v-if="$store.state.lessSideBar"/>
-    <button class="toggle" @click="$store.commit('less')"></button>
+    <Navigation2 v-else/>
+    <button class="toggle" @click="$store.commit('less')">
+        <img v-if="!$store.state.lessSideBar" src="../images/bxs-left-arrow-square.svg" alt="left arrow">
+        <img v-else src="../images/bxs-right-arrow-square.svg" alt="right arrow">
+        </button>
         <section class="content">
         <h1>Introduction</h1>
         <div>
@@ -46,12 +49,12 @@ export default {
   },
     methods: {
         getText(){
-              fetch('https://s3-project-8f792-default-rtdb.europe-west1.firebasedatabase.app/.json').then((response) => {
+              fetch('https://s3-project-8f792-default-rtdb.europe-west1.firebasedatabase.app/introText.json').then((response) => {
                 if (response.ok){
                     return response.json();
                 }
             }).then((data) => {
-                this.text = data.introText;
+                this.text = data;
                 // document.getElementById('intro-text').innerHTML = data.introText
             });
         },
@@ -61,12 +64,12 @@ export default {
        },
        saveShanges(){
             let value = document.getElementById('intro-text').innerText;
-        fetch('https://s3-project-8f792-default-rtdb.europe-west1.firebasedatabase.app/.json', {
+        fetch('https://s3-project-8f792-default-rtdb.europe-west1.firebasedatabase.app/introText.json', {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({"introText": value}),
+            body: JSON.stringify(value),
         });
            this.editable = false;
        }
@@ -75,6 +78,7 @@ export default {
 </script>
 
 <style scoped>
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500&display=swap');;
 .content {
     position: relative;
     margin-left: 600px;
@@ -94,7 +98,8 @@ export default {
 
 .content div p {
     padding-top: 100px;
-    font-size: 1.5rem;
+    font-size: 2.5rem;
+    font-family: 'Space Grotesk', sans-serif;
 }
 
 .content img {
@@ -148,10 +153,14 @@ export default {
 }
 .toggle{
     position: absolute;
-    top: 4rem;
-    left: 25rem;
-    width: 4rem;
-    background-color: var(--secondary-color);
+    bottom: 8rem;
+    left: 21rem;
+    width: 3rem;
+    border: 1px;
+    background-color: #fff;
+}
+.toggle img{
+  width: 2rem;
 }
 @media (max-width: 1400px) {
     .content h1 {

@@ -5,8 +5,9 @@
           <form @submit.prevent="$store.commit('handleSubmit')">
               <h2>Log in</h2>
               <input v-model="$store.state.inputPassword" type="password" placeholder="Access Token" required>
-              <p>Forgot Token</p>
-              <button type="submit" @click="$store.commit('logIn')">Sign in</button>
+              <a href="https://youtu.be/rKWGV8SVmtE" target="_blank">Forgot Token</a>
+              <p class="wrongToken" v-if="$store.state.wrongToken">Worng password</p>
+              <button type="submit">Sign in</button>
           </form>
       </div>
       <div class="right"><img src="../images/Login.jpg" alt=""></div>
@@ -37,20 +38,20 @@ export default {
     margin: auto;
 }
 form{
-    border: 1px solid yellow;
+    /* border: 1px solid yellow; */
     margin-top: 7rem;
     width: 90%;
-    height: 30vh;
+    height: 40vh;
     margin: auto;
     display: flex;
     flex-direction: column;
     gap: 2rem;
 }
-form p{
+form a{
     cursor: pointer;
     display: flex;
     justify-content: end;
-    /* margin-top: .5rem; */
+    color: black;
 }
 h2{
     font-size: 2rem;
@@ -74,5 +75,9 @@ button{
     border-radius: 7px;
     margin: auto;
     /* margin-top: 2rem; */
+}
+.wrongToken{
+    color: red;
+    text-align: center;
 }
 </style>

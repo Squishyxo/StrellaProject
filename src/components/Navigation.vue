@@ -11,7 +11,7 @@
                <router-link to="/brand"><li><a>BRAND</a></li></router-link>
             </ul>
         </nav>
-        <div class="bottom-menu">
+            <div :class="[ $store.state.lessSideBar ? 'bottom-menu2' : 'bottom-menu']">
             <div @click="$store.commit('changeTheme')" class="c"><img src="../images/contrast.svg"></div>
             <div v-if="$store.state.lightTheme"><img src="../images/download.png"></div>
             <div v-else><img src="../images/download-light-mode.png"></div>
@@ -19,7 +19,7 @@
             <div v-if="!$store.state.loggedIn && $store.state.lightTheme"><img src="../images/edit.png"></div>
             <div v-if="!$store.state.loggedIn && !$store.state.lightTheme"><img src="../images/edit-light-mode.png"></div>
             </router-link>
-            <button v-if="$store.state.loggedIn" @click="$store.commit('logOut')" class="logOut">Log out</button>
+            <button v-if="$store.state.loggedIn" @click="$store.commit('logOut')" class="logOut"><img src="../images/bx-log-in.svg" alt=""></button>
         </div>
     </section>
 </template>
@@ -43,6 +43,7 @@ export default {
     --secondary-color: #0D161C;
     --third-color: #333333;
     --color-1: #0D161C;
+    --nav-color: #0D161C;
 }
 
 * {
@@ -65,7 +66,6 @@ body {
     clip-path: polygon(0 0, 100% 0, 67% 100%, 0% 100%);
     background-color: var(--third-color);
     width: 460px;
-    /* height: 121px; */
     height: 11vh;
     padding: 30px;
     border-bottom: 1px solid var(--secondary-color);
@@ -110,16 +110,26 @@ body {
     border-top: 1px solid var(--secondary-color);
     overflow-y: hidden;
 }
+.bottom-menu2 {
+    display: flex;
+    align-items: center;
+    background-color: var(--color-1);
+    width: 460px;
+    height: 12vh;
+    border-top: 1px solid var(--secondary-color);
+    overflow-y: hidden;
+}
 
-.bottom-menu div {
+.bottom-menu div,  .bottom-menu2 div {
     padding: 30px;
 }
 
-.bottom-menu div img{
-    width: 60px;
-    padding: 3px;
+.bottom-menu div img, .bottom-menu2 div img{
+    width: 3rem;
+    height:4vh;
     cursor: pointer;
 }
+
 
 .router-link-active {
     background-color: var(--primary-color);
@@ -129,20 +139,15 @@ body {
 .side-menu .router-link-active a {
     color: var(--secondary-color);
 }
-
-#side {
-    position: fixed;
-}
-.dark-theme{
-    color: white;
-}
 .logOut{
     background-color: var(--primary-color);
     color: var(--secondary-color);
-    width: 100px;
-    padding: 5px;
-    font-weight: 600;
-    margin-left: 30px;
+    width: 80px;
+    height: 50px;
+    margin-left: 35px;
+}
+#side {
+    position: fixed;
 }
 @media (max-width: 1400px) {
     .logo {
@@ -158,13 +163,13 @@ body {
     .side-menu ul li a {
         font-size: 1.5rem;
     }
-    .bottom-menu {
+    .bottom-menu, .bottom-menu2 {
         width: 360px;
     }
-    .bottom-menu div {
+    .bottom-menu div, .bottom-menu2 div {
         padding: 30px;
     }
-    .bottom-menu div img {
+    .bottom-menu div img, .bottom-menu2 div img {
         width: 40px;
     }
     .logOut{
@@ -195,7 +200,7 @@ body {
         width: 30px;
     }
     .logOut{
-    width: 70px;
+    width: 50px;
     padding: 0;
     }
 }
