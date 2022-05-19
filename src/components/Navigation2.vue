@@ -1,5 +1,6 @@
 <template>
-        <nav class="side-menu">
+<div>
+            <nav class="side-menu">
         <div v-if="$store.state.lightTheme" class="logo"><img src="../images/logo.png" alt=""></div>
             <div v-else class="logo"><img src="../images/balenciaga-dark-mode-logo.png" alt=""></div>
             <ul>    
@@ -19,6 +20,11 @@
             <button v-if="$store.state.loggedIn" @click="$store.commit('logOut')" class="logOut"><img src="../images/bx-log-in.svg" alt=""></button>
             </div>
         </nav>
+            <button class="toggle" @click="$store.commit('less')">
+        <img v-if="!$store.state.lessSideBar" src="../images/bxs-left-arrow-square.svg" alt="left arrow">
+        <img v-else src="../images/bxs-right-arrow-square.svg" alt="right arrow">
+        </button>
+        </div>
 </template>
 
 <script>

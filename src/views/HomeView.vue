@@ -2,10 +2,6 @@
   <div>
     <Navigation v-if="!$store.state.lessSideBar"/>
     <Navigation2 v-else/>
-    <button class="toggle" @click="$store.commit('less')">
-        <img v-if="!$store.state.lessSideBar" src="../images/bxs-left-arrow-square.svg" alt="left arrow">
-        <img v-else src="../images/bxs-right-arrow-square.svg" alt="right arrow">
-        </button>
         <section class="content">
         <h1>Introduction</h1>
         <div>
@@ -150,14 +146,6 @@ export default {
 .save-changes button{
     width: 10rem;
     margin: 0 2rem;
-}
-.toggle{
-    position: absolute;
-    bottom: 8rem;
-    left: 21rem;
-    width: 3rem;
-    border: 1px;
-    background-color: #fff;
 }
 .toggle img{
   width: 2rem;

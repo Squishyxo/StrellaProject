@@ -1,6 +1,7 @@
 <template>
 <div>
-    <Navigation />
+    <Navigation v-if="!$store.state.lessSideBar"/>
+    <Navigation2 v-else/>
       <section class="content">
         <h1>BRAND IN USE</h1>
         <p>We want our brand to be expressed throughout the entire world. We want to visualize our vision with the use of concepts and art-like expressions. Take a look at some of our ideas:</p>
@@ -15,9 +16,11 @@
 
 <script>
 import Navigation from "@/components/Navigation.vue";
+import Navigation2 from "@/components/Navigation2.vue";
 export default {
   components: {
     Navigation,
+    Navigation2
   },
   name: "Brand",
   data() {

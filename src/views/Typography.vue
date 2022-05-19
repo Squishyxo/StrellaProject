@@ -1,6 +1,7 @@
 <template>
   <div>
-      <Navigation />
+    <Navigation v-if="!$store.state.lessSideBar"/>
+    <Navigation2 v-else/>
           <section class="content">
         <h1>Typography</h1>
         <div>
@@ -14,9 +15,11 @@
 
 <script>
 import Navigation from "@/components/Navigation.vue";
+import Navigation2 from "@/components/Navigation2.vue";
 export default {
   components: {
     Navigation,
+    Navigation2
   },
   name: "Typography",
   data() {

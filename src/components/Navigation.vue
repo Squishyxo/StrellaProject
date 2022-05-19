@@ -21,6 +21,10 @@
             </router-link>
             <button v-if="$store.state.loggedIn" @click="$store.commit('logOut')" class="logOut"><img src="../images/bx-log-in.svg" alt=""></button>
         </div>
+    <button class="toggle" @click="$store.commit('less')">
+        <img v-if="!$store.state.lessSideBar" src="../images/bxs-left-arrow-square.svg" alt="left arrow">
+        <img v-else src="../images/bxs-right-arrow-square.svg" alt="right arrow">
+        </button>
     </section>
 </template>
 

@@ -14,6 +14,7 @@ export default{
     --secondary-color: #0D161C;
     --third-color: #333333;
     --color-1: #0D161C;
+    --nav-color: #0D161C;
 }
 
 * {
@@ -30,5 +31,13 @@ body {
     font-family: 'Roboto Slab', serif;
     background-color: var(--primary-color);
     color: var(--secondary-color);
+}
+.toggle{
+    position: absolute;
+    bottom: 8rem;
+    left: 21rem;
+    width: 3rem;
+    border: 1px;
+    background-color: #fff;
 }
 </style>
