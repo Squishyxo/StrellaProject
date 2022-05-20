@@ -1,4 +1,5 @@
 <template>
+    <div>
         <section id="side">
             <div v-if="$store.state.lightTheme" class="logo"><img src="../images/logo.png" alt=""></div>
             <div v-else class="logo"><img src="../images/balenciaga-dark-mode-logo.png" alt=""></div>
@@ -11,6 +12,7 @@
                <router-link to="/brand"><li><a>BRAND</a></li></router-link>
             </ul>
         </nav>
+        <!-- dynaimic style to help the user choose which sidebar they want then apply the proper class to the sidebar -->
             <div :class="[ $store.state.lessSideBar ? 'bottom-menu2' : 'bottom-menu']">
             <div @click="$store.commit('changeTheme')" class="c"><img src="../images/contrast.svg"></div>
             <div v-if="$store.state.lightTheme"><img src="../images/download.png"></div>
@@ -21,11 +23,18 @@
             </router-link>
             <button v-if="$store.state.loggedIn" @click="$store.commit('logOut')" class="logOut"><img src="../images/bx-log-in.svg" alt=""></button>
         </div>
+        <!-- Through this button, the user can choose between the two sidebars -->
     <button class="toggle" @click="$store.commit('less')">
         <img v-if="!$store.state.lessSideBar" src="../images/bxs-left-arrow-square.svg" alt="left arrow">
         <img v-else src="../images/bxs-right-arrow-square.svg" alt="right arrow">
         </button>
     </section>
+    <section id="phoneNavigation">
+        <img v-if="$store.state.lightTheme" class="phoneLogo" src="../images/logo.png" alt="">
+        <img v-else class="phoneLogo" src="../images/balenciaga-dark-mode-logo.png" alt="">
+        <button>Hello</button>
+    </section>
+    </div>
 </template>
 
 <script>
@@ -207,5 +216,32 @@ body {
     width: 50px;
     padding: 0;
     }
+}
+@media (max-width: 600px) {
+   #side{
+       display: none;
+   } 
+   #phoneNavigation{
+       width: 100vw;
+       height: 10vh;
+       background-color: var(--secondary-color);
+       display: flex;
+       justify-content: space-around;
+       align-items: center;
+   }
+   #phoneNavigation img{
+       width: 10rem;
+       height: 3rem;
+   }
+   .phoneLogo{
+    clip-path: none;
+    background-color: var(--secondary-color);
+    width: 15rem;
+    height: 11vh;
+    padding: 1rem;
+    border-bottom: none;
+    display: flex;
+    align-items: center;
+   }
 }
 </style>

@@ -1,7 +1,9 @@
 <template>
   <div>
+      <!-- this v-if shows one of the two sidebars depending on what the user prefers. -->
     <Navigation v-if="!$store.state.lessSideBar"/>
     <Navigation2 v-else/>
+      <!-- The main content starts here -->
         <section class="content">
         <h1>Introduction</h1>
         <div>
@@ -11,6 +13,9 @@
                 </p>
         </div>
     </section>
+      <!-- content ends here -->
+
+      <!-- Then we added a dashboard feature as a v-if statement. It checks whether the user logged in or not and if they are logged in, this feature shows. -->
     <div v-if="$store.state.loggedIn">
         <div
             @click="editText"
@@ -20,7 +25,7 @@
         <div v-if="pencilHovered" class="editOnHover">edit text</div>
     </div>
 
-    <div class="save-changes" v-if="editable"><p>You can click on the text and start editing, when you finish click save.</p><button @click="saveShanges">SAVE CHANGES</button></div>
+    <div class="save-changes" v-if="editable"><p>You can click on the text and start editing, when you finish click save.</p><button @click="saveChanges">SAVE CHANGES</button></div>
   </div>
 </template>
 
@@ -40,6 +45,7 @@ export default {
             text: ''
     };
   },
+  // getText function executes whenever the page refreshes
     mounted:function(){
         this.getText() 
   },
@@ -58,7 +64,8 @@ export default {
            this.editable = !this.editable;
            document.getElementById("intro-text").contentEditable = this.editable;
        },
-       saveShanges(){
+       // saveChanges takes the input text and save it in a firebase database
+       saveChanges(){
             let value = document.getElementById('intro-text').innerText;
         fetch('https://s3-project-8f792-default-rtdb.europe-west1.firebasedatabase.app/introText.json', {
             method: 'PUT',
@@ -132,8 +139,8 @@ export default {
 .save-changes{
     border: .2rem solid var(--secondary-color);
     position: absolute;
-    bottom: 20%;
-    right: 20%;
+    top: 3%;
+    right: 10%;
     padding: 1rem;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-weight: 600;

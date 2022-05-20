@@ -11,6 +11,7 @@
                <router-link to="/brand"><li><a>BRAND</a></li></router-link>
                <li><a>DOWNLOAD</a></li>
             </ul>
+            <!-- dynaimic style to help the user choose which sidebar they want then apply the proper class to the sidebar -->
             <div :class="[ $store.state.lessSideBar ? 'bottom-menu2' : 'bottom-menu']">
             <div @click="$store.commit('changeTheme')" class="c"><img src="../images/contrast.svg"></div>
             <router-link to="/Login">
@@ -20,6 +21,7 @@
             <button v-if="$store.state.loggedIn" @click="$store.commit('logOut')" class="logOut"><img src="../images/bx-log-in.svg" alt=""></button>
             </div>
         </nav>
+        <!-- Through this button, the user can choose between the two sidebars -->
             <button class="toggle" @click="$store.commit('less')">
         <img v-if="!$store.state.lessSideBar" src="../images/bxs-left-arrow-square.svg" alt="left arrow">
         <img v-else src="../images/bxs-right-arrow-square.svg" alt="right arrow">
@@ -77,7 +79,6 @@ nav ul {
     display: flex;
     flex-direction: column;
     text-align: center;
-    border-left: 5px solid var(--third-color);
 }
 nav ul li {
     cursor: pointer;

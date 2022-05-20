@@ -1,7 +1,9 @@
 <template>
 <div>
+    <!-- this v-if shows one of the two sidebars depending on what the user prefers. -->
     <Navigation v-if="!$store.state.lessSideBar"/>
     <Navigation2 v-else/>
+      <!-- The main content starts here -->
       <section class="content">
         <h1>BRAND IN USE</h1>
         <p>We want our brand to be expressed throughout the entire world. We want to visualize our vision with the use of concepts and art-like expressions. Take a look at some of our ideas:</p>
@@ -9,9 +11,13 @@
             <img src="../images/Artboard1.png">
             <img src="../images/Artboard2.png">
             <img src="../images/Artboard3.png">
+            <img src="../images/Brandinuse4.jpg">
+            <img src="../images/Brandinuse5.jpg">
+            <img src="../images/brandinuse6.jpg">
         </div>
     </section>
     </div>
+      <!-- content ends here -->
 </template>
 
 <script>

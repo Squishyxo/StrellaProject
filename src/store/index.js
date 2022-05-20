@@ -29,9 +29,11 @@ export default createStore({
                 if (state.password === state.inputPassword) {
                     console.log('correct password');
                     state.loggedIn = true
+                    state.inputPassword = '';
                     router.push('/');
                 } else {
                     state.wrongToken = true;
+                    state.inputPassword = '';
                     console.log('wrong password');
                 }
             })

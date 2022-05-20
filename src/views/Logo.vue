@@ -1,7 +1,9 @@
 <template>
 <div>
+      <!-- this v-if shows one of the two sidebars depending on what the user prefers. -->
     <Navigation v-if="!$store.state.lessSideBar"/>
     <Navigation2 v-else/>
+      <!-- content starts here -->
     <section class="content">
         <h1>Logo</h1>
         <div>
@@ -34,6 +36,7 @@
             </div>
         </div>
     </section>
+      <!-- content ends here -->
 </div>
 </template>
 

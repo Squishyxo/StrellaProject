@@ -33,11 +33,12 @@ body {
     color: var(--secondary-color);
 }
 .toggle{
-    position: absolute;
+    position: fixed;
     bottom: 8rem;
     left: 21rem;
     width: 3rem;
     border: 1px;
     background-color: #fff;
+    z-index: 10;
 }
 </style>
