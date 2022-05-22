@@ -29,22 +29,20 @@
         <img v-else src="../images/bxs-right-arrow-square.svg" alt="right arrow">
         </button>
     </section>
-    <section id="phoneNavigation">
-        <img v-if="$store.state.lightTheme" class="phoneLogo" src="../images/logo.png" alt="">
-        <img v-else class="phoneLogo" src="../images/balenciaga-dark-mode-logo.png" alt="">
-        <button>Hello</button>
-    </section>
+    <phone-navigation />
     </div>
 </template>
 
 <script>
+import phoneNavigation from './phoneNavigation.vue';
 export default {
+  components: { phoneNavigation },
     name: "Navigation",
     data(){
         return{
         lightTheme: true
         }
-    },
+    }
 };
 </script>
 
@@ -216,32 +214,8 @@ body {
     width: 50px;
     padding: 0;
     }
-}
-@media (max-width: 600px) {
-   #side{
-       display: none;
-   } 
-   #phoneNavigation{
-       width: 100vw;
-       height: 10vh;
-       background-color: var(--secondary-color);
-       display: flex;
-       justify-content: space-around;
-       align-items: center;
-   }
-   #phoneNavigation img{
-       width: 10rem;
-       height: 3rem;
-   }
-   .phoneLogo{
-    clip-path: none;
-    background-color: var(--secondary-color);
-    width: 15rem;
-    height: 11vh;
-    padding: 1rem;
-    border-bottom: none;
-    display: flex;
-    align-items: center;
-   }
+    .toggle{
+        display: none;
+    }
 }
 </style>

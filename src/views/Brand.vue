@@ -49,7 +49,6 @@ export default {
 }
 
 .content h1 {
-    padding-top: 100px;
     font-size: 3rem;
 }
 
@@ -68,20 +67,12 @@ main {
     width: 50vw;
 }
 @media (max-width: 1400px) {
-    .artboards {
-        padding-top: 100px;
-        width: 50vw;
-    }
     .content h1 {
-        padding-top: 100px;
         font-size: 2rem;
     }
     .content {
         margin-left: 450px;
         width: 50vw;
-    }
-    .logo {
-        width: 360px;
     }
     .content p {
         width: 50vw;
@@ -89,13 +80,8 @@ main {
 }
 
 @media (max-width: 900px) {
-    .artboards {
-        padding-top: 50px;
-        width: 40vw;
-    }
     .content h1 {
-        padding-top: 100px;
-        font-size: 1rem;
+        font-size: 2rem;
     }
     .content {
         margin-left: 350px;
@@ -103,6 +89,27 @@ main {
     }
     .content p {
         width: 40vw;
+    }
+}
+@media (max-width: 600px) {
+    .content h1 {
+        font-size: 2rem;
+        text-align: center;
+        margin-top: 5rem;
+    }
+    .content {
+        margin: auto;
+        width: 100%;
+    }
+    .content p {
+        padding-top: 5rem;
+        margin: auto;
+        width: 80%;
+        text-align: center;
+    }
+    .artboards{
+        width: 80%;
+        margin: auto;
     }
 }
 </style>

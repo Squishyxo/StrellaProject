@@ -21,17 +21,7 @@
             </article>
             <article>
             </article>
-            <article>
-            </article>
-            <article>
-            </article>
         </main>
-        <!-- <section id="side-column">
-            <div></div>
-            <div></div>
-            <div></div>
-            <div></div>
-        </section> -->
     </section>
     </div>
       <!-- content ends here -->
@@ -59,7 +49,6 @@ export default {
     grid-gap: 20px 90px;
     align-items: center;
     width: 70%;
-    height: 70vh;
 }
 
 .grid>article {
@@ -111,104 +100,58 @@ article:nth-child(2) {
 }
 
 .content h1 {
-    padding-top: 100px;
     font-size: 3rem;
 }
 
-.content div p {
-    padding-top: 100px;
-    font-size: 1.5rem;
-}
-
-.content img {
-    padding-top: 100px;
-    width: 100%;
-}
-
-main {
-    margin-top: 30px;
-    width: 50vw;
-}
 @media (max-width: 1400px) {
-    .artboards {
-        padding-top: 100px;
-        width: 30vw;
-    }
     .content h1 {
-        padding-top: 100px;
         font-size: 2rem;
     }
     .content {
         margin-left: 550px;
-        width: 30vw;
-    }
-    .logo {
-        width: 360px;
-    }
-    .logo img {
-        margin-top: 10px;
-        width: 200px;
-    }
-    .side-menu ul {
-        width: 241px;
-    }
-    .side-menu ul li a {
-        font-size: 1.5rem;
-    }
-    .bottom-menu {
-        width: 360px;
-    }
-    .bottom-menu a {
-        padding: 30px;
-    }
-    .bottom-menu a img {
-        width: 40px;
-    }
-    .content p {
-        width: 30vw;
     }
 }
 
 @media (max-width: 900px) {
-    .artboards {
-        padding-top: 50px;
-        width: 30vw;
-    }
     .content h1 {
-        padding-top: 100px;
-        font-size: 1rem;
+        font-size: 2rem;
+        margin-bottom: 5%;
     }
     .content {
-        margin-left: 300px;
-        width: 30vw;
+        margin-left: 40%;
     }
-    .logo {
-        width: 260px;
+    .grid{
+        overflow: hidden;
     }
-    .logo img {
-        margin-top: 15px;
-        width: 150px;
+}
+@media (max-width: 600px) {
+    .grid {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    padding: 0 1rem;
+}
+    .content {
+    position: static;
+    margin-left: 0;
+    width: 100%;
+}
+    .content h1 {
+        font-size: 2rem;
+        text-align: center;
+        margin-top: 5rem;
     }
-    .side-menu ul {
-        width: 175px;
-    }
-    .side-menu ul li a {
-        font-size: 1rem;
-    }
-    .bottom-menu {
-        width: 260px;
-    }
-    .bottom-menu a {
-        padding: 20px;
-    }
-    .bottom-menu a img {
-        width: 30px;
+    .grid {
+        width: 100%;
+        grid-gap: 2rem;
     }
     .content p {
-        width: 30vw;
+        padding-top: 5rem;
+        margin: auto;
+        width: 80%;
+        text-align: center;
     }
-    .content div p {
-        font-size: 1.3rem;
-    }
+    .grid>article p {
+    margin-top: 0;
+    margin-left: 0;
+}
 }
 </style>

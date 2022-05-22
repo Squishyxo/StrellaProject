@@ -16,7 +16,7 @@
       <!-- content ends here -->
 
       <!-- Then we added a dashboard feature as a v-if statement. It checks whether the user logged in or not and if they are logged in, this feature shows. -->
-    <div v-if="$store.state.loggedIn">
+    <div class="editDiv" v-if="$store.state.loggedIn">
         <div
             @click="editText"
             @mouseover="pencilHovered = true"
@@ -86,16 +86,10 @@ export default {
     position: relative;
     margin-left: 600px;
     width: 60vw;
-}
-
-.content p {
-    width: 50vw;
-    font-size: 1.5rem;
-    margin-top: 30px;
+    overflow-y: hidden;
 }
 
 .content h1 {
-    padding-top: 100px;
     font-size: 3rem;
 }
 
@@ -103,6 +97,7 @@ export default {
     padding-top: 100px;
     font-size: 2.5rem;
     font-family: 'Space Grotesk', sans-serif;
+    margin: auto;
 }
 
 .content img {
@@ -110,14 +105,16 @@ export default {
     width: 100%;
 }
 .editBtn{
-    position: absolute;
+    position: relative;
     right: 10%;
     top: 50%;
+    width: 100px;
     border: 2px solid var(--secondary-color);
     border-radius: 50%;
     padding: 15px;
     background-color: #0D161C;
     cursor: pointer;
+    z-index: 1;
 }
 .editOnHover{
     position: absolute;
@@ -166,7 +163,7 @@ export default {
         margin-left: 450px;
         width: 50vw;
     }
-    .content p {
+    .content div p {
         width: 50vw;
     }
 }
@@ -175,8 +172,76 @@ export default {
         margin-left: 330px;
         width: 50vw;
     }
-    .content p {
+    .content div p {
         width: 45vw;
     }
+}
+@media (max-width: 600px) {
+    .content {
+    position: static;
+    margin-left: 0;
+    padding-right: 0;
+    text-align: center;
+    width: 100vw;
+    }
+    .content div p {
+        font-size: 1.75rem;
+        width: 90vw;
+        padding: 1rem;
+        text-align: center;
+        line-height: 150%;
+        padding-top: 2rem;
+    }
+    .content h1 {
+        margin: 0;
+        text-align: center;
+        text-transform: uppercase;
+        font-size: 2rem;
+    }
+    .editBtn{
+    position: relative;
+    top: 0;
+    left: 0;
+    width: 50px;
+    height: 50px;
+    border: 2px solid var(--secondary-color);
+    border-radius: 50%;
+    padding: 8px;
+    background-color: #0D161C;
+    cursor: pointer;
+}
+.editBtn img{
+    width: 2rem;
+}
+.editDiv{
+    position: absolute;
+    top: 12%;
+    left: 84%;
+}
+.editOnHover{
+  display: none;
+}
+.save-changes{
+    border: .2rem solid var(--secondary-color);
+    position: absolute;
+    top: 10%;
+    right: 10%;
+    height: 5rem;
+    padding: .3rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 800;
+    text-transform: uppercase;
+    display: flex;
+    margin: 1rem;
+}
+.save-changes p{
+    margin: auto;
+    font-size: .8rem;
+}
+.save-changes button{
+    width: 6rem;
+    margin: 1rem 0;
+    font-size: .5rem;
+}
 }
 </style>

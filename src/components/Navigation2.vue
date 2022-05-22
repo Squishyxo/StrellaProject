@@ -26,11 +26,14 @@
         <img v-if="!$store.state.lessSideBar" src="../images/bxs-left-arrow-square.svg" alt="left arrow">
         <img v-else src="../images/bxs-right-arrow-square.svg" alt="right arrow">
         </button>
-        </div>
+    <phone-navigation />
+    </div>
 </template>
 
 <script>
+import phoneNavigation from './phoneNavigation.vue';
 export default {
+    components: { phoneNavigation },
     name: "Navigation2",
     data(){
         return{
@@ -185,6 +188,14 @@ nav ul li a {
     .bottom-menu div img, .bottom-menu  button, .bottom-menu2 div img, .bottom-menu2 button {
         width: 50px;
         height: 40px;
+    }
+    .toggle{
+        display: none;
+    }
+}
+@media (max-width: 600px) {
+    .side-menu, .toggle{
+        display: none;
     }
 }
 </style>

@@ -137,7 +137,6 @@ export default {
 }
 
 .content h1 {
-    padding-top: 100px;
     font-size: 3rem;
 }
 
@@ -165,7 +164,6 @@ main {
 }
 @media (max-width: 1400px) {
     .content h1 {
-        padding-top: 100px;
         font-size: 2rem;
     }
     .content {
@@ -173,7 +171,7 @@ main {
         width: 50vw;
     }
     .content p {
-        width: 40vw;
+        width: 50vw;
     }
     .logo-container {
     width: 50vw;
@@ -209,6 +207,26 @@ main {
     }
     .content p {
         width: 40vw;
+    }
+}
+@media (max-width: 600px) {
+    .content h1 {
+        font-size: 2rem;
+        text-align: center;
+        margin-top: 5rem;
+    }
+    .content {
+        margin: auto;
+        width: 100%;
+    }
+    .content p {
+        padding-top: 5rem;
+        margin: auto;
+        width: 80%;
+        text-align: center;
+    }
+    .logo-container {
+        width: 100%;
     }
 }
 </style>

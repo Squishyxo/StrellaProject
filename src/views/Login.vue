@@ -1,7 +1,8 @@
 <template>
   <div class="login">
       <div class="left">
-          <img class="login-logo" src="../images/balenciaga-dark-mode-logo.png" alt="">
+        <img v-if="$store.state.lightTheme" class="login-logo" src="../images/logo.png">
+        <img v-else class="login-logo" src="../images/balenciaga-dark-mode-logo.png">
           <form @submit.prevent="$store.commit('handleSubmit')">
               <h2>Log in</h2>
               <input v-model="$store.state.inputPassword" type="password" placeholder="Access Token" required>
@@ -36,6 +37,11 @@ export default {
     width: 50%;
     padding: 6rem 0;
     margin: auto;
+}
+.left img{
+    /* border: 1px solid yellow; */
+    width: 15rem;
+
 }
 form{
     /* border: 1px solid yellow; */
@@ -79,5 +85,23 @@ button{
 .wrongToken{
     color: red;
     text-align: center;
+}
+@media (max-width: 900px) {
+    .right{
+        display: none;
+    }
+    .left{
+        width: 100%;
+    }
+    .login>*{
+    width: 100%;
+    height: 100vh;
+    padding: 20px 12px;
+}
+.login-logo{
+    width: 100%;
+    padding: 6rem 0;
+    margin: auto;
+}
 }
 </style>
