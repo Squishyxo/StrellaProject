@@ -68,4 +68,7 @@ body {
     background-color: #fff;
     z-index: 10;
 }
+.next-btn{
+display: none;
+}
 </style>

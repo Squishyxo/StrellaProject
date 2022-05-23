@@ -150,12 +150,13 @@ article:nth-child(2) {
     margin-left: 0;
 }
 .next-btn{
+    display: inline;
     position: relative;
     left: 70%;
     bottom: 10px;
     width: 7rem;
     font-size: .7rem;
-    margin-top: 3rem;
+    margin-top: 2rem;
 }
 }
 </style>

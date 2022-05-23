@@ -148,9 +148,6 @@ export default {
 .save-changes2{
     display: none;
 }
-/* .toggle img{
-  width: 2rem;
-} */
 @media (max-width: 1400px) {
     .content h1 {
         padding-top: 100px;
@@ -252,11 +249,13 @@ export default {
     font-weight: bold;
 }
 .next-btn{
+    display: inline;
     position: relative;
     left: 70%;
     bottom: 10px;
     width: 7rem;
     font-size: .7rem;
+    margin-top: 2rem;
 }
 }
 </style>

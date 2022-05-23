@@ -236,12 +236,13 @@ export default {
     font-weight: bold;
 }
 .next-btn{
+    display: inline;
     position: relative;
     left: 70%;
     bottom: 10px;
     width: 7rem;
     font-size: .7rem;
-    margin: 6rem 0;
+    margin-top: 2rem;
 }
 }
 </style>

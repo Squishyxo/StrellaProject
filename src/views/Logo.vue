@@ -134,62 +134,62 @@ export default {
     border-radius: 50%;
 }
 @media (max-width: 1400px) {
-    .content h1 {
-        font-size: 2rem;
+.content h1 {
+    font-size: 2rem;
     }
-    .content {
-        margin-left: 450px;
-        width: 50vw;
+.content {
+    margin-left: 450px;
+    width: 50vw;
     }
-    .content p {
-        width: 50vw;
-    }
-    .logo-container {
+.content p {
+    width: 50vw;
+}
+.logo-container {
     width: 50vw;
 }
 }
 @media (max-width: 1111px) {
-    .content, .logo-container {
+.content, .logo-container {
         width: 50vw;
-    }
-    .logo-container {
+ }
+.logo-container {
         width: 50vw;
-    }
-    .dark-background img{
+ }
+.dark-background img{
     margin-top: 30px;
-    }
-    .logo-footer span {
+}
+.logo-footer span {
     margin: 0 2px;
     font-size: .6rem;
-    }
-    .dot {
+}
+.dot {
     height: 4px;
     width: 4px;
-    }
+}
 }
 
 @media (max-width: 900px) {
-    .content{
+.content{
         margin-left: 300px;
         width: 50vw;
-    }
-        .logo-container {
+}
+    .logo-container {
         width: 50vw;
-    }
-    .content p {
+}
+.content p {
         width: 40vw;
-    }
+}
 }
 @media (max-width: 600px) {
 .content h1 {
     font-size: 2rem;
     text-align: center;
     margin-top: 5rem;
-    }
+}
 .content {
      margin: auto;
     width: 100%;
-    }
+}
 .content p {
     padding-top: 5rem;
     margin: auto;
@@ -197,21 +197,23 @@ export default {
     text-align: center;
     font-size: 1rem;
     line-height: 2rem;
-    }
+}
 .logo-container {
     width: 100%;
     padding: 0 1rem;
-    }
+}
 .logo-footer span {
     margin: 0 2px;
     font-size: .5rem;
-    }
+}
 .next-btn{
+    display: inline;
     position: relative;
     left: 70%;
     bottom: 10px;
     width: 7rem;
     font-size: .7rem;
+    margin-top: 2rem;
 }
 }
 </style>
