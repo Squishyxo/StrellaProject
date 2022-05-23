@@ -1,7 +1,7 @@
 <template>
 <div>
     <!-- this v-if shows one of the two sidebars depending on what the user prefers. -->
-    <Navigation v-if="!$store.state.lessSideBar"/>
+    <Navigation v-if="!lessSideBar"/>
     <Navigation2 v-else/>
       <!-- The main content starts here -->
   <section class="content">
@@ -23,6 +23,7 @@
             </article>
         </main>
     </section>
+    <router-link to="/brand" ><button class="next-btn" v-if="!loggedIn">NEXT</button></router-link >
     </div>
       <!-- content ends here -->
 </template>
@@ -39,6 +40,14 @@ export default {
   data() {
     return {};
   },
+    computed: {
+        lessSideBar(){
+            return this.$store.state.lessSideBar
+        },
+        loggedIn(){
+            return this.$store.state.loggedIn
+        },
+    }
 };
 </script>
 
@@ -87,21 +96,6 @@ article:nth-child(2) {
     margin-top: 10px;
     color: var(--primary-color);
 }
-.content {
-    position: relative;
-    margin-left: 650px;
-    width: 60vw;
-}
-
-.content p {
-    width: 50vw;
-    font-size: 1.5rem;
-    margin-top: 30px;
-}
-
-.content h1 {
-    font-size: 3rem;
-}
 
 @media (max-width: 1400px) {
     .content h1 {
@@ -125,33 +119,43 @@ article:nth-child(2) {
     }
 }
 @media (max-width: 600px) {
-    .grid {
+.grid {
     grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
     padding: 0 1rem;
 }
-    .content {
+.content {
     position: static;
     margin-left: 0;
     width: 100%;
 }
-    .content h1 {
-        font-size: 2rem;
-        text-align: center;
-        margin-top: 5rem;
+.content h1 {
+    font-size: 2rem;
+    text-align: center;
+    margin-top: 5rem;
     }
-    .grid {
-        width: 100%;
-        grid-gap: 2rem;
+.grid {
+     width: 100%;
+    grid-gap: 2rem;
     }
-    .content p {
-        padding-top: 5rem;
-        margin: auto;
-        width: 80%;
-        text-align: center;
+.content p {
+    padding-top: 5rem;
+    margin: auto;
+    width: 80%;
+    text-align: center;
+    font-size: 1rem;
+    line-height: 2rem;
     }
-    .grid>article p {
+.grid>article p {
     margin-top: 0;
     margin-left: 0;
+}
+.next-btn{
+    position: relative;
+    left: 70%;
+    bottom: 10px;
+    width: 7rem;
+    font-size: .7rem;
+    margin-top: 3rem;
 }
 }
 </style>

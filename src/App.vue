@@ -9,6 +9,8 @@ export default{
 </script>
 
 <style lang="scss">
+// @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lato&display=swap');
 :root {
     --primary-color: #fff;
     --secondary-color: #0D161C;
@@ -31,6 +33,31 @@ body {
     font-family: 'Roboto Slab', serif;
     background-color: var(--primary-color);
     color: var(--secondary-color);
+}
+
+.content {
+    position: relative;
+    margin-left: 550px;
+    width: 60vw;
+}
+
+
+.content h1 {
+    font-size: 3rem;
+}
+
+.content div p {
+    padding-top: 100px;
+    font-size: 2rem;
+    width: 100%;
+    line-height: 4rem;
+    font-family: 'Lato', sans-serif;
+    margin: auto;
+}
+
+.content img {
+    padding-top: 100px;
+    width: 100%;
 }
 .toggle{
     position: fixed;

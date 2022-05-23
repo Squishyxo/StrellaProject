@@ -1,7 +1,7 @@
 <template>
 <div>
       <!-- this v-if shows one of the two sidebars depending on what the user prefers. -->
-    <Navigation v-if="!$store.state.lessSideBar"/>
+    <Navigation v-if="!lessSideBar"/>
     <Navigation2 v-else/>
       <!-- content starts here -->
     <section class="content">
@@ -37,6 +37,7 @@
         </div>
     </section>
       <!-- content ends here -->
+    <router-link to="/typography" ><button class="next-btn" v-if="!loggedIn">NEXT</button></router-link >
 </div>
 </template>
 
@@ -52,6 +53,14 @@ export default {
   data() {
     return {};
   },
+    computed: {
+        lessSideBar(){
+            return this.$store.state.lessSideBar
+        },
+        loggedIn(){
+            return this.$store.state.loggedIn
+        }
+    }
 };
 </script>
 
@@ -124,44 +133,6 @@ export default {
     background-color: #fff;
     border-radius: 50%;
 }
-.content {
-    position: relative;
-    margin-left: 550px;
-    width: 60vw;
-}
-
-.content p {
-    width: 50vw;
-    font-size: 1.5rem;
-    margin-top: 30px;
-}
-
-.content h1 {
-    font-size: 3rem;
-}
-
-.content div p {
-    padding-top: 100px;
-    font-size: 1.5rem;
-}
-
-.content img {
-    padding-top: 100px;
-    width: 100%;
-}
-
-main {
-    margin-top: 30px;
-    width: 50vw;
-}
-#two {
-    background-color: var(--primary-color);
-    color: var(--secondary-color);
-}
-
-.side-menu #two a {
-    color: var(--secondary-color);
-}
 @media (max-width: 1400px) {
     .content h1 {
         font-size: 2rem;
@@ -210,28 +181,37 @@ main {
     }
 }
 @media (max-width: 600px) {
-    .content h1 {
-        font-size: 2rem;
-        text-align: center;
-        margin-top: 5rem;
+.content h1 {
+    font-size: 2rem;
+    text-align: center;
+    margin-top: 5rem;
     }
-    .content {
-        margin: auto;
-        width: 100%;
+.content {
+     margin: auto;
+    width: 100%;
     }
-    .content p {
-        padding-top: 5rem;
-        margin: auto;
-        width: 80%;
-        text-align: center;
+.content p {
+    padding-top: 5rem;
+    margin: auto;
+    width: 80%;
+    text-align: center;
+    font-size: 1rem;
+    line-height: 2rem;
     }
-    .logo-container {
-        width: 100%;
-        padding: 0 1rem;
+.logo-container {
+    width: 100%;
+    padding: 0 1rem;
     }
-    .logo-footer span {
+.logo-footer span {
     margin: 0 2px;
     font-size: .5rem;
     }
+.next-btn{
+    position: relative;
+    left: 70%;
+    bottom: 10px;
+    width: 7rem;
+    font-size: .7rem;
+}
 }
 </style>

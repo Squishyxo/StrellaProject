@@ -1,7 +1,7 @@
 <template>
 <div>
       <section id="phoneNavigation">
-        <img v-if="$store.state.lightTheme" class="phoneLogo" src="../images/logo.png" alt="">
+        <img v-if="lightTheme" class="phoneLogo" src="../images/logo.png" alt="">
         <img v-else class="phoneLogo" src="../images/balenciaga-dark-mode-logo.png" alt="">
         <button @click="openNav" class="btn close-icon">
         <span></span>
@@ -19,10 +19,10 @@
             <router-link to="/brand"><li>BRAND</li></router-link>
             <li>DOWNLOAD</li>
             <router-link to="/Login">
-            <li v-if="!$store.state.loggedIn">LOG IN</li>
+            <li v-if="!loggedIn">LOG IN</li>
             </router-link>
-            <li v-if="$store.state.loggedIn" @click="$store.commit('logOut')">LOG OUT</li>
-            <li @click="$store.commit('changeTheme')">CHANGE THEME</li>
+            <li v-if="loggedIn" @click="logOut">LOG OUT</li>
+            <li @click="changeTheme">CHANGE THEME</li>
         </ul>
         </div>
         </div>
@@ -41,6 +41,20 @@ export default {
             overlay2.classList.toggle('active');
             nav.classList.toggle('active');
             
+        },
+        changeTheme(){
+            this.$store.commit('changeTheme')
+        },
+        logOut(){
+            this.$store.commit('logOut')
+        },
+    },
+    computed: {
+        lightTheme(){
+            return this.$store.state.lightTheme
+        },
+        loggedIn(){
+            return this.$store.state.loggedIn
         }
     }
 }

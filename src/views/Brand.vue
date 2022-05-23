@@ -1,12 +1,14 @@
 <template>
 <div>
     <!-- this v-if shows one of the two sidebars depending on what the user prefers. -->
-    <Navigation v-if="!$store.state.lessSideBar"/>
+    <Navigation v-if="!lessSideBar"/>
     <Navigation2 v-else/>
       <!-- The main content starts here -->
       <section class="content">
         <h1>BRAND IN USE</h1>
+        <div>
         <p>We want our brand to be expressed throughout the entire world. We want to visualize our vision with the use of concepts and art-like expressions. Take a look at some of our ideas:</p>
+        </div>
         <div class="artboards">
             <img src="../images/Artboard1.png">
             <img src="../images/Artboard2.png">
@@ -32,40 +34,15 @@ export default {
   data() {
     return {};
   },
+    computed: {
+        lessSideBar(){
+            return this.$store.state.lessSideBar
+        }
+    }
 };
 </script>
 
 <style scoped>
-.content {
-    position: relative;
-    margin-left: 550px;
-    width: 60vw;
-}
-
-.content p {
-    width: 50vw;
-    font-size: 1.5rem;
-    margin-top: 30px;
-}
-
-.content h1 {
-    font-size: 3rem;
-}
-
-.content div p {
-    padding-top: 100px;
-    font-size: 1.5rem;
-}
-
-.content img {
-    padding-top: 100px;
-    width: 100%;
-}
-
-main {
-    margin-top: 30px;
-    width: 50vw;
-}
 @media (max-width: 1400px) {
     .content h1 {
         font-size: 2rem;
@@ -106,6 +83,8 @@ main {
         margin: auto;
         width: 80%;
         text-align: center;
+        font-size: 1rem;
+        line-height: 2rem;
     }
     .artboards{
         width: 80%;

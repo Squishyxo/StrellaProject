@@ -1,11 +1,11 @@
 <template>
   <div>
       <!-- this v-if shows one of the two sidebars depending on what the user prefers. -->
-    <Navigation v-if="!$store.state.lessSideBar"/>
+    <Navigation v-if="!lessSideBar"/>
     <Navigation2 v-else/>
       <!-- The main content starts here -->
         <section class="content">
-        <h1>Introduction</h1>
+        <h1>INTRODUCTION</h1>
         <div>
             <p :class="[ editable ? 'edit-border' : '']" id="intro-text" :v-model="text">{{text}}
                 <!-- Welcome to Balenciaga’s Brand Guide System. Within this Brand Guide System, the Balenciaga brand internally and externally is explained and you will find the tools necessary for successfully promoting and implementing the brand. Using our
@@ -16,7 +16,7 @@
       <!-- content ends here -->
 
       <!-- Then we added a dashboard feature as a v-if statement. It checks whether the user logged in or not and if they are logged in, this feature shows. -->
-    <div class="editDiv" v-if="$store.state.loggedIn">
+    <div class="editDiv" v-if="loggedIn">
         <div
             @click="editText"
             @mouseover="pencilHovered = true"
@@ -26,6 +26,8 @@
     </div>
 
     <div class="save-changes" v-if="editable"><p>You can click on the text and start editing, when you finish click save.</p><button @click="saveChanges">SAVE CHANGES</button></div>
+    <div class="save-changes2" v-if="editable"><p>You can click on the text and start editing, when you finish click save.</p><button @click="saveChanges">SAVE CHANGES</button></div>
+    <router-link to="/logo" ><button class="next-btn" v-if="!loggedIn">NEXT</button></router-link >
   </div>
 </template>
 
@@ -76,38 +78,28 @@ export default {
         });
            this.editable = false;
        }
+    },
+    computed: {
+        lessSideBar(){
+            return this.$store.state.lessSideBar
+        },
+        loggedIn(){
+            return this.$store.state.loggedIn
+        },
     }
 };
 </script>
 
 <style scoped>
-@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500&display=swap');;
-.content {
-    position: relative;
-    margin-left: 600px;
-    width: 60vw;
-    overflow-y: hidden;
-}
 
-.content h1 {
+.loading{
     font-size: 3rem;
-}
-
-.content div p {
-    padding-top: 100px;
-    font-size: 2.5rem;
-    font-family: 'Space Grotesk', sans-serif;
-    margin: auto;
-}
-
-.content img {
-    padding-top: 100px;
-    width: 100%;
+    text-align: center;
 }
 .editBtn{
-    position: relative;
+    position: absolute;
     right: 10%;
-    top: 50%;
+    top: 20%;
     width: 100px;
     border: 2px solid var(--secondary-color);
     border-radius: 50%;
@@ -119,7 +111,7 @@ export default {
 .editOnHover{
     position: absolute;
     right: 10%;
-    top: 44%;
+    top: 14%;
     border: 2px solid var(--secondary-color);
     padding: 10px;
     width: 10rem;
@@ -135,14 +127,16 @@ export default {
 }
 .save-changes{
     border: .2rem solid var(--secondary-color);
-    position: absolute;
-    top: 3%;
-    right: 10%;
+    position: relative;
+    bottom: 3%;
+    left: 33%;
     padding: 1rem;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     font-weight: 600;
     text-transform: uppercase;
     display: flex;
+    width: 60%;
+    margin: 5% 0;
 }
 .save-changes p{
     margin: auto;
@@ -151,9 +145,12 @@ export default {
     width: 10rem;
     margin: 0 2rem;
 }
-.toggle img{
-  width: 2rem;
+.save-changes2{
+    display: none;
 }
+/* .toggle img{
+  width: 2rem;
+} */
 @media (max-width: 1400px) {
     .content h1 {
         padding-top: 100px;
@@ -177,46 +174,39 @@ export default {
     }
 }
 @media (max-width: 600px) {
-    .content {
+.content {
     position: static;
     margin-left: 0;
     padding-right: 0;
     text-align: center;
     width: 100vw;
     }
-    .content div p {
-        font-size: 1.75rem;
-        width: 90vw;
-        padding: 1rem;
-        text-align: center;
-        line-height: 150%;
-        padding-top: 2rem;
+.content div p {
+    font-size: 1rem;
+    width: 90vw;
+    padding: 1rem;
+    text-align: center;
+    line-height: 2rem;
+    padding-top: 2rem;
     }
-    .content h1 {
-        margin: 0;
-        text-align: center;
-        text-transform: uppercase;
-        font-size: 2rem;
+.content h1 {
+    margin: 0;
+     text-align: center;
+    text-transform: uppercase;
+    font-size: 2rem;
     }
-    .editBtn{
-    position: relative;
-    top: 0;
-    left: 0;
-    width: 50px;
-    height: 50px;
+.editBtn{
+    position: absolute;
+    top: 13%;
+    right: 10%;
+    width: 45px;
+    height: 45px;
     border: 2px solid var(--secondary-color);
     border-radius: 50%;
-    padding: 8px;
-    background-color: #0D161C;
-    cursor: pointer;
+    padding: 7px;
 }
 .editBtn img{
-    width: 2rem;
-}
-.editDiv{
-    position: absolute;
-    top: 12%;
-    left: 84%;
+    width: 1.7rem;
 }
 .editOnHover{
   display: none;
@@ -225,7 +215,7 @@ export default {
     border: .2rem solid var(--secondary-color);
     position: absolute;
     top: 10%;
-    right: 10%;
+    left: 3%;
     height: 5rem;
     padding: .3rem;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -233,15 +223,40 @@ export default {
     text-transform: uppercase;
     display: flex;
     margin: 1rem;
+    width: 70%;
+    overflow: hidden;
 }
-.save-changes p{
+.save-changes2{
+    border: .2rem solid var(--secondary-color);
+    position: relative;
+    bottom: 10%;
+    left: 3%;
+    height: 5rem;
+    padding: .3rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-weight: 800;
+    text-transform: uppercase;
+    display: flex;
+    margin: 1rem;
+    width: 70%;
+    overflow: hidden;
+}
+.save-changes p, .save-changes2 p{
     margin: auto;
     font-size: .8rem;
 }
-.save-changes button{
-    width: 6rem;
+.save-changes button, .save-changes2 button{
+    width: 8rem;
     margin: 1rem 0;
     font-size: .5rem;
+    font-weight: bold;
+}
+.next-btn{
+    position: relative;
+    left: 70%;
+    bottom: 10px;
+    width: 7rem;
+    font-size: .7rem;
 }
 }
 </style>
