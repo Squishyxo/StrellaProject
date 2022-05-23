@@ -227,6 +227,11 @@ main {
     }
     .logo-container {
         width: 100%;
+        padding: 0 1rem;
+    }
+    .logo-footer span {
+    margin: 0 2px;
+    font-size: .5rem;
     }
 }
 </style>
