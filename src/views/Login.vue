@@ -1,18 +1,19 @@
 <template>
-  <div class="login">
-      <div class="left">
-        <img v-if="$store.state.lightTheme" class="login-logo" src="../images/logo.png">
+  <div class="login-page">
+      <div class="layout1"></div>
+      <div class="layout2"></div>
+      <div class="wrap">
+        <form @submit.prevent="$store.commit('handleSubmit')">
+        <img v-if="!$store.state.lightTheme" class="login-logo" src="../images/logo.png">
         <img v-else class="login-logo" src="../images/balenciaga-dark-mode-logo.png">
-          <form @submit.prevent="$store.commit('handleSubmit')">
-              <h2>Log in</h2>
+              <h2>Log In</h2>
               <input v-model="$store.state.inputPassword" type="password" placeholder="Access Token" required>
-              <a href="https://youtu.be/rKWGV8SVmtE" target="_blank">Forgot Token</a>
-              <p class="wrongToken" v-if="$store.state.wrongToken">Worng password</p>
-              <button type="submit">Sign in</button>
-          </form>
-      </div>
-      <div class="right"><img src="../images/Login.jpg" alt=""></div>
-  </div>
+              <p class="wrongToken" v-if="$store.state.wrongToken">Wrong Token</p>
+              <button type="submit">Log in</button>
+        </form>
+      <img src="../images/Login.jpg">
+    </div >
+  </div >
 </template>
 
 <script>
@@ -22,42 +23,49 @@ export default {
 </script>
 
 <style scpoed>
-.login{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    align-content: center;
-}
-.login>*{
-    width: 50%;
+.login-page{
+    width: 100vw;
     height: 100vh;
-    padding: 20px 120px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
-.login-logo{
+.layout1{
     width: 50%;
-    padding: 6rem 0;
-    margin: auto;
+    height: 100%;
+    background-color: var(--primary-color);
 }
-.left img{
-    /* border: 1px solid yellow; */
-    width: 15rem;
-
+.layout2{
+    width: 50%;
+    height: 100%;
+    background-color: var(--secondary-color);
+}
+.wrap{
+    display: flex;
+    justify-content: space-between;
+    position: absolute;
+    width: 60%;
+    height: 70vh;
+    border-radius: 1rem;
+    box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+    border: 2px groove var(--secondary-color);
+    /* border: 1px solid red; */
 }
 form{
-    /* border: 1px solid yellow; */
-    margin-top: 7rem;
-    width: 90%;
-    height: 40vh;
-    margin: auto;
     display: flex;
     flex-direction: column;
+    justify-content: space-between;
+    width: 50%;
+    height: 70%;
+    padding: 2rem;
     gap: 2rem;
+    margin: auto;
+    /* border-right: 1px solid var(--secondary-color); */
 }
-form a{
-    cursor: pointer;
-    display: flex;
-    justify-content: end;
-    color: black;
+.wrap img{
+    width: 50%;
+    height: 100%;
+    /* border-left: 1px solid var(--secondary-color); */
 }
 h2{
     font-size: 2rem;
@@ -70,38 +78,29 @@ input{
     padding: 0 10px;
     color: rgb(0, 0, 0);
     font-weight: 600;
-    /* margin-top: 7rem; */
 }
 button{
     width: 40%;
     height: 4vh;
-    background-color: #0D161C;
-    color: white;
+    background-color: var(--secondary-color);
+    color: var(--primary-color);;
     cursor: pointer;
     border-radius: 7px;
-    margin: auto;
-    /* margin-top: 2rem; */
+    /* margin: auto; */
 }
 .wrongToken{
     color: red;
     text-align: center;
 }
-@media (max-width: 900px) {
-    .right{
-        display: none;
-    }
-    .left{
-        width: 100%;
-    }
-    .login>*{
-    width: 100%;
-    height: 100vh;
-    padding: 20px 12px;
+form img{
+    height: 1.5rem!important;
 }
-.login-logo{
-    width: 100%;
-    padding: 6rem 0;
-    margin: auto;
+@media (max-width: 1000px) {
+    .wrap img{
+        display: none!important;
+    }
+    .layout2{
+    background-color: var(--primary-color);
 }
 }
 </style>
