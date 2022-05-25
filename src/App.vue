@@ -5,7 +5,12 @@
 <script>
 export default{
       name: "App",
-      }
+    mounted() {
+    let externalScript = document.createElement('script')
+    externalScript.setAttribute('src', './store/database.js')
+    document.head.appendChild(externalScript)
+  },
+}
 </script>
 
 <style lang="scss">

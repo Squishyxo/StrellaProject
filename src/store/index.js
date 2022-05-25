@@ -1,6 +1,6 @@
 import { createStore } from 'vuex'
 import router from '@/router'
-import firestoreService from './firestoreService.js'
+// import firestoreService from './firestoreService.js'
 
 export default createStore({
     state: {

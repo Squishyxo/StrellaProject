@@ -1,9 +1,7 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { collection, addDoc } from "firebase/firestore"; 
-import { collection, getDocs } from "firebase/firestore"; 
-// TODO: Add SDKs for Firebase products that you want to use
-// https://firebase.google.com/docs/web/setup#available-libraries
+import { getFirestore, collection, getDocs, addDoc } from "firebase/firestore";
+
 
 // Your web app's Firebase configuration
 const firebaseConfig = {
@@ -19,35 +17,41 @@ const firebaseConfig = {
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
+// Initializing a new database using getFirestore function
+const db = getFirestore()
 
-try {
-  const docRef = await addDoc(collection(db, "users"), {
-    first: "Ada",
-    last: "Lovelace",
-    born: 1815
-  });
-  console.log("Document written with ID: ", docRef.id);
-} catch (e) {
-  console.error("Error adding document: ", e);
-}
+export default db
 
-// Add a second document with a generated ID.
-import { addDoc, collection } from "firebase/firestore"; 
 
-try {
-  const docRef = await addDoc(collection(db, "users"), {
-    first: "Alan",
-    middle: "Mathison",
-    last: "Turing",
-    born: 1912
-  });
+// // Now I need to refer to a collection in a remote database so this js script knows what online database/collection I'm working on
+// const collectionRef = collection(db, 'pages')
 
-  console.log("Document written with ID: ", docRef.id);
-} catch (e) {
-  console.error("Error adding document: ", e);
-}
+//           getDocs(collectionRef)
+//     .then((snapshot) => {
+//         // creating new empty array to store the data that we get from the database
+//         let pages = []
+//         // looping through every collection data in the database and storing it's information to an array
+//         snapshot.docs.forEach((doc) => {
+//           pages.push({
+//                 ...doc.data(),
+//                 id: doc.id
+//             })
+//     })
+//             console.log(pages);
+//         })
+//         .catch(error => {
+//             console.log(error.message)
+//         })
 
-const querySnapshot = await getDocs(collection(db, "users"));
-querySnapshot.forEach((doc) => {
-  console.log(`${doc.id} => ${doc.data()}`);
-});
+// // Now I have data in firebase database and I need to import/use a get function to retrieve the data
+// // const addPage = () => {
+// //   // let newPage = prompt('Enter page name');
+// //   addDoc(collectionRef, {
+// //     Name: "new pageeeee"
+// //   })
+// // }
+// // addPage();
+
+
+
+
