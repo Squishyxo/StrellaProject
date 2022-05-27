@@ -3,10 +3,10 @@
     <button @click="addLogo">Add Logo</button>
     <ul>
       <!-- Looping through an array and display the content inside it -->
-      <li v-for="page in pagesArray">
-        <a>{{ page }}</a>
+     <li v-for="page in pagesArray" :key="page.name">
+         <router-link :to="`${page}`"><a>{{ page }}</a></router-link>
       </li>
-      <li @click="addData"><a>+</a></li>
+      <li @click="addPageForm"><a>+</a></li>
     </ul>
     <div class="bottom-menu">
       <img src="../images/contrast.svg" />
@@ -15,7 +15,16 @@
       </button>
     </div>
   </nav>
-  <img class="logo" :src="imageSrc" alt="example logo" />
+   <form @submit.prevent="addPage" id="addForm" v-if="popUp">
+        <div @click="closeForm" class="close">&#x2718;</div>
+        <h2>ADD A NEW PAGE</h2>
+        <div>
+        <label for="newPage">Page Name</label>
+        <input v-model="namePage" class="nameInput" type="text" name="newPage" id="newPage" placeholder="Enter the new page name" required>
+        <button type="submit">+</button>
+        </div>
+    </form>
+  <img class="logo" alt="example logo" />
 </template>
 
 <script>
@@ -31,17 +40,23 @@ export default {
   data() {
     return {
       pagesArray: [],
-      imageSrc: '../images/bx-log-in.svg',
+      namePage: ''
     };
   },
+    computed: {
+        popUp(){
+            // this returns the stete of "popUp". I used this for v-if to know when to show the form
+            return this.$store.state.popUp
+        }
+    },
   mounted: function () {
     this.getPages();
     this.getLogo();
   },
   methods: {
-    addData() {
-      // getting page name from a prompt
-      let newPage = prompt('type something');
+    addPage() {
+      // getting page name from a form
+      let newPage = this.namePage
       if (newPage != '') {
         // making sure that the user entered some text else an alert is thrown
         addDoc(collection(db, 'pages'), {
@@ -50,6 +65,7 @@ export default {
       } else {
         alert('you did not enter anything');
       }
+      this.closeForm()
     },
     getPages() {
       // getting the pages from firebase and add them to local array
@@ -85,6 +101,13 @@ export default {
         );
       });
     },
+    addPageForm(){
+      this.$store.commit('addPageForm')
+    },
+    closeForm(){
+      // this goes to the store to call a function called closeForm
+      this.$store.commit('closeForm')
+    }
   },
 };
 </script>
@@ -145,38 +168,9 @@ nav ul li a {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-.logo {
-  text-align: center;
-  position: absolute;
-  top: 20%;
-  right: 20%;
-}
-.logo img {
-  width: 18rem;
-  padding: 1rem;
-}
-.bottom-menu {
-  display: flex;
-  justify-content: space-around;
-}
-.bottom-menu img {
-  width: 2rem;
+  width: 20rem;
 }
 
-.side-menu ul li {
-  cursor: pointer;
-  border-bottom: 1px solid var(--primary-color);
-}
-
-.router-link-active {
-  background-color: var(--primary-color);
-  color: var(--secondary-color);
-}
-
-.side-menu .router-link-active a {
-  color: var(--secondary-color);
-}
 .logOut {
   background-color: var(--primary-color);
   color: var(--secondary-color);
@@ -184,7 +178,65 @@ nav ul li a {
   height: 50px;
   margin-left: 35px;
 }
-button {
-  margin-left: 40% !important;
+.router-link-active {
+    background-color: var(--primary-color);
+    color: var(--secondary-color);
+}
+
+.sidebar .router-link-active a {
+    color: var(--secondary-color);
+}
+.bottom-menu{
+  display: flex;
+  justify-content: space-around;
+}
+.bottom-menu img{
+  width: 2rem;
+}
+#addForm{
+  position: fixed;
+  width: 60vw;
+  height: 40vh;
+  background: var(--primary-color);
+  left: 20%;
+  top: 30%;
+  border-radius: 1rem;
+  border: 2px solid #fff;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+ }
+#addForm h2, #addForm div{
+  text-align: center;
+  color: var(--secondary-color);
+  font-size: 2rem;
+  }
+#addForm div input{
+  width: 40vw;
+  height: 5vh;
+  margin: 1rem;
+  padding: 1rem;
+  background-color: var(--primary-color);
+  border: 2px solid var(--secondary-color);
+  font-size: 1.5rem;
+  color: var(--secondary-color);
+  }
+#addForm div input:focus{
+  border: 5px solid var(--secondary-color);
+  }
+#addForm button{
+  width: 10vw;
+  height: 5vh;
+  color: #fff;
+  font-size: 1.5rem;
+  background-color: var(--secondary-color);
+  cursor: pointer;
+}
+#addForm .close{
+  position: absolute;
+  right: 2rem;
+  top: 1rem;
+  cursor: pointer;
 }
 </style>

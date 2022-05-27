@@ -9,10 +9,17 @@ export default createStore({
         lightTheme: true,
         lessSideBar: false,
         password: '',
-        wrongToken: null
+        wrongToken: null,
+        popUp: false
     },
     getters: {},
     mutations: {
+        addPageForm(state) {
+            state.popUp = true;
+        },
+        closeForm(state) {
+            state.popUp = false;
+        },
         logOut(state) {
             state.loggedIn = false
         },

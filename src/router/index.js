@@ -6,6 +6,9 @@ import Colors from '../views/Colors.vue'
 import Typography from '../views/Typography.vue'
 import DashboardHome from '../Dashboard/DashboardHome.vue'
 import Login from '../views/Login.vue'
+import DashboardIntroduction from '../views/DashboardIntroduction.vue'
+import DashboardTypography from '../views/DashboardTypography.vue'
+import DashboardColors from '../views/DashboardColors.vue'
 
 
 const routes = [{
@@ -46,6 +49,21 @@ const routes = [{
         path: '/login',
         name: 'login',
         component: Login
+    },
+    {
+        path: '/dashboard/introduction',
+        name: 'DashboardIntroduction',
+        component: DashboardIntroduction
+    },
+    {
+        path: '/dashboard/typography',
+        name: 'DashboardTypography',
+        component: DashboardTypography
+    },
+    {
+        path: '/dashboard/colors',
+        name: 'DashboardColors',
+        component: DashboardColors
     },
 ]
 
