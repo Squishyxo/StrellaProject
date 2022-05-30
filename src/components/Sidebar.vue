@@ -1,10 +1,13 @@
 <template>
   <nav class="sidebar">
-    <button @click="addLogo">Add Logo</button>
+    <button @click="uploadLogoForm">Add Logo</button>
+    <img class="logo" src="" alt="logo" />
     <ul>
       <!-- Looping through an array and display the content inside it -->
-     <li v-for="page in pagesArray" :key="page.name">
-         <router-link :to="`${page}`"><a>{{ page }}</a></router-link>
+      <li v-for="page in pagesArray" :key="page.name">
+        <router-link :to="`${page}`"
+          ><a>{{ page }}</a></router-link
+        >
       </li>
       <li @click="addPageForm"><a>+</a></li>
     </ul>
@@ -15,15 +18,47 @@
       </button>
     </div>
   </nav>
-   <form @submit.prevent="addPage" id="addForm" v-if="popUp">
-        <div @click="closeForm" class="close">&#x2718;</div>
-        <h2>ADD A NEW PAGE</h2>
-        <div>
-        <label for="newPage">Page Name</label>
-        <input v-model="namePage" class="nameInput" type="text" name="newPage" id="newPage" placeholder="Enter the new page name" required>
-        <button type="submit">+</button>
-        </div>
-    </form>
+  <!-- form for adding new pages -->
+  <form @submit.prevent="addPage" id="addForm" v-if="popUp">
+    <div @click="closeForm" class="close">&#x2718;</div>
+    <h2>ADD A NEW PAGE</h2>
+    <div>
+      <label for="newPage">Page Name</label>
+      <input
+        v-model="namePage"
+        class="nameInput"
+        type="text"
+        name="newPage"
+        id="newPage"
+        placeholder="Enter the new page name"
+        required
+      />
+      <button type="submit">+</button>
+    </div>
+  </form>
+  <!-- form for uploading logo -->
+  <form @submit.prevent="addLogo" id="addlogoForm" v-if="logoForm">
+    <div @click="closeForm" class="close">&#x2718;</div>
+    <h2>UPLOAD LOGO</h2>
+    <div>
+      <label for="logo">Upload logo</label>
+      <input
+        @change="changeHandler"
+        class="nameInput"
+        type="file"
+        name="logo"
+        id="logo"
+        ref="logo"
+        accept="image/*"
+        placeholder="Upload logo"
+        required
+      />
+      <p v-if="fileError" class="errorFile">
+        Please select an image file (png, jpeg, jpg, svg)
+      </p>
+      <button type="submit">+</button>
+    </div>
+  </form>
   <img class="logo" alt="example logo" />
 </template>
 
@@ -40,15 +75,21 @@ export default {
   data() {
     return {
       pagesArray: [],
-      namePage: ''
+      namePage: '',
+      logo: null,
+      fileError: false,
     };
   },
-    computed: {
-        popUp(){
-            // this returns the stete of "popUp". I used this for v-if to know when to show the form
-            return this.$store.state.popUp
-        }
+  computed: {
+    popUp() {
+      // this returns the stete of "popUp". I used this for v-if to know when to show the form
+      return this.$store.state.popUp;
     },
+    logoForm() {
+      // this returns the stete of "popUp". I used this for v-if to know when to show the form
+      return this.$store.state.logoForm;
+    },
+  },
   mounted: function () {
     this.getPages();
     this.getLogo();
@@ -56,7 +97,7 @@ export default {
   methods: {
     addPage() {
       // getting page name from a form
-      let newPage = this.namePage
+      let newPage = this.namePage;
       if (newPage != '') {
         // making sure that the user entered some text else an alert is thrown
         addDoc(collection(db, 'pages'), {
@@ -65,14 +106,14 @@ export default {
       } else {
         alert('you did not enter anything');
       }
-      this.closeForm()
+      this.closeForm();
     },
     getPages() {
       // getting the pages from firebase and add them to local array
       onSnapshot(collection(db, 'pages'), snapshot => {
         snapshot.docs.forEach(doc => {
           const data = doc.data().Name;
-          console.log(data);
+          // console.log(data);
           if (!this.pagesArray.includes(data)) {
             this.pagesArray.push(
               data
@@ -84,30 +125,65 @@ export default {
       });
     },
     addLogo() {
-      let newLogo = prompt('type something');
-      // making sure that the user entered some text else an alert is thrown
-      addDoc(collection(db, 'logo'), {
-        image: newLogo,
-      });
+      let value = this.logo;
+      console.log(value);
+      fetch(
+        'https://s3-project-8f792-default-rtdb.europe-west1.firebasedatabase.app/image.json',
+        {
+          method: 'PUT',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(value),
+        }
+      );
+      this.closeForm();
     },
     getLogo() {
-      // getting the pages from firebase and add them to local array
-      onSnapshot(collection(db, 'logo'), snapshot => {
-        const data = snapshot.doc.data().image;
-        console.log(data);
-        this.imageSrc(
-          data
-          // id: doc.id
-        );
-      });
+      // // getting the pages from firebase and add them to local array
+      // onSnapshot(collection(db, 'logo'), snapshot => {
+      //   const data = snapshot.doc.data().image;
+      //   // console.log(data);
+      //   this.imageSrc(
+      //     data
+      //     // id: doc.id
+      //   );
+      // });
+      fetch(
+        'https://s3-project-8f792-default-rtdb.europe-west1.firebasedatabase.app/image.json'
+      )
+        .then(response => {
+          if (response.ok) {
+            return response.json();
+          }
+        })
+        .then(data => {
+          this.logo = data.name;
+          // document.getElementById('intro-text').innerHTML = data.introText
+        });
     },
-    addPageForm(){
-      this.$store.commit('addPageForm')
+    addPageForm() {
+      this.$store.commit('addPageForm');
     },
-    closeForm(){
+    uploadLogoForm() {
+      this.$store.commit('uploadLogoForm');
+    },
+    closeForm() {
       // this goes to the store to call a function called closeForm
-      this.$store.commit('closeForm')
-    }
+      this.$store.commit('closeForm');
+    },
+    changeHandler(e) {
+      const types = ['image/png', 'image/jpeg', 'image/jpg', 'image/svg'];
+      let selected = e.target.files[0];
+      // console.log(selected);
+
+      if (selected && types.includes(selected.type)) {
+        this.logo = selected;
+        this.fileError = false;
+      } else {
+        this.fileError = true;
+      }
+    },
   },
 };
 </script>
@@ -135,6 +211,9 @@ body {
   font-family: 'Roboto Slab', serif;
   background-color: var(--primary-color);
   color: var(--secondary-color);
+}
+.logo {
+  border: 1px solid yellow;
 }
 nav {
   display: flex;
@@ -179,21 +258,22 @@ nav ul li a {
   margin-left: 35px;
 }
 .router-link-active {
-    background-color: var(--primary-color);
-    color: var(--secondary-color);
+  background-color: var(--primary-color);
+  color: var(--secondary-color);
 }
 
 .sidebar .router-link-active a {
-    color: var(--secondary-color);
+  color: var(--secondary-color);
 }
-.bottom-menu{
+.bottom-menu {
   display: flex;
   justify-content: space-around;
 }
-.bottom-menu img{
+.bottom-menu img {
   width: 2rem;
 }
-#addForm{
+#addForm,
+#addlogoForm {
   position: fixed;
   width: 60vw;
   height: 40vh;
@@ -202,30 +282,37 @@ nav ul li a {
   top: 30%;
   border-radius: 1rem;
   border: 2px solid #fff;
-  box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px, rgba(0, 0, 0, 0.22) 0px 15px 12px;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px,
+    rgba(0, 0, 0, 0.22) 0px 15px 12px;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
- }
-#addForm h2, #addForm div{
+}
+#addForm h2,
+#addlogoForm h2,
+#addForm div,
+#addlogoForm div {
   text-align: center;
   color: var(--secondary-color);
   font-size: 2rem;
-  }
-#addForm div input{
+}
+#addForm div input,
+#addlogoForm div input {
   width: 40vw;
-  height: 5vh;
+  height: 7vh;
   margin: 1rem;
   padding: 1rem;
   background-color: var(--primary-color);
   border: 2px solid var(--secondary-color);
   font-size: 1.5rem;
   color: var(--secondary-color);
-  }
-#addForm div input:focus{
+}
+#addForm div input:focus,
+#addlogoForm div input:focus {
   border: 5px solid var(--secondary-color);
-  }
-#addForm button{
+}
+#addForm button,
+#addlogoForm button {
   width: 10vw;
   height: 5vh;
   color: #fff;
@@ -233,10 +320,16 @@ nav ul li a {
   background-color: var(--secondary-color);
   cursor: pointer;
 }
-#addForm .close{
+#addForm .close,
+#addlogoForm .close {
   position: absolute;
   right: 2rem;
   top: 1rem;
   cursor: pointer;
+}
+.errorFile {
+  color: red;
+  font-size: 1rem;
+  margin: 1rem 0;
 }
 </style>

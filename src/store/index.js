@@ -10,15 +10,20 @@ export default createStore({
         lessSideBar: false,
         password: '',
         wrongToken: null,
-        popUp: false
+        popUp: false,
+        logoForm: false
     },
     getters: {},
     mutations: {
         addPageForm(state) {
             state.popUp = true;
         },
+        uploadLogoForm(state) {
+            state.logoForm = true;
+        },
         closeForm(state) {
             state.popUp = false;
+            state.logoForm = false;
         },
         logOut(state) {
             state.loggedIn = false
