@@ -11,7 +11,8 @@ export default createStore({
         password: '',
         wrongToken: null,
         popUp: false,
-        logoForm: false
+        logoForm: false,
+      logoIsUploaded: false
     },
     getters: {},
     mutations: {
@@ -20,6 +21,9 @@ export default createStore({
         },
         uploadLogoForm(state) {
             state.logoForm = true;
+        },
+        logoIsUploaded(state) {
+            state.logoIsUploaded = true;
         },
         closeForm(state) {
             state.popUp = false;
@@ -43,7 +47,7 @@ export default createStore({
                     console.log('correct password');
                     state.loggedIn = true
                     state.inputPassword = '';
-                    router.push('/');
+                    router.push('/dashboard/home');
                 } else {
                     state.wrongToken = true;
                     state.inputPassword = '';

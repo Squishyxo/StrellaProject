@@ -19,7 +19,8 @@ const app = initializeApp(firebaseConfig);
 
 // Initializing a new database using getFirestore function
 const db = getFirestore()
-
+// const storage = getStorage()
+// const spaceRef = ref(storage, 'images/space.jpg');
 export default db
 
 

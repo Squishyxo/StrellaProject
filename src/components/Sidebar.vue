@@ -1,7 +1,6 @@
 <template>
   <nav class="sidebar">
-    <button @click="uploadLogoForm">Add Logo</button>
-    <img class="logo" src="" alt="logo" />
+    <img id="logo" src="" alt="logo" />
     <ul>
       <!-- Looping through an array and display the content inside it -->
       <li v-for="page in pagesArray" :key="page.name">
@@ -14,10 +13,13 @@
     <div class="bottom-menu">
       <img src="../images/contrast.svg" />
       <button class="logOut">
-        <img src="../images/bx-log-in.svg" alt="" />
+        <img @click="logOut" src="../images/bx-log-in.svg" alt="" />
       </button>
     </div>
   </nav>
+  <button class="uploadLogoBtn" v-if="loggedIn" @click="uploadLogoForm">
+    Add Logo
+  </button>
   <!-- form for adding new pages -->
   <form @submit.prevent="addPage" id="addForm" v-if="popUp">
     <div @click="closeForm" class="close">&#x2718;</div>
@@ -71,6 +73,8 @@ import {
   onSnapshot,
 } from 'firebase/firestore';
 import db from '../store/database';
+import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+
 export default {
   data() {
     return {
@@ -88,6 +92,13 @@ export default {
     logoForm() {
       // this returns the stete of "popUp". I used this for v-if to know when to show the form
       return this.$store.state.logoForm;
+    },
+    logoIsUploaded() {
+      // this returns the stete of "popUp". I used this for v-if to know when to show the form
+      return this.$store.state.logoIsUploaded;
+    },
+    loggedIn() {
+      return this.$store.state.loggedIn;
     },
   },
   mounted: function () {
@@ -113,7 +124,6 @@ export default {
       onSnapshot(collection(db, 'pages'), snapshot => {
         snapshot.docs.forEach(doc => {
           const data = doc.data().Name;
-          // console.log(data);
           if (!this.pagesArray.includes(data)) {
             this.pagesArray.push(
               data
@@ -125,41 +135,28 @@ export default {
       });
     },
     addLogo() {
+      const storage = getStorage();
+
+      // Create a child reference
+      const imagesRef = ref(storage, 'logo/');
+      // imagesRef now points to 'images'
       let value = this.logo;
       console.log(value);
-      fetch(
-        'https://s3-project-8f792-default-rtdb.europe-west1.firebasedatabase.app/image.json',
-        {
-          method: 'PUT',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify(value),
-        }
-      );
+      uploadBytes(imagesRef, value).then(snapshot => {
+        console.log('Uploaded a blob or file!');
+      });
       this.closeForm();
     },
     getLogo() {
-      // // getting the pages from firebase and add them to local array
-      // onSnapshot(collection(db, 'logo'), snapshot => {
-      //   const data = snapshot.doc.data().image;
-      //   // console.log(data);
-      //   this.imageSrc(
-      //     data
-      //     // id: doc.id
-      //   );
-      // });
-      fetch(
-        'https://s3-project-8f792-default-rtdb.europe-west1.firebasedatabase.app/image.json'
-      )
-        .then(response => {
-          if (response.ok) {
-            return response.json();
-          }
+      const storage = getStorage();
+      getDownloadURL(ref(storage, 'logo'))
+        .then(url => {
+          const img = document.getElementById('logo');
+          img.setAttribute('src', url);
+          this.logoIsUploaded();
         })
-        .then(data => {
-          this.logo = data.name;
-          // document.getElementById('intro-text').innerHTML = data.introText
+        .catch(error => {
+          alert(e);
         });
     },
     addPageForm() {
@@ -168,14 +165,21 @@ export default {
     uploadLogoForm() {
       this.$store.commit('uploadLogoForm');
     },
+    logoIsUploaded() {
+      this.$store.commit('logoIsUploaded');
+    },
     closeForm() {
       // this goes to the store to call a function called closeForm
       this.$store.commit('closeForm');
     },
+    logOut() {
+      // this goes to the store to call a function called closeForm
+      this.$store.commit('logOut');
+    },
     changeHandler(e) {
       const types = ['image/png', 'image/jpeg', 'image/jpg', 'image/svg'];
       let selected = e.target.files[0];
-      // console.log(selected);
+      console.log(selected);
 
       if (selected && types.includes(selected.type)) {
         this.logo = selected;
@@ -212,13 +216,16 @@ body {
   background-color: var(--primary-color);
   color: var(--secondary-color);
 }
-.logo {
+#logo {
   border: 1px solid yellow;
+  width: 80%;
+  height: 7rem;
 }
 nav {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  align-items: center;
   background-color: var(--nav-color);
   width: 20rem;
   height: 100vh;
@@ -326,6 +333,12 @@ nav ul li a {
   right: 2rem;
   top: 1rem;
   cursor: pointer;
+}
+.uploadLogoBtn {
+  position: absolute;
+  top: 5%;
+  left: 20%;
+  width: 8rem;
 }
 .errorFile {
   color: red;
