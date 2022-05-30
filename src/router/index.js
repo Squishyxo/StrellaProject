@@ -9,6 +9,7 @@ import Login from '../views/Login.vue'
 import DashboardIntroduction from '../views/DashboardIntroduction.vue'
 import DashboardTypography from '../views/DashboardTypography.vue'
 import DashboardColors from '../views/DashboardColors.vue'
+import DashboardSelector from '../views/DashboardSelector.vue'
 
 
 const routes = [{
@@ -49,6 +50,11 @@ const routes = [{
         path: '/login',
         name: 'login',
         component: Login
+    },
+    {
+        path: '/dashboard/selector',
+        name: 'DashboardSelector',
+        component: DashboardSelector
     },
     {
         path: '/dashboard/introduction',

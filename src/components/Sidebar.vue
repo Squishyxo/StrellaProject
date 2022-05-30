@@ -8,12 +8,17 @@
           ><a>{{ page }}</a></router-link
         >
       </li>
-      <li @click="addPageForm"><a>+</a></li>
+      <li v-if="loggedIn" @click="addPageForm"><a>+</a></li>
     </ul>
     <div class="bottom-menu">
       <img src="../images/contrast.svg" />
-      <button class="logOut">
-        <img @click="logOut" src="../images/bx-log-in.svg" alt="" />
+      <router-link to="/Login">
+        <div v-if="!loggedIn">
+          <img src="../images/edit.png" />
+        </div>
+      </router-link>
+      <button v-if="loggedIn" @click="logOut" class="logOut">
+        <img src="../images/bx-log-in.svg" alt="" />
       </button>
     </div>
   </nav>
@@ -93,10 +98,10 @@ export default {
       // this returns the stete of "popUp". I used this for v-if to know when to show the form
       return this.$store.state.logoForm;
     },
-    logoIsUploaded() {
-      // this returns the stete of "popUp". I used this for v-if to know when to show the form
-      return this.$store.state.logoIsUploaded;
-    },
+    // logoIsUploaded() {
+    //   // this returns the stete of "popUp". I used this for v-if to know when to show the form
+    //   return this.$store.state.logoIsUploaded;
+    // },
     loggedIn() {
       return this.$store.state.loggedIn;
     },
@@ -153,10 +158,10 @@ export default {
         .then(url => {
           const img = document.getElementById('logo');
           img.setAttribute('src', url);
-          this.logoIsUploaded();
+          // this.logoIsUploaded;
         })
         .catch(error => {
-          alert(e);
+          console.log(error);
         });
     },
     addPageForm() {
@@ -165,9 +170,9 @@ export default {
     uploadLogoForm() {
       this.$store.commit('uploadLogoForm');
     },
-    logoIsUploaded() {
-      this.$store.commit('logoIsUploaded');
-    },
+    // logoIsUploaded() {
+    //   this.$store.commit('logoIsUploaded');
+    // },
     closeForm() {
       // this goes to the store to call a function called closeForm
       this.$store.commit('closeForm');
@@ -275,9 +280,11 @@ nav ul li a {
 .bottom-menu {
   display: flex;
   justify-content: space-around;
+  margin-bottom: 2rem;
 }
 .bottom-menu img {
   width: 2rem;
+  margin: 0 1rem;
 }
 #addForm,
 #addlogoForm {

@@ -1,6 +1,5 @@
 import { createStore } from 'vuex'
 import router from '@/router'
-// import firestoreService from './firestoreService.js'
 
 export default createStore({
     state: {
@@ -47,7 +46,7 @@ export default createStore({
                     console.log('correct password');
                     state.loggedIn = true
                     state.inputPassword = '';
-                    router.push('/dashboard/home');
+                    router.push('/dashboard/selector');
                 } else {
                     state.wrongToken = true;
                     state.inputPassword = '';
