@@ -11,7 +11,7 @@ export default createStore({
         wrongToken: null,
         popUp: false,
         logoForm: false,
-      logoIsUploaded: false
+        logoIsUploaded: false
     },
     getters: {},
     mutations: {

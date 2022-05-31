@@ -73,8 +73,6 @@
 import {
   collection,
   addDoc,
-  getDocs,
-  doc,
   onSnapshot,
 } from 'firebase/firestore';
 import db from '../store/database';

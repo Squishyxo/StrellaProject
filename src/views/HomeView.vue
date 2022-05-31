@@ -8,8 +8,6 @@
         <h1>INTRODUCTION</h1>
         <div>
             <p :class="[ editable ? 'edit-border' : '']" id="intro-text" :v-model="text">{{text}}
-                <!-- Welcome to Balenciaga’s Brand Guide System. Within this Brand Guide System, the Balenciaga brand internally and externally is explained and you will find the tools necessary for successfully promoting and implementing the brand. Using our
-                brand guide ensures the consistency throughout any product or services that we offer.  -->
                 </p>
         </div>
     </section>
