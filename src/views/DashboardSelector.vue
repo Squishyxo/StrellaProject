@@ -72,4 +72,23 @@ section a div:nth-child(1) {
 section div:hover {
   transform: scale(1.1);
 }
+@media (max-width: 1200px) {
+  section a div {
+    font-size: 2rem;
+  }
+}
+@media (max-width: 800px) {
+  section a div {
+    font-size: 1rem;
+  }
+}
+@media (max-width: 600px) {
+  section {
+    flex-direction: column;
+  }
+  section a div {
+    width: 80vw;
+    font-size: 2rem;
+  }
+}
 </style>

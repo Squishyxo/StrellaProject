@@ -6,7 +6,7 @@
       <li v-for="page in pagesArray" :key="page.name">
         <router-link :to="`${page}`"
           ><a>{{ page }}</a></router-link
-        >
+        ><img @click="removePage" class="bin" src="../images/trash.svg" />
       </li>
       <li v-if="loggedIn" @click="addPageForm"><a>+</a></li>
     </ul>
@@ -24,6 +24,9 @@
   </nav>
   <button class="uploadLogoBtn" v-if="loggedIn" @click="uploadLogoForm">
     Add Logo
+  </button>
+  <button class="resetLogoBtn" v-if="loggedIn" @click="resetLogo">
+    Reset Logo
   </button>
   <!-- form for adding new pages -->
   <form @submit.prevent="addPage" id="addForm" v-if="popUp">
@@ -74,9 +77,17 @@ import {
   collection,
   addDoc,
   onSnapshot,
+  doc,
+  deleteDoc,
 } from 'firebase/firestore';
 import db from '../store/database';
-import { getStorage, ref, uploadBytes, getDownloadURL } from 'firebase/storage';
+import {
+  getStorage,
+  ref,
+  uploadBytes,
+  getDownloadURL,
+  deleteObject,
+} from 'firebase/storage';
 
 export default {
   data() {
@@ -137,18 +148,36 @@ export default {
         });
       });
     },
+    async removePage(doc) {
+      // Remove the 'capital' field from the document
+      await deleteDoc(doc(db, 'pages', doc.id));
+      console.log('deleted');
+    },
     addLogo() {
       const storage = getStorage();
-
       // Create a child reference
       const imagesRef = ref(storage, 'logo/');
-      // imagesRef now points to 'images'
+      // imagesRef now points to 'logo'
       let value = this.logo;
       console.log(value);
       uploadBytes(imagesRef, value).then(snapshot => {
         console.log('Uploaded a blob or file!');
       });
       this.closeForm();
+    },
+    resetLogo() {
+      const storage = getStorage();
+      // Create a child reference
+      const imagesRef = ref(storage, 'logo');
+      // imagesRef now points to 'logo'
+      // Delete the file
+      deleteObject(imagesRef)
+        .then(() => {
+          console.log('logo reset');
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
     getLogo() {
       const storage = getStorage();
@@ -220,7 +249,6 @@ body {
   color: var(--secondary-color);
 }
 #logo {
-  border: 1px solid yellow;
   width: 80%;
   height: 7rem;
 }
@@ -345,9 +373,25 @@ nav ul li a {
   left: 20%;
   width: 8rem;
 }
+.resetLogoBtn {
+  position: absolute;
+  top: 10%;
+  left: 20%;
+  width: 8rem;
+}
 .errorFile {
   color: red;
   font-size: 1rem;
   margin: 1rem 0;
+}
+.bin {
+  position: relative;
+  right: 5%;
+  top: 0;
+  width: 1.5rem;
+  transition: 0.2s ease-in-out;
+}
+.bin:hover {
+  transform: scaleX(1.1);
 }
 </style>

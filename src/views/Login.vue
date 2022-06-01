@@ -116,5 +116,12 @@ form img {
   .layout2 {
     background-color: var(--primary-color);
   }
+  .wrap {
+    width: 90%;
+  }
+  form {
+    padding: 0;
+    width: 80%;
+  }
 }
 </style>
