@@ -54,9 +54,9 @@ section a div {
   align-items: center;
   font-size: 3rem;
   margin: 3rem;
-  border: 4px solid var(--secondary-color);
+  border: 4px solid #0d161c;
   border-radius: 10px;
-  color: var(--secondary-color);
+  color: #0d161c;
   transition: 0.4s ease-in-out;
   box-shadow: rgba(50, 50, 93, 0.25) 0px 50px 100px -20px,
     rgba(0, 0, 0, 0.3) 0px 30px 60px -30px,
@@ -67,7 +67,7 @@ section a div:nth-child(1) {
     rgba(255, 255, 255, 0.3) 0px 30px 60px -30px,
     rgba(255, 255, 255, 0.35) 0px -2px 6px 0px inset;
   background-color: #fff;
-  color: var(--secondary-color);
+  color: #0d161c;
 }
 section div:hover {
   transform: scale(1.1);

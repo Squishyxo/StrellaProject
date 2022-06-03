@@ -32,19 +32,24 @@
         </div>
         <router-link to="/Login">
           <div v-if="!$store.state.loggedIn && $store.state.lightTheme">
-            <img src="../images/edit.png" />
+            <img src="../images/login.svg" />
           </div>
           <div v-if="!$store.state.loggedIn && !$store.state.lightTheme">
-            <img src="../images/edit-light-mode.png" />
+            <img src="../images/login-dark.svg" />
           </div>
         </router-link>
-        <button
-          v-if="$store.state.loggedIn"
+        <div
           @click="$store.commit('logOut')"
-          class="logOut"
+          v-if="$store.state.loggedIn && $store.state.lightTheme"
         >
-          <img src="../images/bx-log-in.svg" alt="" />
-        </button>
+          <img src="../images/logout.svg" />
+        </div>
+        <div
+          @click="$store.commit('logOut')"
+          v-if="$store.state.loggedIn && !$store.state.lightTheme"
+        >
+          <img src="../images/logout-dark.svg" />
+        </div>
       </div>
     </nav>
     <!-- Through this button, the user can choose between the two sidebars -->

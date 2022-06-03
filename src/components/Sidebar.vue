@@ -5,7 +5,7 @@
       <!-- Looping through an array and display the content inside it -->
       <li v-for="page in pagesArray" :key="page.name">
         <router-link :to="`${page}`"
-          ><a>{{ page }}</a></router-link
+          ><a>{{ page.name }}</a></router-link
         ><img @click="removePage" class="bin" src="../images/trash.svg" />
       </li>
       <li v-if="loggedIn" @click="addPageForm"><a>+</a></li>
@@ -13,13 +13,27 @@
     <div class="bottom-menu">
       <img src="../images/contrast.svg" />
       <router-link to="/Login">
-        <div v-if="!loggedIn">
-          <img src="../images/edit.png" />
+        <div v-if="!loggedIn && $store.state.lightTheme">
+          <img src="../images/login.svg" />
+        </div>
+        <div v-if="!loggedIn && !$store.state.lightTheme">
+          <img src="../images/login-dark.svg" />
         </div>
       </router-link>
-      <button v-if="loggedIn" @click="logOut" class="logOut">
-        <img src="../images/bx-log-in.svg" alt="" />
-      </button>
+      <div
+        @click="logOut"
+        class="logOut"
+        v-if="loggedIn && $store.state.lightTheme"
+      >
+        <img src="../images/logout.svg" />
+      </div>
+      <div
+        @click="logOut"
+        class="logOut"
+        v-if="loggedIn && !$store.state.lightTheme"
+      >
+        <img src="../images/logout-dark.svg" />
+      </div>
     </div>
   </nav>
   <button class="uploadLogoBtn" v-if="loggedIn" @click="uploadLogoForm">
@@ -92,7 +106,12 @@ import {
 export default {
   data() {
     return {
-      pagesArray: [],
+      pagesArray: [
+        {
+          name: 'INTRODUCTION',
+          id: 'aaaaa',
+        },
+      ],
       namePage: '',
       logo: null,
       fileError: false,
@@ -136,13 +155,14 @@ export default {
     getPages() {
       // getting the pages from firebase and add them to local array
       onSnapshot(collection(db, 'pages'), snapshot => {
+        console.log(this.pagesArray);
         snapshot.docs.forEach(doc => {
-          const data = doc.data().Name;
-          if (!this.pagesArray.includes(data)) {
-            this.pagesArray.push(
-              data
-              // id: doc.id
-            );
+          let pages = {
+            id: doc.id,
+            name: doc.data().Name,
+          };
+          if (!this.pagesArray.includes(pages.name)) {
+            this.pagesArray.push(pages);
             this.pagesArray.reverse();
           }
         });
@@ -289,10 +309,7 @@ nav ul li a {
 }
 
 .logOut {
-  background-color: var(--primary-color);
-  color: var(--secondary-color);
-  width: 80px;
-  height: 50px;
+  cursor: pointer;
   margin-left: 35px;
 }
 .router-link-active {
@@ -355,7 +372,7 @@ nav ul li a {
 #addlogoForm button {
   width: 10vw;
   height: 5vh;
-  color: #fff;
+  color: #0d161c;
   font-size: 1.5rem;
   background-color: var(--secondary-color);
   cursor: pointer;

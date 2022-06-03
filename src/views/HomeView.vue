@@ -26,7 +26,7 @@
         @mouseleave="pencilHovered = false"
         class="editBtn"
       >
-        <img src="../images/edit.png" />
+        <img src="../images/pen.svg" />
       </div>
       <div v-if="pencilHovered" class="editOnHover">edit text</div>
     </div>
