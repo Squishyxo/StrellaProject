@@ -3,10 +3,10 @@
     <img id="logo" src="" alt="logo" />
     <ul>
       <!-- Looping through an array and display the content inside it -->
-      <li v-for="page in pagesArray" :key="page.name">
+      <li v-for="page in pagesArray" :key="page.id">
         <router-link :to="`${page}`"
           ><a>{{ page.name }}</a></router-link
-        ><img @click="removePage" class="bin" src="../images/trash.svg" />
+        ><img v-if="loggedIn" :id="page.id" @click="removePage" class="bin" src="../images/trash.svg" />
       </li>
       <li v-if="loggedIn" @click="addPageForm"><a>+</a></li>
     </ul>
@@ -107,10 +107,7 @@ export default {
   data() {
     return {
       pagesArray: [
-        {
-          name: 'INTRODUCTION',
-          id: 'aaaaa',
-        },
+        
       ],
       namePage: '',
       logo: null,
@@ -146,33 +143,32 @@ export default {
         // making sure that the user entered some text else an alert is thrown
         addDoc(collection(db, 'pages'), {
           Name: newPage,
-        });
+          // id: key
+        })
       } else {
         alert('you did not enter anything');
       }
       this.closeForm();
+      this.namePage = ''
     },
     getPages() {
       // getting the pages from firebase and add them to local array
       onSnapshot(collection(db, 'pages'), snapshot => {
-        console.log(this.pagesArray);
+      this.pagesArray = [];
         snapshot.docs.forEach(doc => {
           let pages = {
             id: doc.id,
             name: doc.data().Name,
           };
-          console.log(this.pagesArray.results);
-          if (!this.pagesArray.includes(pages.name)) {
             this.pagesArray.push(pages);
             this.pagesArray.reverse();
-          }
         });
       });
     },
-    removePage(doc) {
-      // Remove the 'capital' field from the document
-      deleteDoc(doc(db, 'pages', doc.id));
-      console.log('deleted');
+    removePage(e) {
+      let clickedId = e.target.id
+      // Remove the clicked page's id from the document
+      deleteDoc(doc(db, 'pages', clickedId));
     },
     addLogo() {
       const storage = getStorage();

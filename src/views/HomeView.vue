@@ -138,6 +138,7 @@ export default {
   background-color: #0d161c;
   cursor: pointer;
   z-index: 1;
+  overflow: hidden;
 }
 .editOnHover {
   position: absolute;
@@ -249,7 +250,7 @@ export default {
     border: 0.2rem solid var(--secondary-color);
     position: absolute;
     top: 10%;
-    left: 3%;
+    left: 1%;
     height: 5rem;
     padding: 0.3rem;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -257,14 +258,14 @@ export default {
     text-transform: uppercase;
     display: flex;
     margin: 1rem;
-    width: 70%;
+    width: 90%;
     overflow: hidden;
   }
   .save-changes2 {
     border: 0.2rem solid var(--secondary-color);
     position: relative;
     bottom: 10%;
-    left: 3%;
+    left: 1%;
     height: 5rem;
     padding: 0.3rem;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -272,7 +273,7 @@ export default {
     text-transform: uppercase;
     display: flex;
     margin: 1rem;
-    width: 70%;
+    width: 90%;
     overflow: hidden;
   }
   .save-changes p,
