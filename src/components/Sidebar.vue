@@ -161,6 +161,7 @@ export default {
             id: doc.id,
             name: doc.data().Name,
           };
+          console.log(this.pagesArray.results);
           if (!this.pagesArray.includes(pages.name)) {
             this.pagesArray.push(pages);
             this.pagesArray.reverse();
@@ -168,9 +169,9 @@ export default {
         });
       });
     },
-    async removePage(doc) {
+    removePage(doc) {
       // Remove the 'capital' field from the document
-      await deleteDoc(doc(db, 'pages', doc.id));
+      deleteDoc(doc(db, 'pages', doc.id));
       console.log('deleted');
     },
     addLogo() {
@@ -372,7 +373,7 @@ nav ul li a {
 #addlogoForm button {
   width: 10vw;
   height: 5vh;
-  color: #0d161c;
+  color: var(--primary-color);
   font-size: 1.5rem;
   background-color: var(--secondary-color);
   cursor: pointer;
