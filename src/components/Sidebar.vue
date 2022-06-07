@@ -1,17 +1,17 @@
 <template>
   <nav class="sidebar">
-    <img id="logo" src="" alt="logo" />
+    <img class="logo" id="logo" src="" alt="logo" />
     <ul>
       <!-- Looping through an array and display the content inside it -->
       <li v-for="page in pagesArray" :key="page.id">
-        <router-link :to="`${page}`"
+        <router-link :to="`${page.name}`"
           ><a>{{ page.name }}</a></router-link
         ><img v-if="loggedIn" :id="page.id" @click="removePage" class="bin" src="../images/trash.svg" />
       </li>
       <li v-if="loggedIn" @click="addPageForm"><a>+</a></li>
     </ul>
     <div class="bottom-menu">
-      <img src="../images/contrast.svg" />
+      <img src="../images/contrast.svg" @click="addColorsForm" />
       <router-link to="/Login">
         <div v-if="!loggedIn && $store.state.lightTheme">
           <img src="../images/login.svg" />
@@ -83,7 +83,38 @@
       <button type="submit">+</button>
     </div>
   </form>
-  <img class="logo" alt="example logo" />
+  <!-- form for picking colors -->
+  <form @submit.prevent="addColors" id="addColorsForm" v-if="colorsForm">
+    <div @click="closeForm" class="close">&#x2718;</div>
+    <h2>PICK 3 MAIN COLORS</h2>
+    <div>
+      <label for="color">Primary Color</label>
+      <input
+        type="color"
+        name="logo"
+        id="primary-color"
+        placeholder="Hex Code"
+        required
+      />
+            <label for="color">Secondary Color</label>
+      <input
+        type="color"
+        name="logo"
+        id="secondary-color"
+        placeholder="Hex Code"
+        required
+      />
+            <label for="color">Third Color</label>
+      <input
+        type="color"
+        name="logo"
+        id="third-color"
+        placeholder="Hex Code"
+        required
+      />
+      <button type="submit">APPLY COLORS</button>
+    </div>
+  </form>
 </template>
 
 <script>
@@ -93,6 +124,7 @@ import {
   onSnapshot,
   doc,
   deleteDoc,
+  setDoc
 } from 'firebase/firestore';
 import db from '../store/database';
 import {
@@ -116,15 +148,19 @@ export default {
   },
   computed: {
     popUp() {
-      // this returns the stete of "popUp". I used this for v-if to know when to show the form
+      // this returns the state of "popUp". I used this for v-if to know when to show the form
       return this.$store.state.popUp;
     },
     logoForm() {
-      // this returns the stete of "popUp". I used this for v-if to know when to show the form
+      // this returns the state of "logoForm". I used this for v-if to know when to show the form
       return this.$store.state.logoForm;
     },
+    colorsForm() {
+      // this returns the state of "colorsForm". I used this for v-if to know when to show the form
+      return this.$store.state.colorsForm;
+    },
     // logoIsUploaded() {
-    //   // this returns the stete of "popUp". I used this for v-if to know when to show the form
+    //   // this returns the state of "logoIsUploaded". I used this for v-if to know when to show the form
     //   return this.$store.state.logoIsUploaded;
     // },
     loggedIn() {
@@ -134,6 +170,7 @@ export default {
   mounted: function () {
     this.getPages();
     this.getLogo();
+    this.getColors()
   },
   methods: {
     addPage() {
@@ -208,8 +245,34 @@ export default {
           console.log(error);
         });
     },
+    getColors() {
+      // getting the colors from firebase and save them 
+      onSnapshot(doc(db, 'colors', 'hZ6Zz9eF3QSGmwbpXcA0'), doc => {
+        const data = doc.data()
+        console.log(data.primaryColor)
+        console.log(data.secondaryColor)
+        console.log(data.thirdColor)
+        document.documentElement.style.setProperty('--primaryColor', data.primaryColor);
+        document.documentElement.style.setProperty('--secondaryColor', data.secondaryColor);
+        document.documentElement.style.setProperty('--thirdColor', data.thirdColor);
+      });
+    },
+    addColors(){
+      let primaryColor = document.getElementById('primary-color').value;
+      let secondaryColor = document.getElementById('secondary-color').value;
+      let thirdColor = document.getElementById('third-color').value;
+       setDoc(doc(db, "colors", "hZ6Zz9eF3QSGmwbpXcA0"), {
+      primaryColor: primaryColor,
+      secondaryColor: secondaryColor,
+      thirdColor: thirdColor
+});
+      this.closeForm();
+    },
     addPageForm() {
       this.$store.commit('addPageForm');
+    },
+    addColorsForm() {
+      this.$store.commit('addColorsForm');
     },
     uploadLogoForm() {
       this.$store.commit('uploadLogoForm');
@@ -244,9 +307,9 @@ export default {
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Slab&display=swap');
 :root {
-  --primary-color: #fff;
-  --secondary-color: #0d161c;
-  --third-color: #333333;
+  --primaryColor: #fff;
+  --secondaryColor: #0d161c;
+  --thirdColor: #333333;
   --color-1: #0d161c;
 }
 
@@ -262,19 +325,20 @@ export default {
 
 body {
   font-family: 'Roboto Slab', serif;
-  background-color: var(--primary-color);
-  color: var(--secondary-color);
+  background-color: var(--primaryColor);
+  color: var(--secondaryColor);
 }
 #logo {
   width: 80%;
   height: 7rem;
+  color: var(--primaryColor);
 }
 nav {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
-  background-color: var(--nav-color);
+  background-color: var(--secondaryColor);
   width: 20rem;
   height: 100vh;
   position: fixed;
@@ -287,7 +351,6 @@ nav ul {
 }
 nav ul li {
   cursor: pointer;
-  border-bottom: 1px solid var(--primary-color);
   height: 10vh;
   display: flex;
   align-content: center;
@@ -296,26 +359,19 @@ nav ul li {
 }
 nav ul li a {
   text-decoration: none;
-  color: var(--primary-color);
+  color: var(--primaryColor);
   font-size: 1.5rem;
-  height: 10;
+  height: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
   width: 20rem;
+  border-bottom: .1px solid var(--primaryColor);
 }
 
 .logOut {
   cursor: pointer;
   margin-left: 35px;
-}
-.router-link-active {
-  background-color: var(--primary-color);
-  color: var(--secondary-color);
-}
-
-.sidebar .router-link-active a {
-  color: var(--secondary-color);
 }
 .bottom-menu {
   display: flex;
@@ -325,13 +381,14 @@ nav ul li a {
 .bottom-menu img {
   width: 2rem;
   margin: 0 1rem;
+  cursor: pointer;
 }
 #addForm,
-#addlogoForm {
+#addlogoForm{
   position: fixed;
   width: 60vw;
   height: 40vh;
-  background: var(--primary-color);
+  background: var(--primaryColor);
   left: 20%;
   top: 30%;
   border-radius: 1rem;
@@ -342,13 +399,34 @@ nav ul li a {
   flex-direction: column;
   justify-content: space-around;
 }
+#addColorsForm {
+  position: fixed;
+  width: 60vw;
+  height: 60vh;
+  background: var(--primaryColor);
+  left: 20%;
+  top: 25%;
+  border-radius: 1rem;
+  border: 2px solid #fff;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px,
+    rgba(0, 0, 0, 0.22) 0px 15px 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+}
 #addForm h2,
 #addlogoForm h2,
+#addColorsForm h2,
 #addForm div,
+#addColorsForm div,
 #addlogoForm div {
   text-align: center;
-  color: var(--secondary-color);
+  color: var(--secondaryColor);
   font-size: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 #addForm div input,
 #addlogoForm div input {
@@ -356,38 +434,53 @@ nav ul li a {
   height: 7vh;
   margin: 1rem;
   padding: 1rem;
-  background-color: var(--primary-color);
-  border: 2px solid var(--secondary-color);
+  background-color: var(--primaryColor);
+  border: 2px solid var(--secondaryColor);
   font-size: 1.5rem;
-  color: var(--secondary-color);
+  color: var(--secondaryColor);
+}
+#addColorsForm div input {
+  width: 10vw;
+  height: 5vh;
+  margin: 1rem;
+  padding: .6rem;
+  background-color: var(--primaryColor);
+  border: 2px solid var(--secondaryColor);
+  font-size: 1rem;
+  color: var(--secondaryColor);
 }
 #addForm div input:focus,
 #addlogoForm div input:focus {
-  border: 5px solid var(--secondary-color);
+  border: 5px solid var(--secondaryColor);
 }
 #addForm button,
 #addlogoForm button {
   width: 10vw;
   height: 5vh;
-  color: var(--primary-color);
+  color: var(--primaryColor);
   font-size: 1.5rem;
-  background-color: var(--secondary-color);
+  background-color: var(--secondaryColor);
   cursor: pointer;
 }
 #addForm .close,
-#addlogoForm .close {
+#addlogoForm .close,
+#addColorsForm .close {
   position: absolute;
   right: 2rem;
   top: 1rem;
   cursor: pointer;
 }
 .uploadLogoBtn {
+  background-color: var(--secondaryColor);
+  color: var(--primaryColor);
   position: absolute;
   top: 5%;
   left: 20%;
   width: 8rem;
 }
 .resetLogoBtn {
+  background-color: var(--secondaryColor);
+  color: var(--primaryColor);
   position: absolute;
   top: 10%;
   left: 20%;
@@ -407,5 +500,21 @@ nav ul li a {
 }
 .bin:hover {
   transform: scaleX(1.1);
+}
+nav ul li {
+  display: flex;
+  justify-content: space-between;
+  width: 20rem;
+}
+nav ul li a{
+  width: 80%;
+}
+nav ul li .router-link-active {
+  background-color: var(--primaryColor);
+  color: var(--secondaryColor);
+}
+
+nav ul li .router-link-active a {
+  color: var(--secondaryColor);
 }
 </style>

@@ -6,9 +6,7 @@ import Colors from '../views/Colors.vue'
 import Typography from '../views/Typography.vue'
 import DashboardHome from '../Dashboard/DashboardHome.vue'
 import Login from '../views/Login.vue'
-import DashboardIntroduction from '../views/DashboardIntroduction.vue'
-import DashboardTypography from '../views/DashboardTypography.vue'
-import DashboardColors from '../views/DashboardColors.vue'
+import DashboardPage from '../components/DashboardPage.vue'
 import DashboardSelector from '../views/DashboardSelector.vue'
 
 
@@ -57,20 +55,10 @@ const routes = [{
         component: DashboardSelector
     },
     {
-        path: '/dashboard/introduction',
+        path: '/dashboard/:id',
         name: 'DashboardIntroduction',
-        component: DashboardIntroduction
-    },
-    {
-        path: '/dashboard/typography',
-        name: 'DashboardTypography',
-        component: DashboardTypography
-    },
-    {
-        path: '/dashboard/colors',
-        name: 'DashboardColors',
-        component: DashboardColors
-    },
+        component: DashboardPage
+    }
 ]
 
 const router = createRouter({
