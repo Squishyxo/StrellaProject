@@ -6,7 +6,13 @@
       <li v-for="page in pagesArray" :key="page.id">
         <router-link :to="`/dashboard/${page.name}`"
           ><a>{{ page.name }}</a></router-link
-        ><img v-if="loggedIn" :id="page.id" @click="removePage" class="bin" src="../images/trash.svg" />
+        ><img
+          v-if="loggedIn"
+          :id="page.id"
+          @click="removePage"
+          class="bin"
+          src="../images/trash.svg"
+        />
       </li>
       <li v-if="loggedIn" @click="addPageForm"><a>+</a></li>
     </ul>
@@ -96,7 +102,7 @@
         placeholder="Hex Code"
         required
       />
-            <label for="color">Secondary Color</label>
+      <label for="color">Secondary Color</label>
       <input
         type="color"
         name="logo"
@@ -104,7 +110,7 @@
         placeholder="Hex Code"
         required
       />
-            <label for="color">Third Color</label>
+      <label for="color">Third Color</label>
       <input
         type="color"
         name="logo"
@@ -124,7 +130,7 @@ import {
   onSnapshot,
   doc,
   deleteDoc,
-  setDoc
+  setDoc,
 } from 'firebase/firestore';
 import db from '../store/database';
 import {
@@ -138,9 +144,7 @@ import {
 export default {
   data() {
     return {
-      pagesArray: [
-        
-      ],
+      pagesArray: [],
       namePage: '',
       logo: null,
       fileError: false,
@@ -170,7 +174,7 @@ export default {
   mounted: function () {
     this.getPages();
     this.getLogo();
-    this.getColors()
+    this.getColors();
   },
   methods: {
     addPage() {
@@ -180,32 +184,32 @@ export default {
         // making sure that the user entered some text else an alert is thrown
         addDoc(collection(db, 'pages'), {
           Name: newPage,
-          text: 'Add Text'
+          text: 'Add Text',
           // id: key
-        })
+        });
       } else {
         alert('you did not enter anything');
       }
       this.closeForm();
-      this.namePage = ''
+      this.namePage = '';
     },
     getPages() {
       // getting the pages from firebase and add them to local array
       onSnapshot(collection(db, 'pages'), snapshot => {
-      this.pagesArray = [];
+        this.pagesArray = [];
         snapshot.docs.forEach(doc => {
           let pages = {
             id: doc.id,
             name: doc.data().Name,
-            text: doc.data().text
+            text: doc.data().text,
           };
-            this.pagesArray.push(pages);
-            this.pagesArray.reverse();
+          this.pagesArray.push(pages);
+          this.pagesArray.reverse();
         });
       });
     },
     removePage(e) {
-      let clickedId = e.target.id
+      let clickedId = e.target.id;
       // Remove the clicked page's id from the document
       deleteDoc(doc(db, 'pages', clickedId));
     },
@@ -248,26 +252,35 @@ export default {
         });
     },
     getColors() {
-      // getting the colors from firebase and save them 
+      // getting the colors from firebase and save them
       onSnapshot(doc(db, 'colors', 'hZ6Zz9eF3QSGmwbpXcA0'), doc => {
-        const data = doc.data()
-        console.log(data.primaryColor)
-        console.log(data.secondaryColor)
-        console.log(data.thirdColor)
-        document.documentElement.style.setProperty('--primaryColor', data.primaryColor);
-        document.documentElement.style.setProperty('--secondaryColor', data.secondaryColor);
-        document.documentElement.style.setProperty('--thirdColor', data.thirdColor);
+        const data = doc.data();
+        console.log(data.primaryColor);
+        console.log(data.secondaryColor);
+        console.log(data.thirdColor);
+        document.documentElement.style.setProperty(
+          '--primaryColor',
+          data.primaryColor
+        );
+        document.documentElement.style.setProperty(
+          '--secondaryColor',
+          data.secondaryColor
+        );
+        document.documentElement.style.setProperty(
+          '--thirdColor',
+          data.thirdColor
+        );
       });
     },
-    addColors(){
+    addColors() {
       let primaryColor = document.getElementById('primary-color').value;
       let secondaryColor = document.getElementById('secondary-color').value;
       let thirdColor = document.getElementById('third-color').value;
-       setDoc(doc(db, "colors", "hZ6Zz9eF3QSGmwbpXcA0"), {
-      primaryColor: primaryColor,
-      secondaryColor: secondaryColor,
-      thirdColor: thirdColor
-});
+      setDoc(doc(db, 'colors', 'hZ6Zz9eF3QSGmwbpXcA0'), {
+        primaryColor: primaryColor,
+        secondaryColor: secondaryColor,
+        thirdColor: thirdColor,
+      });
       this.closeForm();
     },
     addPageForm() {
@@ -358,6 +371,7 @@ nav ul li {
   align-content: center;
   justify-content: center;
   text-transform: uppercase;
+  border-bottom: 0.1px solid var(--primaryColor);
 }
 nav ul li a {
   text-decoration: none;
@@ -368,7 +382,6 @@ nav ul li a {
   justify-content: center;
   align-items: center;
   width: 20rem;
-  border-bottom: .1px solid var(--primaryColor);
 }
 
 .logOut {
@@ -386,7 +399,7 @@ nav ul li a {
   cursor: pointer;
 }
 #addForm,
-#addlogoForm{
+#addlogoForm {
   position: fixed;
   width: 60vw;
   height: 40vh;
@@ -445,7 +458,7 @@ nav ul li a {
   width: 10vw;
   height: 5vh;
   margin: 1rem;
-  padding: .6rem;
+  padding: 0.6rem;
   background-color: var(--primaryColor);
   border: 2px solid var(--secondaryColor);
   font-size: 1rem;
@@ -508,7 +521,7 @@ nav ul li {
   justify-content: space-between;
   width: 20rem;
 }
-nav ul li a{
+nav ul li a {
   width: 80%;
 }
 nav ul li .router-link-active {
