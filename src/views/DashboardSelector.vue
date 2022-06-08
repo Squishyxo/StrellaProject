@@ -4,7 +4,7 @@
     <div class="layout2"></div>
     <section>
       <router-link to="/"><div>BALENCIAGA</div></router-link>
-      <router-link to="/dashboard/home"><div>+</div></router-link>
+      <router-link to="/dashboard"><div>+</div></router-link>
     </section>
   </div>
 </template>

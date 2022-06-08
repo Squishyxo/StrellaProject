@@ -1,6 +1,7 @@
 <template>
-  <div class="content">
-      {{title}}
+  <div id="content">
+      <h1>{{title}}</h1>
+      <p>{{text}}</p>
   </div>
 </template>
 
@@ -14,9 +15,13 @@ export default {
 }
 </script>
 
-<style>
-#content{
-    margin-left: 600px;
-    font-size: 5rem;
+<style scoped>
+#content h1{
+    text-transform: uppercase;
+    font-size: 3rem;
+}
+#content p{
+    margin-top: 5rem;
+    font-size: 1rem;
 }
 </style>

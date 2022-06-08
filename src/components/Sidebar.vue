@@ -4,7 +4,7 @@
     <ul>
       <!-- Looping through an array and display the content inside it -->
       <li v-for="page in pagesArray" :key="page.id">
-        <router-link :to="`${page.name}`"
+        <router-link :to="`/dashboard/${page.name}`"
           ><a>{{ page.name }}</a></router-link
         ><img v-if="loggedIn" :id="page.id" @click="removePage" class="bin" src="../images/trash.svg" />
       </li>
@@ -180,6 +180,7 @@ export default {
         // making sure that the user entered some text else an alert is thrown
         addDoc(collection(db, 'pages'), {
           Name: newPage,
+          text: 'Add Text'
           // id: key
         })
       } else {
@@ -196,6 +197,7 @@ export default {
           let pages = {
             id: doc.id,
             name: doc.data().Name,
+            text: doc.data().text
           };
             this.pagesArray.push(pages);
             this.pagesArray.reverse();

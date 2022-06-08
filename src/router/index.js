@@ -4,10 +4,10 @@ import Logo from '../views/Logo.vue'
 import Brand from '../views/Brand.vue'
 import Colors from '../views/Colors.vue'
 import Typography from '../views/Typography.vue'
-import DashboardHome from '../Dashboard/DashboardHome.vue'
 import Login from '../views/Login.vue'
 import DashboardPage from '../components/DashboardPage.vue'
 import DashboardSelector from '../views/DashboardSelector.vue'
+import DashboardItem from '../components/DashboardItem.vue'
 
 
 const routes = [{
@@ -40,9 +40,13 @@ const routes = [{
         component: Typography
     },
     {
-        path: '/dashboard/home',
+        path: '/dashboard',
         name: 'DashboardHome',
-        component: DashboardHome
+        component: DashboardPage,
+        children: [{
+            path: '/dashboard/:id',
+            component: DashboardItem
+        }]
     },
     {
         path: '/login',
@@ -54,11 +58,11 @@ const routes = [{
         name: 'DashboardSelector',
         component: DashboardSelector
     },
-    {
-        path: '/dashboard/:id',
-        name: 'DashboardIntroduction',
-        component: DashboardPage
-    }
+    // {
+    //     path: '/dashboard/:id',
+    //     name: 'DashboardIntroduction',
+    //     component: DashboardPage,
+    // }
 ]
 
 const router = createRouter({

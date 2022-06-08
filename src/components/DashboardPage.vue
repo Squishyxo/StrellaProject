@@ -1,15 +1,46 @@
 <template>
 <div>
   <Sidebar />
-  <router-view></router-view>
+  <router-view :title="$route.params.id" :text="text"></router-view>
 </div>
 </template>
 
 <script>
+import {
+  collection,
+  onSnapshot,
+} from 'firebase/firestore';
+import db from '../store/database';
 import Sidebar from './Sidebar.vue'
 export default {
     components: {Sidebar},
     name: 'DashboardPage',
+    data() {
+        return {
+            text: ''
+        }
+    },
+      mounted: function () {
+    this.getPagesText();
+  },
+    methods:{
+    getPagesText() {
+      // getting the pages from firebase and add them to local array
+      onSnapshot(collection(db, 'pages'), snapshot => {
+      this.text = '';
+        snapshot.docs.forEach(doc => {
+        //   let pages = {
+        //     id: doc.id,
+        //     name: doc.data().Name,
+        //     text: doc.data().text
+        //   };
+        if(doc.data().Name === this.$route.params.id){
+            this.text = doc.data().text
+        }
+        });
+      });
+    },
+    }
 }
 </script>
 
