@@ -19,8 +19,6 @@ div {
   min-height: 100vh;
 }
 #content {
-  border: 1px solid red;
-  height: auto;
   width: 60%;
   margin-left: 30%;
   margin-top: 5%;

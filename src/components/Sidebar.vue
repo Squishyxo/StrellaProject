@@ -6,7 +6,15 @@
       <li v-for="page in pagesArray" :key="page.id">
         <router-link :to="`/dashboard/${page.name}`"
           ><a>{{ page.name }}</a></router-link
-        ><img
+        >
+        <img
+          v-if="loggedIn"
+          :id="page.id"
+          @click="updatePageForm"
+          class="bin update"
+          src="../images/update.svg"
+        />
+        <img
           v-if="loggedIn"
           :id="page.id"
           @click="removePage"
@@ -121,6 +129,26 @@
       <button type="submit">APPLY COLORS</button>
     </div>
   </form>
+  <!-- form for updating page -->
+  <form
+    @submit.prevent="updatePage"
+    id="addlogoForm"
+    v-if="updatePageFormPopUp"
+  >
+    <div @click="closeForm" class="close">&#x2718;</div>
+    <h2>UPDATE PAGE</h2>
+    <div>
+      <label for="logo">New Page Name</label>
+      <input
+        v-model="namePage"
+        class="nameInput"
+        type="text"
+        placeholder="Enter new page name"
+        required
+      />
+      <button type="submit">+</button>
+    </div>
+  </form>
 </template>
 
 <script>
@@ -148,6 +176,7 @@ export default {
       namePage: '',
       logo: null,
       fileError: false,
+      tempDoc: '',
     };
   },
   computed: {
@@ -162,6 +191,9 @@ export default {
     colorsForm() {
       // this returns the state of "colorsForm". I used this for v-if to know when to show the form
       return this.$store.state.colorsForm;
+    },
+    updatePageFormPopUp() {
+      return this.$store.state.updatePageFormPopUp;
     },
     // logoIsUploaded() {
     //   // this returns the state of "logoIsUploaded". I used this for v-if to know when to show the form
@@ -292,10 +324,21 @@ export default {
     uploadLogoForm() {
       this.$store.commit('uploadLogoForm');
     },
-    // logoIsUploaded() {
-    //   this.$store.commit('logoIsUploaded');
-    // },
+    updatePageForm(e) {
+      this.tempDoc = e.target.id;
+      this.$store.commit('updatePageForm');
+    },
+    updatePage() {
+      setDoc(doc(db, 'pages', this.tempDoc), {
+        Name: this.namePage,
+        text: 'add text',
+      });
+      this.closeForm();
+      this.pagesArray = [];
+      this.namePage = '';
+    },
     closeForm() {
+      this.tempDoc = '';
       // this goes to the store to call a function called closeForm
       this.$store.commit('closeForm');
     },
@@ -516,13 +559,16 @@ nav ul li a {
 .bin:hover {
   transform: scaleX(1.1);
 }
+.update {
+  margin-left: 1rem;
+}
 nav ul li {
   display: flex;
   justify-content: space-between;
   width: 20rem;
 }
 nav ul li a {
-  width: 80%;
+  width: 100%;
 }
 nav ul li .router-link-active {
   background-color: var(--primaryColor);
