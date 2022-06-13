@@ -25,33 +25,31 @@
       <li v-if="loggedIn" @click="addPageForm"><a>+</a></li>
     </ul>
     <div class="bottom-menu">
-      <img src="../images/contrast.svg" @click="addColorsForm" />
-      <router-link to="/Login">
-        <div v-if="!loggedIn && $store.state.lightTheme">
-          <img src="../images/login.svg" />
-        </div>
-        <div v-if="!loggedIn && !$store.state.lightTheme">
-          <img src="../images/login-dark.svg" />
-        </div>
+      <img src="../images/colorpicker.svg" @click="addColorsForm" />
+      <router-link to="/dashboard/selector">
+        <img src="../images/dashboard.svg" />
       </router-link>
-      <div
-        @click="logOut"
-        class="logOut"
-        v-if="loggedIn && $store.state.lightTheme"
-      >
-        <img src="../images/logout.svg" />
-      </div>
-      <div
-        @click="logOut"
-        class="logOut"
-        v-if="loggedIn && !$store.state.lightTheme"
-      >
-        <img src="../images/logout-dark.svg" />
+      <div class="login">
+        <router-link to="/Login">
+          <img v-if="!loggedIn" src="../images/login.svg" />
+        </router-link>
+        <img
+          @click="logOut"
+          class="logOut"
+          v-if="loggedIn && $store.state.lightTheme"
+          src="../images/logout.svg"
+        />
+        <img
+          @click="logOut"
+          class="logOut"
+          v-if="loggedIn && !$store.state.lightTheme"
+          src="../images/logout-dark.svg"
+        />
       </div>
     </div>
   </nav>
   <button class="uploadLogoBtn" v-if="loggedIn" @click="uploadLogoForm">
-    Add Logo
+    Upload Logo
   </button>
   <button class="resetLogoBtn" v-if="loggedIn" @click="resetLogo">
     Reset Logo
@@ -127,6 +125,9 @@
         required
       />
       <button type="submit">APPLY COLORS</button>
+      <button class="pickRandomColors" @click="pickRandomColors">
+        GENERATE RANDOM COLORS
+      </button>
     </div>
   </form>
   <!-- form for updating page -->
@@ -193,16 +194,15 @@ export default {
       return this.$store.state.colorsForm;
     },
     updatePageFormPopUp() {
+      // this returns the state of "updatePageFormPopUp". I used this for v-if to know when to show the form
       return this.$store.state.updatePageFormPopUp;
     },
-    // logoIsUploaded() {
-    //   // this returns the state of "logoIsUploaded". I used this for v-if to know when to show the form
-    //   return this.$store.state.logoIsUploaded;
-    // },
     loggedIn() {
+      // this returns the state of "loggedIn". 
       return this.$store.state.loggedIn;
     },
   },
+    // this function runs immediately when the page is loaded. 
   mounted: function () {
     this.getPages();
     this.getLogo();
@@ -271,6 +271,7 @@ export default {
           console.log(error);
         });
     },
+    // this function will check whether there is already a logo in the backend or not. if yes, it will replace it, if not, it will upload a new logo file.
     getLogo() {
       const storage = getStorage();
       getDownloadURL(ref(storage, 'logo'))
@@ -304,6 +305,7 @@ export default {
         );
       });
     },
+    // taking the user input then using setDoc to change data from backend. once the data is changed, the user should get new theme colors immediately.
     addColors() {
       let primaryColor = document.getElementById('primary-color').value;
       let secondaryColor = document.getElementById('secondary-color').value;
@@ -315,15 +317,43 @@ export default {
       });
       this.closeForm();
     },
+    // generating random colors if the user does not want to enter colors by themselves. Then using setDoc again to send it to the backend.
+    pickRandomColors() {
+      let randomNumber = Math.floor(Math.random() * 12);
+      let themeColors = [
+        { 1: '#ffb703', 2: '#023047', 3: '#219ebc' },
+        { 1: '#ffb703', 2: '#023047', 3: '#219ebc' },
+        { 1: '#ffb703', 2: '#023047', 3: '#219ebc' },
+        { 1: '#faedcd', 2: '#d4a373', 3: '#e9edc9' },
+        { 1: '#ffc300', 2: '#000814', 3: '#003566' },
+        { 1: '#9a8c98', 2: '#22223b', 3: '#f2e9e4' },
+        { 1: '#9a8c98', 2: '#22223b', 3: '#f2e9e4' },
+        { 1: '#9a8c98', 2: '#22223b', 3: '#f2e9e4' },
+        { 1: '#f9dbbd', 2: '#450920', 3: '#a53860' },
+        { 1: '#778da9', 2: '#1b263b', 3: '#0d1b2a' },
+        { 1: '#8fb996', 2: '#111d13', 3: '#415d43' },
+        { 1: '#c9b1bd', 2: '#567568', 3: '#d5dfe5' },
+      ];
+      setDoc(doc(db, 'colors', 'hZ6Zz9eF3QSGmwbpXcA0'), {
+        primaryColor: themeColors[randomNumber][1],
+        secondaryColor: themeColors[randomNumber][2],
+        thirdColor: themeColors[randomNumber][3],
+      });
+      this.closeForm();
+    },
+    // goes to the store to call function addPageForm
     addPageForm() {
       this.$store.commit('addPageForm');
     },
+    // goes to the store to call function addColorsForm
     addColorsForm() {
       this.$store.commit('addColorsForm');
     },
+    // goes to the store to call function uploadLogoForm
     uploadLogoForm() {
       this.$store.commit('uploadLogoForm');
     },
+    // goes to the store to call function updatePageForm, and passing e to get the id of the clicked page, and store it to a local variable.
     updatePageForm(e) {
       this.tempDoc = e.target.id;
       this.$store.commit('updatePageForm');
@@ -426,15 +456,11 @@ nav ul li a {
   align-items: center;
   width: 20rem;
 }
-
-.logOut {
-  cursor: pointer;
-  margin-left: 35px;
-}
 .bottom-menu {
   display: flex;
   justify-content: space-around;
   margin-bottom: 2rem;
+  width: 100%;
 }
 .bottom-menu img {
   width: 2rem;
@@ -577,5 +603,12 @@ nav ul li .router-link-active {
 
 nav ul li .router-link-active a {
   color: var(--secondaryColor);
+}
+.pickRandomColors {
+  position: absolute;
+  right: 1rem;
+  bottom: 1rem;
+  width: 10rem;
+  font-size: 0.6rem;
 }
 </style>

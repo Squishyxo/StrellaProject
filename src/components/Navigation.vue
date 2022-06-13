@@ -35,6 +35,9 @@
           <img src="../images/cloud.svg" />
         </div>
         <div v-else><img src="../images/cloud-dark.svg" /></div>
+        <router-link to="/dashboard/selector">
+          <img src="../images/dashboard.svg" />
+        </router-link>
         <router-link to="/Login">
           <div v-if="!$store.state.loggedIn && $store.state.lightTheme">
             <img src="../images/login.svg" />

@@ -7,9 +7,13 @@
     <section class="content">
       <h1>Colors</h1>
       <main class="grid">
-        <article v-for="color in colorsArray" :key="color.id">
+        <article
+          v-for="color in colorsArray"
+          :key="color.id"
+          :style="{ borderRight: `10px solid ${color.hexCode}` }"
+        >
           <p>{{ color.name }}</p>
-          <hr />
+          <hr :style="{ borderTop: `3px solid ${color.hexCode}` }" />
           <div class="hex-code">{{ color.hexCode }}</div>
           <img
             v-if="loggedIn"
@@ -183,17 +187,6 @@ export default {
   background-color: var(--secondary-color);
   position: relative;
 }
-article {
-  border-right: 4px solid var(--primary-color);
-}
-
-/* article:first-child {
-    border-right: 4px solid var(--color-1);
-}
-
-article:nth-child(2) {
-    border-right: 4px solid var(--color-2);
-} */
 
 .grid > article p {
   color: var(--primary-color);
@@ -206,7 +199,6 @@ article:nth-child(2) {
   width: 60%;
   margin-left: 10px;
   margin-top: 10px;
-  border: 1px solid var(--primary-color);
 }
 
 .grid > article div {

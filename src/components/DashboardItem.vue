@@ -1,6 +1,8 @@
 <template>
   <div id="content">
+    <!-- h1 that gets the title as a prop from DashboardPage component -->
     <h1>{{ title }}</h1>
+    <!-- Dynamic class to style the paragraph -->
     <p
       id="textInput"
       :class="[editable ? 'edit-border' : '']"
@@ -8,7 +10,7 @@
     >
       {{ text }}
     </p>
-    <!-- <button style="width: 100vw" @click="updateText">ddddd</button> -->
+    <!-- this div is for the pencil and is only visible when logged in -->
     <div class="editDiv" v-if="!editable && loggedIn">
       <div
         @click="editText"
@@ -20,13 +22,13 @@
       </div>
       <div v-if="pencilHovered" class="editOnHover">edit text</div>
     </div>
-
+<!-- This div is only visible when you are editing the text -->
     <div class="save-changes" v-if="editable">
       <p>
         You can click on the text and start editing, when you finish click save.
       </p>
-      <button @click="saveChanges">SAVE CHANGES</button>
       <button @click="discardChanges">DISCARD CHANGES</button>
+      <button @click="saveChanges">SAVE CHANGES</button>
     </div>
   </div>
 </template>
@@ -57,16 +59,19 @@ export default {
       editable: false,
     };
   },
+  // this function runs immediately when the page is loaded. 
   mounted: function () {
     this.getPagesText();
     this.updateDocId();
   },
+  // watching the route, whenever it changes I want to get the text that is for that route.
   watch: {
     $route() {
       this.getPagesText();
       this.updateDocId();
     },
   },
+  // computed properties to get the states from the store.
   computed: {
     editTextPopUp() {
       // this returns the state of "editTextPopUp". I used this for v-if to know when to show the form
@@ -96,6 +101,7 @@ export default {
     },
     discardChanges() {
       this.editable = false;
+      this.getPagesText;
     },
     async updateDocId() {
       const q = query(
@@ -182,9 +188,10 @@ export default {
   padding: 0.3rem;
   font-size: 0.8rem;
 }
-.save-changes button:nth-child(3) {
+.save-changes button:nth-child(2) {
   background: #e74c3c;
   color: var(--primary-color);
+  padding-bottom: 0.3rem;
 }
 #editTextForm {
   position: fixed;

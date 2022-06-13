@@ -35,16 +35,16 @@
       <p>
         You can click on the text and start editing, when you finish click save.
       </p>
-      <button @click="saveChanges">SAVE CHANGES</button>
       <button @click="discardChanges">DISCARD CHANGES</button>
+      <button @click="saveChanges">SAVE CHANGES</button>
     </div>
     <!-- save-changes2 for phone -->
     <div class="save-changes2" v-if="editable">
       <p>
         You can click on the text and start editing, when you finish click save.
       </p>
-      <button @click="saveChanges">SAVE CHANGES</button>
       <button @click="discardChanges">DISCARD CHANGES</button>
+      <button @click="saveChanges">SAVE CHANGES</button>
     </div>
     <router-link to="/logo"
       ><button class="next-btn" v-if="!loggedIn">NEXT</button></router-link
@@ -179,7 +179,7 @@ export default {
   padding: 0.3rem;
   font-size: 0.8rem;
 }
-.save-changes button:nth-child(3) {
+.save-changes button:nth-child(2) {
   background: #e74c3c;
   color: var(--primary-color);
 }
@@ -287,6 +287,11 @@ export default {
     margin: 1rem 0;
     font-size: 0.4rem;
     font-weight: bold;
+  }
+  .save-changes button:nth-child(2),
+  .save-changes2 button:nth-child(2) {
+    background: #e74c3c;
+    color: var(--primary-color);
   }
   .next-btn {
     display: inline;
