@@ -14,7 +14,7 @@
         </p>
       </div>
     </section>
-    <div class="editDiv" v-if="loggedIn">
+    <div class="editDiv" v-if="loggedIn && !editable">
       <div
         @click="editText"
         @mouseover="pencilHovered = true"
@@ -26,7 +26,7 @@
       <div v-if="pencilHovered" class="editOnHover">edit text</div>
     </div>
 
-    <div class="save-changes" v-if="editable && !editable">
+    <div class="save-changes" v-if="editable">
       <p>
         You can click on the text and start editing, when you finish click save.
       </p>
@@ -160,15 +160,16 @@ export default {
   width: 60%;
   margin: 5% 0;
 }
-.save-changes p {
-  margin: auto;
-}
 .save-changes button {
-  width: 10rem;
+  width: 20rem;
   margin: 0 2rem;
 }
 .save-changes2 {
   display: none;
+}
+.save-changes button:nth-child(2) {
+  background: #e74c3c;
+  color: var(--primary-color);
 }
 @media (max-width: 1400px) {
   .content h1 {

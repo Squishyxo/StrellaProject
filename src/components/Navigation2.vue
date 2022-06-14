@@ -30,6 +30,9 @@
         <div @click="$store.commit('changeTheme')" class="c">
           <img src="../images/contrast.svg" />
         </div>
+        <router-link v-if="$store.state.loggedIn" to="/dashboard/selector">
+          <img class="selector" src="../images/dashboard.svg" />
+        </router-link>
         <router-link to="/Login">
           <div v-if="!$store.state.loggedIn && $store.state.lightTheme">
             <img src="../images/login.svg" />
@@ -187,6 +190,12 @@ nav ul li a {
   height: 50px;
   margin-left: 35px;
 }
+.selector {
+  width: 3rem;
+  height: 4vh;
+  cursor: pointer;
+}
+
 .arrow {
   width: 1.3rem;
 }

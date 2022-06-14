@@ -35,7 +35,7 @@
           <img src="../images/cloud.svg" />
         </div>
         <div v-else><img src="../images/cloud-dark.svg" /></div>
-        <router-link to="/dashboard/selector">
+        <router-link v-if="$store.state.loggedIn" to="/dashboard/selector">
           <img src="../images/dashboard.svg" />
         </router-link>
         <router-link to="/Login">
@@ -171,6 +171,12 @@ body {
 }
 
 .bottom-menu div img,
+.bottom-menu2 div img {
+  width: 3rem;
+  height: 4vh;
+  cursor: pointer;
+}
+.bottom-menu a img,
 .bottom-menu2 div img {
   width: 3rem;
   height: 4vh;
