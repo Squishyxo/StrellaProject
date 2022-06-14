@@ -2,13 +2,15 @@
   <div>
     <Sidebar />
     <router-view :title="$route.params.id"></router-view>
+    <ProgressBar2 />
   </div>
 </template>
 
 <script>
 import Sidebar from './Sidebar.vue';
+import ProgressBar2 from './ProgressBar2.vue';
 export default {
-  components: { Sidebar },
+  components: { Sidebar, ProgressBar2 },
   name: 'DashboardPage',
 };
 </script>

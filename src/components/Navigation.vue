@@ -32,7 +32,9 @@
           <img src="../images/contrast.svg" />
         </div>
         <div v-if="$store.state.lightTheme">
-          <img src="../images/cloud.svg" />
+          <a download="" href="BALENCIAGA.pdf">
+            <img src="../images/cloud.svg" />
+          </a>
         </div>
         <div v-else><img src="../images/cloud-dark.svg" /></div>
         <router-link v-if="$store.state.loggedIn" to="/dashboard/selector">
@@ -64,14 +66,16 @@
         <img class="arrow" src="../images/double-arrow.svg" alt="arrow" />
       </button>
     </section>
+    <ProgressBar />
     <phone-navigation />
   </div>
 </template>
 
 <script>
 import phoneNavigation from './phoneNavigation.vue';
+import ProgressBar from './ProgressBar.vue';
 export default {
-  components: { phoneNavigation },
+  components: { phoneNavigation, ProgressBar },
   name: 'Navigation',
   data() {
     return {
@@ -201,6 +205,9 @@ body {
 }
 .arrow {
   width: 1.3rem;
+}
+body::-webkit-scrollbar {
+  display: none;
 }
 @media (max-width: 1400px) {
   .logo {

@@ -26,7 +26,7 @@
     </ul>
     <div class="bottom-menu">
       <img src="../images/colorpicker.svg" @click="addColorsForm" />
-      <router-link to="/dashboard/selector">
+      <router-link v-if="loggedIn" to="/dashboard/selector">
         <img src="../images/dashboard.svg" />
       </router-link>
       <div class="login">
@@ -198,11 +198,11 @@ export default {
       return this.$store.state.updatePageFormPopUp;
     },
     loggedIn() {
-      // this returns the state of "loggedIn". 
+      // this returns the state of "loggedIn".
       return this.$store.state.loggedIn;
     },
   },
-    // this function runs immediately when the page is loaded. 
+  // this function runs immediately when the page is loaded.
   mounted: function () {
     this.getPages();
     this.getLogo();
@@ -256,6 +256,7 @@ export default {
         console.log('Uploaded a blob or file!');
       });
       this.closeForm();
+      this.getLogo();
     },
     resetLogo() {
       const storage = getStorage();
@@ -278,7 +279,7 @@ export default {
         .then(url => {
           const img = document.getElementById('logo');
           img.setAttribute('src', url);
-          // this.logoIsUploaded;
+           this.getLogo()
         })
         .catch(error => {
           console.log(error);

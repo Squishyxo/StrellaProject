@@ -25,13 +25,17 @@
         </article>
       </main>
     </section>
-    <button
-      @click="addBalenciagaColorsForm"
-      class="uploadColorBtn"
-      v-if="loggedIn"
-    >
-      UPLOAD A NEW COLOR
-    </button>
+    <div class="editDiv" v-if="loggedIn && !editable">
+      <div
+        @click="addBalenciagaColorsForm"
+        @mouseover="pencilHovered = true"
+        @mouseleave="pencilHovered = false"
+        class="editBtn"
+      >
+        <img src="../images/pen.svg" />
+      </div>
+      <div v-if="pencilHovered" class="editOnHover">UPLOAD A COLOR</div>
+    </div>
     <router-link to="/brand"
       ><button class="next-btn" v-if="!loggedIn">NEXT</button></router-link
     >
@@ -44,14 +48,14 @@
       <div @click="closeForm" class="close">&#x2718;</div>
       <h2>UPLOAD A NEW COLOR</h2>
       <div>
-        <label for="colorName">Enter the new color name</label>
+        <label for="colorName">Give the color a name (optional)</label>
         <input
           v-model="newColorName"
           type="text"
           name="colorName"
           id="colorName"
         />
-        <label for="color">New Color</label>
+        <label for="color">Pick a color</label>
         <input
           v-model="newColorHexCode"
           type="color"
@@ -96,6 +100,8 @@ export default {
       colorsArray: [],
       newColorName: '',
       newColorHexCode: '',
+      pencilHovered: false,
+      editable: false,
     };
   },
   mounted: function () {
@@ -119,7 +125,7 @@ export default {
       // getting page name from a form
       let newColorName = this.newColorName;
       let newColorHexCode = this.newColorHexCode;
-      if (newColorHexCode != '' && newColorName != '') {
+      if (newColorHexCode != '') {
         // making sure that the user entered some text else an alert is thrown
         addDoc(collection(db, 'balenciagaColors'), {
           name: newColorName,
@@ -160,9 +166,12 @@ export default {
       deleteDoc(doc(db, 'balenciagaColors', clickedId));
     },
     addBalenciagaColorsForm() {
+      this.editable = true;
+      this.pencilHovered = false;
       this.$store.commit('addBalenciagaColorsForm');
     },
     closeForm() {
+      this.editable = false;
       // this goes to the store to call a function called closeForm
       this.$store.commit('closeForm');
     },
@@ -266,6 +275,33 @@ export default {
 .bin:hover {
   transform: scaleX(1.1);
 }
+.editBtn {
+  position: absolute;
+  right: 10%;
+  top: 20%;
+  width: 100px;
+  border: 2px solid var(--secondary-color);
+  border-radius: 50%;
+  padding: 15px;
+  background-color: #0d161c;
+  cursor: pointer;
+  z-index: 1;
+  overflow: hidden;
+}
+.editOnHover {
+  font-size: 0.8rem;
+  position: absolute;
+  right: 10%;
+  top: 14%;
+  border: 2px solid var(--secondary-color);
+  padding: 10px;
+  width: 10rem;
+  height: 50px;
+  text-align: center;
+  background-color: var(--primary-color);
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  text-transform: uppercase;
+}
 
 @media (max-width: 1400px) {
   .content h1 {
@@ -296,6 +332,7 @@ export default {
   .content {
     position: static;
     margin-left: 0;
+    margin-top: 5rem;
     width: 100%;
   }
   .content h1 {
@@ -327,6 +364,20 @@ export default {
     width: 7rem;
     font-size: 0.7rem;
     margin-top: 2rem;
+  }
+  .editBtn {
+    width: 4rem;
+    top: 15%;
+  }
+  #addColorsForm h2,
+  #addColorsForm div {
+    font-size: 1rem;
+  }
+  #addColorsForm div input {
+    width: 90%;
+    height: 4vh;
+    margin: 1rem;
+    padding: 0.6rem;
   }
 }
 </style>

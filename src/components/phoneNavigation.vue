@@ -27,7 +27,9 @@
         <router-link to="/typography"><li>TYPOGRAPHY</li></router-link>
         <router-link to="/colors"><li>COLORS</li></router-link>
         <router-link to="/brand"><li>BRAND</li></router-link>
-        <li>DOWNLOAD</li>
+        <li>
+          <a class="download" download="" href="BALENCIAGA.pdf">DOWNLOAD</a>
+        </li>
         <router-link to="/dashboard/selector">
           <li v-if="loggedIn">DASHBOARD</li>
         </router-link>
@@ -76,19 +78,25 @@ export default {
 #phoneNavigation {
   display: none;
   overflow: hidden;
+  border-bottom: 4px solid var(--primary-color);
+}
+.download {
+  color: var(--primary-color);
+  transition: all 0.5s;
 }
 @media (max-width: 600px) {
   #side {
     display: none;
   }
   #phoneNavigation {
-    position: sticky;
+    position: fixed;
     width: 100vw;
     height: 10vh;
     background-color: var(--secondary-color);
     display: flex;
     justify-content: space-between;
     align-items: center;
+    z-index: 10;
   }
   #phoneNavigation img {
     width: 10rem;

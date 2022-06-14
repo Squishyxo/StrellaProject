@@ -23,7 +23,7 @@
         <router-link to="/brand"
           ><li><a>BRAND</a></li></router-link
         >
-        <li><a>DOWNLOAD</a></li>
+        <li><a download="" href="BALENCIAGA.pdf">DOWNLOAD</a></li>
       </ul>
       <!-- dynaimic style to help the user choose which sidebar they want then apply the proper class to the sidebar -->
       <div :class="[$store.state.lessSideBar ? 'bottom-menu2' : 'bottom-menu']">
@@ -59,14 +59,16 @@
     <button class="toggle" @click="$store.commit('less')">
       <img class="arrow" src="../images/double-arrow.svg" alt="arrow" />
     </button>
+    <ProgressBar />
     <phone-navigation />
   </div>
 </template>
 
 <script>
 import phoneNavigation from './phoneNavigation.vue';
+import ProgressBar from './ProgressBar.vue';
 export default {
-  components: { phoneNavigation },
+  components: { phoneNavigation, ProgressBar },
   name: 'Navigation2',
   data() {
     return {

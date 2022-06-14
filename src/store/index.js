@@ -11,6 +11,7 @@ export default createStore({
         wrongToken: null,
         popUp: false,
         logoForm: false,
+        imagesForm: false,
         colorsForm: false,
         balenciagaColorsForm: false,
         updatePageFormPopUp: false,
@@ -26,6 +27,9 @@ export default createStore({
         },
         uploadLogoForm(state) {
             state.logoForm = true;
+        },
+        uploadImagesForm(state) {
+            state.imagesForm = true;
         },
         addColorsForm(state) {
             state.colorsForm = true;
@@ -46,6 +50,7 @@ export default createStore({
             state.balenciagaColorsForm = false;
             state.updatePageFormPopUp = false;
             state.editTextPopUp = false;
+            state.imagesForm = false;
         },
         logOut(state) {
             state.loggedIn = false

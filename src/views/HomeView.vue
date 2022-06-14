@@ -213,6 +213,7 @@ export default {
     position: static;
     margin-left: 0;
     padding-right: 0;
+    margin-top: 5rem;
     text-align: center;
     width: 100vw;
   }

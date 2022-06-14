@@ -69,4 +69,7 @@ body {
 .next-btn {
   display: none;
 }
+body::-webkit-scrollbar {
+  display: none;
+}
 </style>
