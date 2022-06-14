@@ -2,6 +2,7 @@
   <div id="content">
     <!-- h1 that gets the title as a prop from DashboardPage component -->
     <h1>{{ title }}</h1>
+    <h1 v-if="uploading" class="uploading">UPLOADING...</h1>
     <!-- Dynamic class to style the paragraph -->
     <p
       id="textInput"
@@ -117,6 +118,7 @@ export default {
       imagesList: [],
       imageUpload: null,
       images: false,
+      uploading: false,
     };
   },
   // this function runs immediately when the page is loaded.
@@ -198,10 +200,12 @@ export default {
       const storage = getStorage();
       let image = this.imageUpload;
       const imageRef = ref(storage, `images/${image.name + v4()}`);
+      this.uploading = true;
       uploadBytes(imageRef, this.imageUpload).then(snapshot => {
         getDownloadURL(snapshot.ref).then(url => {
           this.imagesList.push(url);
         });
+        this.uploading = false;
       });
       this.closeForm();
     },
@@ -212,7 +216,6 @@ export default {
         response.items.forEach(item => {
           getDownloadURL(item).then(url => {
             this.imagesList.push(url);
-            // console.log(this.imagesList);
           });
         });
       });
@@ -224,7 +227,17 @@ export default {
       // Delete the file
       deleteObject(imageRef)
         .then(() => {
-          console.log('deleted');
+          this.imagesList = [];
+          const storage = getStorage();
+          const imagesListRef = ref(storage, 'images/');
+          listAll(imagesListRef).then(response => {
+            response.items.forEach(item => {
+              getDownloadURL(item).then(url => {
+                this.imagesList.push(url);
+                // console.log(this.imagesList);
+              });
+            });
+          });
         })
         .catch(error => {
           console.log(error);
@@ -443,5 +456,19 @@ export default {
 }
 .uploadImage {
   margin-right: 10rem;
+}
+.uploading {
+  position: absolute;
+  top: 30%;
+  left: 25%;
+  font-size: 7rem;
+  color: var(--secondary-color);
+  background-color: var(--primaryColor);
+  width: 60vw;
+  height: 50vh;
+  border: 30px solid var(--secondaryColor);
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>

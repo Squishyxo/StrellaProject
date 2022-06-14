@@ -1,6 +1,7 @@
 <template>
   <nav class="sidebar">
     <img class="logo" id="logo" src="" alt="logo" />
+    <p v-if="waiting" class="waiting">Uploading....</p>
     <ul>
       <!-- Looping through an array and display the content inside it -->
       <li v-for="page in pagesArray" :key="page.id">
@@ -178,6 +179,7 @@ export default {
       logo: null,
       fileError: false,
       tempDoc: '',
+      waiting: false,
     };
   },
   computed: {
@@ -252,9 +254,23 @@ export default {
       // imagesRef now points to 'logo'
       let value = this.logo;
       console.log(value);
-      uploadBytes(imagesRef, value).then(snapshot => {
-        console.log('Uploaded a blob or file!');
-      });
+      this.waiting = true;
+      uploadBytes(imagesRef, value)
+        .then(snapshot => {
+          console.log('Uploaded a blob or file!');
+        })
+        .then(() => {
+          getDownloadURL(ref(storage, 'logo'))
+            .then(url => {
+              const img = document.getElementById('logo');
+              img.setAttribute('src', url);
+              this.getLogo();
+              this.waiting = false;
+            })
+            .catch(error => {
+              console.log(error);
+            });
+        });
       this.closeForm();
       this.getLogo();
     },
@@ -266,7 +282,8 @@ export default {
       // Delete the file
       deleteObject(imagesRef)
         .then(() => {
-          console.log('logo reset');
+          const img = document.getElementById('logo');
+          img.setAttribute('src', '');
         })
         .catch(error => {
           console.log(error);
@@ -279,7 +296,7 @@ export default {
         .then(url => {
           const img = document.getElementById('logo');
           img.setAttribute('src', url);
-           this.getLogo()
+          this.getLogo();
         })
         .catch(error => {
           console.log(error);
@@ -611,5 +628,12 @@ nav ul li .router-link-active a {
   bottom: 1rem;
   width: 10rem;
   font-size: 0.6rem;
+}
+.waiting {
+  position: absolute;
+  top: 3vh;
+  left: 4vw;
+  font-size: 2rem;
+  color: var(--primaryColor);
 }
 </style>
