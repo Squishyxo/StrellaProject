@@ -429,8 +429,9 @@ body {
   color: var(--secondaryColor);
 }
 #logo {
-  width: 80%;
-  height: 7rem;
+  margin-top: 2rem;
+  width: 70%;
+  height: 15%;
   color: var(--primaryColor);
 }
 nav {

@@ -471,4 +471,9 @@ export default {
   justify-content: center;
   align-items: center;
 }
+.errorFile {
+  color: red;
+  font-size: 1rem;
+  margin: 1rem 0;
+}
 </style>
