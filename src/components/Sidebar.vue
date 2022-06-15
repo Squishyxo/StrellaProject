@@ -37,14 +37,8 @@
         <img
           @click="logOut"
           class="logOut"
-          v-if="loggedIn && $store.state.lightTheme"
+          v-if="loggedIn"
           src="../images/logout.svg"
-        />
-        <img
-          @click="logOut"
-          class="logOut"
-          v-if="loggedIn && !$store.state.lightTheme"
-          src="../images/logout-dark.svg"
         />
       </div>
     </div>

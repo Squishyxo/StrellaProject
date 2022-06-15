@@ -38,7 +38,8 @@
         </div>
         <div v-else><img src="../images/cloud-dark.svg" /></div>
         <router-link v-if="$store.state.loggedIn" to="/dashboard/selector">
-          <img src="../images/dashboard.svg" />
+          <img v-if="$store.state.lightTheme" src="../images/dashboard.svg" />
+          <img v-else src="../images/blackDashboard.svg" />
         </router-link>
         <router-link to="/Login">
           <div v-if="!$store.state.loggedIn && $store.state.lightTheme">

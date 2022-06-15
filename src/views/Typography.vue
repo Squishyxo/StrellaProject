@@ -102,6 +102,7 @@ export default {
       this.editable = false;
     },
     discardChanges() {
+      this.pencilHovered = false;
       this.editable = false;
       this.getText();
     },

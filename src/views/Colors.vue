@@ -10,17 +10,24 @@
         <article
           v-for="color in colorsArray"
           :key="color.id"
-          :style="{ borderRight: `10px solid ${color.hexCode}` }"
+          :style="{ borderRight: `30px solid ${color.hexCode}` }"
         >
           <p>{{ color.name }}</p>
-          <hr :style="{ borderTop: `3px solid ${color.hexCode}` }" />
+          <hr :style="{ borderTop: `15px solid ${color.hexCode}` }" />
           <div class="hex-code">{{ color.hexCode }}</div>
           <img
-            v-if="loggedIn"
+            v-if="loggedIn && lightTheme"
             :id="color.id"
             @click="removeColor"
             class="bin"
             src="../images/trash.svg"
+          />
+          <img
+            v-if="loggedIn && !lightTheme"
+            :id="color.id"
+            @click="removeColor"
+            class="bin"
+            src="../images/blackBin.svg"
           />
         </article>
       </main>
@@ -114,6 +121,9 @@ export default {
     },
     loggedIn() {
       return this.$store.state.loggedIn;
+    },
+    lightTheme() {
+      return this.$store.state.lightTheme;
     },
     balenciagaColorsForm() {
       // this returns the state of "balenciagaColorsForm". I used this for v-if to know when to show the form
@@ -268,7 +278,7 @@ export default {
   position: absolute;
   right: 1%;
   top: 0;
-  width: 1.5rem;
+  width: 2rem;
   transition: 0.2s ease-in-out;
   cursor: pointer;
 }

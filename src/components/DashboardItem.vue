@@ -268,7 +268,7 @@ export default {
   font-size: 3rem;
 }
 #content p {
-  margin-top: 5rem;
+  margin-top: 15vh;
   font-size: 1.3rem;
 }
 .editBtn {
