@@ -270,6 +270,7 @@ export default {
 #content p {
   margin-top: 15vh;
   font-size: 1.3rem;
+  line-height: 3rem;
 }
 .editBtn {
   position: absolute;
@@ -475,5 +476,14 @@ export default {
   color: red;
   font-size: 1rem;
   margin: 1rem 0;
+}
+@media (max-width: 1111px) {
+  #content h1{
+    font-size: 2rem;
+  }
+  .editBtn {
+    top: 10%;
+  width: 80px;
+}
 }
 </style>

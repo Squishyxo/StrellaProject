@@ -16,7 +16,9 @@ export default createStore({
         colorsForm: false,
         balenciagaColorsForm: false,
         updatePageFormPopUp: false,
-        editTextPopUp: false
+        editTextPopUp: false,
+        logoResetWarning: false,
+        deletingPageConfirmation: false
     },
     getters: {},
     mutations: {
@@ -44,6 +46,12 @@ export default createStore({
         addBalenciagaColorsForm(state) {
             state.balenciagaColorsForm = true;
         },
+        logoResetWarning(state) {
+            state.logoResetWarning = true;
+        },
+        deletingPageConfirmation(state) {
+            state.deletingPageConfirmation = true;
+        },
         logoIsUploaded(state) {
             state.logoIsUploaded = true;
         },
@@ -56,6 +64,8 @@ export default createStore({
             state.editTextPopUp = false;
             state.imagesForm = false;
             state.brandImagesForm = false;
+            state.logoResetWarning = false;
+            state.deletingPageConfirmation = false;
         },
         logOut(state) {
             state.loggedIn = false

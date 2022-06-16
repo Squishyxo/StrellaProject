@@ -130,6 +130,7 @@ export default {
   background-color: #0d161c;
   cursor: pointer;
   z-index: 1;
+  overflow: hidden;
 }
 .editOnHover {
   position: absolute;

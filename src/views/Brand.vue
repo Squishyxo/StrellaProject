@@ -289,6 +289,10 @@ export default {
   .content p {
     width: 50vw;
   }
+  .editBtn{
+    width: 60px;
+    top: 8%
+  }
 }
 
 @media (max-width: 900px) {
@@ -326,5 +330,17 @@ export default {
     width: 80%;
     margin: auto;
   }
+    .editBtn{
+    width: 60px;
+    top: 22%;
+    right: -20%;
+  }
+  .editOnHover2 {
+  right: 15%;
+  top: 11%;
+  width: 6rem;
+  height: 50px;
+  font-size: .6rem;
+}
 }
 </style>

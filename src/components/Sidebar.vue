@@ -18,7 +18,7 @@
         <img
           v-if="loggedIn"
           :id="page.id"
-          @click="removePage"
+          @click="deletingPageConfirmationForm"
           class="bin"
           src="../images/trash.svg"
         />
@@ -46,7 +46,7 @@
   <button class="uploadLogoBtn" v-if="loggedIn" @click="uploadLogoForm">
     Upload Logo
   </button>
-  <button class="resetLogoBtn" v-if="loggedIn" @click="resetLogo">
+  <button class="resetLogoBtn" v-if="loggedIn" @click="logoResetWarningForm">
     Reset Logo
   </button>
   <!-- form for adding new pages -->
@@ -145,6 +145,27 @@
       <button type="submit">+</button>
     </div>
   </form>
+    <!-- confirmation for removing logo -->
+  <div id="addForm" class="deleteConfirmation" v-if="logoResetWarning">
+    <div @click="closeForm" class="close">&#x2718;</div>
+    <h1>Reset Logo</h1>
+    <p>This will reset the logo</p>
+    <div>
+      <button @click="closeForm">Cancel</button>
+      <button @click="resetLogo">Confirm</button>
+      </div>
+  </div>
+  <!-- confirmation for deleting page -->
+  <div id="addForm" class="deleteConfirmation" v-if="deletingPageConfirmation">
+    <div @click="closeForm" class="close">&#x2718;</div>
+    <h1>Remove Page</h1>
+    <p>You will lose the page and all its data</p>
+    <div>
+      <button @click="closeForm">Cancel</button>
+      <button @click="removePage">Confirm</button>
+      </div>
+  </div>
+      <DashboardPhoneNav />
 </template>
 
 <script>
@@ -164,8 +185,10 @@ import {
   getDownloadURL,
   deleteObject,
 } from 'firebase/storage';
+import DashboardPhoneNav from '../components/DashboardPhoneNav.vue'
 
 export default {
+  components: {DashboardPhoneNav},
   data() {
     return {
       pagesArray: [],
@@ -174,6 +197,7 @@ export default {
       fileError: false,
       tempDoc: '',
       waiting: false,
+      tempDocPage: ''
     };
   },
   computed: {
@@ -196,6 +220,14 @@ export default {
     loggedIn() {
       // this returns the state of "loggedIn".
       return this.$store.state.loggedIn;
+    },
+    logoResetWarning() {
+      // this returns the state of "logoResetWarning".
+      return this.$store.state.logoResetWarning;
+    },
+    deletingPageConfirmation() {
+      // this returns the state of "deletingPageConfirmation".
+      return this.$store.state.deletingPageConfirmation;
     },
   },
   // this function runs immediately when the page is loaded.
@@ -236,10 +268,11 @@ export default {
         });
       });
     },
-    removePage(e) {
-      let clickedId = e.target.id;
+    removePage() {
       // Remove the clicked page's id from the document
-      deleteDoc(doc(db, 'pages', clickedId));
+      deleteDoc(doc(db, 'pages', this.tempDocPage));
+      this.tempDocPage = '';
+      this.closeForm();
     },
     addLogo() {
       const storage = getStorage();
@@ -282,6 +315,7 @@ export default {
         .catch(error => {
           console.log(error);
         });
+        this.closeForm();
     },
     // this function will check whether there is already a logo in the backend or not. if yes, it will replace it, if not, it will upload a new logo file.
     getLogo() {
@@ -361,6 +395,13 @@ export default {
     addColorsForm() {
       this.$store.commit('addColorsForm');
     },
+    logoResetWarningForm() {
+      this.$store.commit('logoResetWarning');
+    },
+    deletingPageConfirmationForm(e) {
+      this.tempDocPage = e.target.id;
+      this.$store.commit('deletingPageConfirmation');
+    },
     // goes to the store to call function uploadLogoForm
     uploadLogoForm() {
       this.$store.commit('uploadLogoForm');
@@ -430,7 +471,7 @@ body {
 }
 #logo {
   margin-top: 2rem;
-  width: 70%;
+  width: 60%;
   height: 15%;
   color: var(--primaryColor);
 }
@@ -440,7 +481,7 @@ nav {
   justify-content: space-between;
   align-items: center;
   background-color: var(--secondaryColor);
-  width: 20rem;
+  width: 16.6vw;
   height: 100vh;
   position: fixed;
 }
@@ -458,6 +499,7 @@ nav ul li {
   justify-content: center;
   text-transform: uppercase;
   border-bottom: 0.1px solid var(--primaryColor);
+  width: 16.6vw;
 }
 nav ul li a {
   text-decoration: none;
@@ -467,7 +509,7 @@ nav ul li a {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 20rem;
+  width: 16.6vw;
 }
 .bottom-menu {
   display: flex;
@@ -582,6 +624,7 @@ nav ul li a {
   top: 10%;
   left: 20%;
   width: 8rem;
+  margin-top: 1rem;
 }
 .errorFile {
   color: red;
@@ -601,14 +644,7 @@ nav ul li a {
 .update {
   margin-left: 1rem;
 }
-nav ul li {
-  display: flex;
-  justify-content: space-between;
-  width: 20rem;
-}
-nav ul li a {
-  width: 100%;
-}
+
 nav ul li .router-link-active {
   background-color: var(--primaryColor);
   color: var(--secondaryColor);
@@ -630,5 +666,59 @@ nav ul li .router-link-active a {
   left: 4vw;
   font-size: 2rem;
   color: var(--primaryColor);
+}
+.deleteConfirmation {
+  padding: 1rem;
+}
+.deleteConfirmation p{
+  width: 50%;
+  background-color: #edd1d3;
+  color: #ff0000;
+  padding: 1rem 2rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  border-radius: 5px;
+}
+.deleteConfirmation div{
+  width: 100%;
+  display: flex;
+  flex-direction: row!important;
+  justify-content: end!important;
+}
+.deleteConfirmation div button{
+  margin: 0 1rem;
+}
+.deleteConfirmation div button:nth-child(2){
+  background-color: #ff0000!important;
+  color: #fff!important;
+}
+@media (max-width: 1400px) {
+  #logo{
+  width: 60%;
+  height: 10%;
+  }
+  .uploadLogoBtn, .resetLogoBtn{
+    width: 5rem;
+    line-height: 1rem;
+    height: 3rem;
+  }
+}
+@media (max-width: 1300px) {
+  #logo{
+  width: 80%;
+  height: 10%;
+  }
+  nav ul li a {
+  font-size: 1.2rem;
+}
+}
+@media (max-width: 900px) {
+  #logo{
+  width: 80%;
+  height: 10%;
+  }
+    nav ul li a {
+  font-size: 1rem;
+}
 }
 </style>
