@@ -15,6 +15,7 @@
           src="../images/balenciaga-dark-mode-logo.png"
         />
         <h2>Log In</h2>
+        <p>(Password is strella)</p>
         <input
           v-model="$store.state.inputPassword"
           type="password"

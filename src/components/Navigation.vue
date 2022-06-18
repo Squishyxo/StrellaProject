@@ -68,7 +68,7 @@
       </button>
     </section>
     <ProgressBar />
-    <phone-navigation />
+    <phoneNavigation />
   </div>
 </template>
 

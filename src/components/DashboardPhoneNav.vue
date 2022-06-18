@@ -1,19 +1,15 @@
 <template>
-    <section id="phoneNavigation">
-      <img
-        id="logoPhone"
-        class="phoneLogo"
-        src=""
-      />
-      <button @click="openNav" class="btn close-icon">
-        <span></span>
-        <span></span>
-        <span></span>
-      </button>
-    </section>
-<div class="overlay"></div>
-    <div class="overlay2">
-      <ul class="phoneNav">
+  <section id="phoneNavigation2">
+    <img id="logoPhone2" class="phoneLogo2" src="" />
+    <button @click="openNav2" class="btn2 close-icon2">
+      <span></span>
+      <span></span>
+      <span></span>
+    </button>
+  </section>
+  <div class="overlay1"></div>
+  <div class="overlay22">
+    <ul class="phoneNav2">
       <!-- Looping through an array and display the content inside it -->
       <li v-for="page in pagesArray" :key="page.id">
         <router-link :to="`/dashboard/${page.name}`"
@@ -21,46 +17,39 @@
         >
       </li>
     </ul>
-    </div>
+  </div>
 </template>
 
 <script>
-import {
-  collection,
-  onSnapshot,
-} from 'firebase/firestore';
+import { collection, onSnapshot } from 'firebase/firestore';
 import db from '../store/database';
-import {
-  getStorage,
-  ref,
-  getDownloadURL,
-} from 'firebase/storage';
+import { getStorage, ref, getDownloadURL } from 'firebase/storage';
 export default {
-    name: 'DashboardPhoneNav',
-    data(){
-        return{
-            pagesArray: []
-        }
-    },
+  name: 'DashboardPhoneNav',
+  data() {
+    return {
+      pagesArray: [],
+    };
+  },
   mounted: function () {
     this.getLogo();
     this.getPages();
   },
-computed: {
+  computed: {
     loggedIn() {
       return this.$store.state.loggedIn;
     },
   },
-    methods: {
- openNav() {
-      let btn = document.querySelector('.btn');
-      let overlay = document.querySelector('.overlay');
-      let overlay2 = document.querySelector('.overlay2');
-      let nav = document.querySelector('.phoneNav');
-      btn.classList.toggle('active');
-      overlay.classList.toggle('active');
-      overlay2.classList.toggle('active');
-      nav.classList.toggle('active');
+  methods: {
+    openNav2() {
+      let btn2 = document.querySelector('.btn2');
+      let overlay1 = document.querySelector('.overlay1');
+      let overlay22 = document.querySelector('.overlay22');
+      let nav2 = document.querySelector('.phoneNav2');
+      btn2.classList.toggle('active');
+      overlay1.classList.toggle('active');
+      overlay22.classList.toggle('active');
+      nav2.classList.toggle('active');
     },
     changeTheme() {
       this.$store.commit('changeTheme');
@@ -68,12 +57,12 @@ computed: {
     logOut() {
       this.$store.commit('logOut');
     },
-// this function will check whether there is already a logo in the backend or not. if yes, it will replace it, if not, it will upload a new logo file.
+    // this function will check whether there is already a logo in the backend or not. if yes, it will replace it, if not, it will upload a new logo file.
     getLogo() {
       const storage = getStorage();
       getDownloadURL(ref(storage, 'logo'))
         .then(url => {
-          const img = document.getElementById('logoPhone');
+          const img = document.getElementById('logoPhone2');
           img.setAttribute('src', url);
           this.getLogo();
         })
@@ -96,21 +85,21 @@ computed: {
         });
       });
     },
-    }
-}
+  },
+};
 </script>
 
 <style>
-#phoneNavigation {
+#phoneNavigation2 {
   display: none;
   overflow: hidden;
   border-bottom: 4px solid var(--primaryColor);
 }
 @media (max-width: 700px) {
   .sidebar {
-    display: none!important;
+    display: none !important;
   }
-  #phoneNavigation {
+  #phoneNavigation2 {
     position: fixed;
     width: 100vw;
     height: 10vh;
@@ -120,35 +109,37 @@ computed: {
     align-items: center;
     z-index: 10;
   }
-  #logoPhone{
-    width: 8rem!important;
-    height: 5rem!important;
+  #logoPhone2 {
+    width: 8rem !important;
+    height: 5rem !important;
+    overflow: hidden;
   }
-  .uploadLogoBtn, .resetLogoBtn{
+  .uploadLogoBtn,
+  .resetLogoBtn {
     display: none;
   }
-  .editDiv{
+  .editDiv {
     display: none;
   }
-  #phoneNavigation img {
+  #phoneNavigation2 img {
     width: 10rem;
     height: 3rem;
   }
-  #content{
-    margin: auto!important;
-    padding: 0!important;
+  #content {
+    margin: auto !important;
+    padding: 0 !important;
   }
-  #content p{
+  #content p {
     text-align: center;
   }
-  .phoneLogo {
+  .phoneLogo2 {
     clip-path: none;
     width: 15rem;
     height: 11vh;
     padding: 1rem;
     margin-left: 20px;
   }
-  .overlay {
+  .overlay1 {
     width: 100vw;
     height: 90vh;
     background-color: var(--primaryColor);
@@ -163,11 +154,11 @@ computed: {
     justify-content: center;
   }
 
-  .overlay.active {
+  .overlay1.active {
     transform: translateY(0px);
   }
 
-  .overlay2 {
+  .overlay22 {
     width: 95vw;
     height: 87vh;
     background-color: var(--secondaryColor);
@@ -182,7 +173,7 @@ computed: {
     justify-content: center;
   }
 
-  .overlay2.active {
+  .overlay22.active {
     transform: translateY(0px);
   }
   .menu-btn {
@@ -192,7 +183,7 @@ computed: {
     margin-right: 30px;
     background-color: #fff;
   }
-  .phoneNav {
+  .phoneNav2 {
     position: fixed;
     font-size: 1.8rem;
     list-style: none;
@@ -206,26 +197,26 @@ computed: {
     align-items: center;
   }
 
-  .phoneNav li {
+  .phoneNav2 li {
     margin: 20px;
     cursor: pointer;
     transition: all 0.5s;
   }
-  .phoneNav li a{
+  .phoneNav2 li a {
     color: var(--primaryColor);
   }
-  .phoneNav a li {
+  .phoneNav2 a li {
     color: var(--primaryColor);
   }
 
-  .phoneNav li:hover {
+  .phoneNav2 li:hover {
     transform: scale(1.2);
   }
 
-  .phoneNav.active {
+  .phoneNav2.active {
     opacity: 1;
   }
-  .btn {
+  .btn2 {
     position: absolute;
     top: 15%;
     right: 10%;
@@ -241,7 +232,7 @@ computed: {
     font: inherit;
   }
 
-  .btn span {
+  .btn2 span {
     width: 45px;
     height: 3px;
     background: var(--primaryColor);
@@ -250,36 +241,36 @@ computed: {
     transition: 0.3s;
   }
 
-  .btn span:nth-child(1) {
+  .btn2 span:nth-child(1) {
     top: 20%;
   }
 
-  .btn span:nth-child(2) {
+  .btn2 span:nth-child(2) {
     top: 60%;
     width: 35px;
   }
 
-  .btn span:nth-child(3) {
+  .btn2 span:nth-child(3) {
     top: 40%;
     width: 27px;
   }
 
-  .btn.is-active span {
+  .btn2.is-active span {
     background: var(--primaryColor);
   }
 
-  .btn.active span:nth-child(1) {
+  .btn2.active span:nth-child(1) {
     top: 50%;
     transform: rotate(-45deg);
   }
 
-  .btn.active span:nth-child(2) {
+  .btn2.active span:nth-child(2) {
     top: 50%;
     transform: rotate(45deg);
     width: 45px;
   }
 
-  .btn.active span:nth-child(3) {
+  .btn2.active span:nth-child(3) {
     display: none;
   }
 }

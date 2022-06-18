@@ -408,6 +408,7 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  z-index: 10;
 }
 #addImagesForm h2,
 #addImagesForm div {
@@ -478,12 +479,12 @@ export default {
   margin: 1rem 0;
 }
 @media (max-width: 1111px) {
-  #content h1{
+  #content h1 {
     font-size: 2rem;
   }
   .editBtn {
     top: 10%;
-  width: 80px;
-}
+    width: 80px;
+  }
 }
 </style>

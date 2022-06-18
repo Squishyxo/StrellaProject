@@ -18,14 +18,14 @@
           <img
             v-if="loggedIn && lightTheme"
             :id="color.id"
-            @click="removeColor"
+            @click="deletingColorConfirmationForm"
             class="bin"
             src="../images/trash.svg"
           />
           <img
             v-if="loggedIn && !lightTheme"
             :id="color.id"
-            @click="removeColor"
+            @click="deletingColorConfirmationForm"
             class="bin"
             src="../images/blackBin.svg"
           />
@@ -74,6 +74,20 @@
         <button type="submit">UPLOAD COLOR</button>
       </div>
     </form>
+    <!-- confirmation for deleting color -->
+    <div
+      id="addForm"
+      class="deleteConfirmation"
+      v-if="deletingColorConfirmation"
+    >
+      <div @click="closeForm" class="close">&#x2718;</div>
+      <h1>Remove Color</h1>
+      <p>You will delete the color permanently</p>
+      <div>
+        <button @click="closeForm">Cancel</button>
+        <button @click="removeColor">Confirm</button>
+      </div>
+    </div>
   </div>
   <!-- content ends here -->
 </template>
@@ -87,13 +101,7 @@ import {
   deleteDoc,
 } from 'firebase/firestore';
 import db from '../store/database';
-import {
-  getStorage,
-  ref,
-  uploadBytes,
-  getDownloadURL,
-  deleteObject,
-} from 'firebase/storage';
+import { getStorage, ref } from 'firebase/storage';
 import Navigation from '@/components/Navigation.vue';
 import Navigation2 from '@/components/Navigation2.vue';
 export default {
@@ -109,6 +117,7 @@ export default {
       newColorHexCode: '',
       pencilHovered: false,
       editable: false,
+      tempDocColor: '',
     };
   },
   mounted: function () {
@@ -128,6 +137,10 @@ export default {
     balenciagaColorsForm() {
       // this returns the state of "balenciagaColorsForm". I used this for v-if to know when to show the form
       return this.$store.state.balenciagaColorsForm;
+    },
+    deletingColorConfirmation() {
+      // this returns the state of "deletingColorConfirmation".
+      return this.$store.state.deletingColorConfirmation;
     },
   },
   methods: {
@@ -170,15 +183,20 @@ export default {
       console.log(storageRef);
       console.log(imagesRef);
     },
-    removeColor(e) {
-      let clickedId = e.target.id;
+    removeColor() {
       // Remove the clicked page's id from the document
-      deleteDoc(doc(db, 'balenciagaColors', clickedId));
+      deleteDoc(doc(db, 'balenciagaColors', this.tempDocColor));
+      this.closeForm();
+      this.tempDocColor = '';
     },
     addBalenciagaColorsForm() {
       this.editable = true;
       this.pencilHovered = false;
       this.$store.commit('addBalenciagaColorsForm');
+    },
+    deletingColorConfirmationForm(e) {
+      this.tempDocColor = e.target.id;
+      this.$store.commit('deletingColorConfirmation');
     },
     closeForm() {
       this.editable = false;
@@ -311,6 +329,84 @@ export default {
   background-color: var(--primary-color);
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   text-transform: uppercase;
+}
+#addForm {
+  position: fixed;
+  width: 60vw;
+  height: 40vh;
+  background: var(--primary-color);
+  left: 20%;
+  top: 30%;
+  border-radius: 1rem;
+  border: 2px solid #fff;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px,
+    rgba(0, 0, 0, 0.22) 0px 15px 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  z-index: 10;
+}
+#addForm h2,
+#addForm div {
+  text-align: center;
+  color: var(--secondary-color);
+  font-size: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#addForm div input {
+  width: 40vw;
+  height: 7vh;
+  margin: 1rem;
+  padding: 1rem;
+  background-color: var(--primary-color);
+  border: 2px solid var(--secondary-color);
+  font-size: 1.5rem;
+  color: var(--secondary-color);
+}
+#addForm div input:focus {
+  border: 5px solid var(--secondary-color);
+}
+#addForm button {
+  width: 10vw;
+  height: 5vh;
+  color: var(--primary-color);
+  font-size: 1.5rem;
+  background-color: var(--secondary-color);
+  cursor: pointer;
+}
+#addForm .close {
+  position: absolute;
+  right: 2rem;
+  top: 1rem;
+  cursor: pointer;
+}
+.deleteConfirmation {
+  padding: 1rem;
+}
+.deleteConfirmation p {
+  width: 50%;
+  background-color: #edd1d3;
+  color: #ff0000;
+  padding: 1rem 2rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  border-radius: 5px;
+}
+.deleteConfirmation div {
+  width: 100%;
+  display: flex;
+  flex-direction: row !important;
+  justify-content: end !important;
+}
+.deleteConfirmation div button {
+  margin: 0 1rem;
+}
+.deleteConfirmation div button:nth-child(2) {
+  background-color: #ff0000 !important;
+  color: #fff !important;
 }
 
 @media (max-width: 1400px) {

@@ -18,7 +18,7 @@
         <img
           v-if="loggedIn"
           :id="image"
-          @click="removeImage"
+          @click="deletingImageConfirmationForm"
           class="bin"
           src="../images/trash.svg"
         />
@@ -58,6 +58,20 @@
         <button type="submit">+</button>
       </div>
     </form>
+    <!-- confirmation for deleting color -->
+    <div
+      id="addForm"
+      class="deleteConfirmation"
+      v-if="deletingImageConfirmation"
+    >
+      <div @click="closeForm" class="close">&#x2718;</div>
+      <h1>Remove Image</h1>
+      <p>You will delete the image permanently</p>
+      <div>
+        <button @click="closeForm">Cancel</button>
+        <button @click="removeImage">Confirm</button>
+      </div>
+    </div>
   </div>
   <!-- content ends here -->
 </template>
@@ -97,6 +111,7 @@ export default {
       editable: false,
       imageUpload: null,
       fileError: false,
+      tempDocImage: '',
     };
   },
   computed: {
@@ -104,11 +119,15 @@ export default {
       return this.$store.state.lessSideBar;
     },
     brandImagesForm() {
-      // this returns the state of "logoForm". I used this for v-if to know when to show the form
+      // this returns the state of "brandImagesForm". I used this for v-if to know when to show the form
       return this.$store.state.brandImagesForm;
     },
     loggedIn() {
       return this.$store.state.loggedIn;
+    },
+    deletingImageConfirmation() {
+      // this returns the state of "deletingImageConfirmation".
+      return this.$store.state.deletingImageConfirmation;
     },
   },
   mounted: function () {
@@ -139,10 +158,10 @@ export default {
         });
       });
     },
-    removeImage(e) {
+    removeImage() {
       const storage = getStorage();
       // Create a reference to the file to delete
-      const imageRef = ref(storage, e.target.id);
+      const imageRef = ref(storage, this.tempDocImage);
       // Delete the file
       deleteObject(imageRef)
         .then(() => {
@@ -160,10 +179,15 @@ export default {
         .catch(error => {
           console.log(error);
         });
-      console.log(e.target.id);
+      this.tempDocImage = '';
+      this.closeForm();
     },
     uploadbrandImagesForm() {
       this.$store.commit('uploadbrandImagesForm');
+    },
+    deletingImageConfirmationForm(e) {
+      this.tempDocImage = e.target.id;
+      this.$store.commit('deletingImageConfirmation');
     },
     closeForm() {
       // this goes to the store to call a function called closeForm
@@ -181,7 +205,7 @@ export default {
   position: fixed;
   width: 60vw;
   height: 40vh;
-  background: var(--primaryColor);
+  background: var(--primary-color);
   left: 20%;
   top: 30%;
   border-radius: 1rem;
@@ -197,7 +221,7 @@ export default {
 #addImagesForm h2,
 #addImagesForm div {
   text-align: center;
-  color: var(--secondaryColor);
+  color: var(--secondary-color);
   font-size: 2rem;
   display: flex;
   flex-direction: column;
@@ -209,20 +233,20 @@ export default {
   height: 7vh;
   margin: 1rem;
   padding: 1rem;
-  background-color: var(--primaryColor);
-  border: 2px solid var(--secondaryColor);
+  background-color: var(--primary-color);
+  border: 2px solid var(--secondary-color);
   font-size: 1.5rem;
-  color: var(--secondaryColor);
+  color: var(--secondary-color);
 }
 #addImagesForm div input:focus {
-  border: 5px solid var(--secondaryColor);
+  border: 5px solid var(--secondary-color);
 }
 #addImagesForm button {
   width: 10vw;
   height: 5vh;
-  color: var(--primaryColor);
+  color: var(--primary-color);
   font-size: 1.5rem;
-  background-color: var(--secondaryColor);
+  background-color: var(--secondary-color);
   cursor: pointer;
 }
 #addImagesForm .close {
@@ -278,6 +302,84 @@ export default {
   padding-top: 10px;
   width: 100%;
 }
+#addForm {
+  position: fixed;
+  width: 60vw;
+  height: 40vh;
+  background: var(--primary-color);
+  left: 20%;
+  top: 30%;
+  border-radius: 1rem;
+  border: 2px solid #fff;
+  box-shadow: rgba(0, 0, 0, 0.3) 0px 19px 38px,
+    rgba(0, 0, 0, 0.22) 0px 15px 12px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  z-index: 10;
+}
+#addForm h2,
+#addForm div {
+  text-align: center;
+  color: var(--secondary-color);
+  font-size: 2rem;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+#addForm div input {
+  width: 40vw;
+  height: 7vh;
+  margin: 1rem;
+  padding: 1rem;
+  background-color: var(--primary-color);
+  border: 2px solid var(--secondary-color);
+  font-size: 1.5rem;
+  color: var(--secondary-color);
+}
+#addForm div input:focus {
+  border: 5px solid var(--secondary-color);
+}
+#addForm button {
+  width: 10vw;
+  height: 5vh;
+  color: var(--primary-color);
+  font-size: 1.5rem;
+  background-color: var(--secondary-color);
+  cursor: pointer;
+}
+#addForm .close {
+  position: absolute;
+  right: 2rem;
+  top: 1rem;
+  cursor: pointer;
+}
+.deleteConfirmation {
+  padding: 1rem;
+}
+.deleteConfirmation p {
+  width: 50%;
+  background-color: #edd1d3;
+  color: #ff0000;
+  padding: 1rem 2rem;
+  text-transform: uppercase;
+  letter-spacing: 2px;
+  border-radius: 5px;
+}
+.deleteConfirmation div {
+  width: 100%;
+  display: flex;
+  flex-direction: row !important;
+  justify-content: end !important;
+}
+.deleteConfirmation div button {
+  margin: 0 1rem;
+}
+.deleteConfirmation div button:nth-child(2) {
+  background-color: #ff0000 !important;
+  color: #fff !important;
+}
 @media (max-width: 1400px) {
   .content h1 {
     font-size: 2rem;
@@ -289,9 +391,15 @@ export default {
   .content p {
     width: 50vw;
   }
-  .editBtn{
+  .editBtn {
     width: 60px;
-    top: 8%
+    top: 8%;
+  }
+  .editOnHover2 {
+    top: 2%;
+    padding: 10px;
+    width: 10rem;
+    height: 50px;
   }
 }
 
@@ -330,17 +438,17 @@ export default {
     width: 80%;
     margin: auto;
   }
-    .editBtn{
+  .editBtn {
     width: 60px;
     top: 22%;
     right: -20%;
   }
   .editOnHover2 {
-  right: 15%;
-  top: 11%;
-  width: 6rem;
-  height: 50px;
-  font-size: .6rem;
-}
+    right: 15%;
+    top: 11%;
+    width: 6rem;
+    height: 50px;
+    font-size: 0.6rem;
+  }
 }
 </style>

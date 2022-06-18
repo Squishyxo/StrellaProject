@@ -65,7 +65,7 @@
       <img class="arrow" src="../images/double-arrow.svg" alt="arrow" />
     </button>
     <ProgressBar />
-    <phone-navigation />
+    <phoneNavigation />
   </div>
 </template>
 

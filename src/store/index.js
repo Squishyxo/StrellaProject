@@ -18,7 +18,9 @@ export default createStore({
         updatePageFormPopUp: false,
         editTextPopUp: false,
         logoResetWarning: false,
-        deletingPageConfirmation: false
+        deletingPageConfirmation: false,
+        deletingColorConfirmation: false,
+        deletingImageConfirmation: false,
     },
     getters: {},
     mutations: {
@@ -52,6 +54,12 @@ export default createStore({
         deletingPageConfirmation(state) {
             state.deletingPageConfirmation = true;
         },
+        deletingColorConfirmation(state) {
+            state.deletingColorConfirmation = true;
+        },
+        deletingImageConfirmation(state) {
+            state.deletingImageConfirmation = true;
+        },
         logoIsUploaded(state) {
             state.logoIsUploaded = true;
         },
@@ -66,6 +74,8 @@ export default createStore({
             state.brandImagesForm = false;
             state.logoResetWarning = false;
             state.deletingPageConfirmation = false;
+            state.deletingColorConfirmation = false;
+            state.deletingImageConfirmation = false;
         },
         logOut(state) {
             state.loggedIn = false

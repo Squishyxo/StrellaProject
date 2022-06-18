@@ -145,7 +145,7 @@
       <button type="submit">+</button>
     </div>
   </form>
-    <!-- confirmation for removing logo -->
+  <!-- confirmation for removing logo -->
   <div id="addForm" class="deleteConfirmation" v-if="logoResetWarning">
     <div @click="closeForm" class="close">&#x2718;</div>
     <h1>Reset Logo</h1>
@@ -153,7 +153,7 @@
     <div>
       <button @click="closeForm">Cancel</button>
       <button @click="resetLogo">Confirm</button>
-      </div>
+    </div>
   </div>
   <!-- confirmation for deleting page -->
   <div id="addForm" class="deleteConfirmation" v-if="deletingPageConfirmation">
@@ -163,9 +163,9 @@
     <div>
       <button @click="closeForm">Cancel</button>
       <button @click="removePage">Confirm</button>
-      </div>
+    </div>
   </div>
-      <DashboardPhoneNav />
+  <DashboardPhoneNav />
 </template>
 
 <script>
@@ -185,10 +185,10 @@ import {
   getDownloadURL,
   deleteObject,
 } from 'firebase/storage';
-import DashboardPhoneNav from '../components/DashboardPhoneNav.vue'
+import DashboardPhoneNav from '../components/DashboardPhoneNav.vue';
 
 export default {
-  components: {DashboardPhoneNav},
+  components: { DashboardPhoneNav },
   data() {
     return {
       pagesArray: [],
@@ -197,7 +197,7 @@ export default {
       fileError: false,
       tempDoc: '',
       waiting: false,
-      tempDocPage: ''
+      tempDocPage: '',
     };
   },
   computed: {
@@ -315,7 +315,7 @@ export default {
         .catch(error => {
           console.log(error);
         });
-        this.closeForm();
+      this.closeForm();
     },
     // this function will check whether there is already a logo in the backend or not. if yes, it will replace it, if not, it will upload a new logo file.
     getLogo() {
@@ -471,7 +471,7 @@ body {
 }
 #logo {
   margin-top: 2rem;
-  width: 60%;
+  width: 70%;
   height: 15%;
   color: var(--primaryColor);
 }
@@ -537,6 +537,7 @@ nav ul li a {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  z-index: 10;
 }
 #addColorsForm {
   position: fixed;
@@ -552,6 +553,7 @@ nav ul li a {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
+  z-index: 10;
 }
 #addForm h2,
 #addlogoForm h2,
@@ -670,7 +672,7 @@ nav ul li .router-link-active a {
 .deleteConfirmation {
   padding: 1rem;
 }
-.deleteConfirmation p{
+.deleteConfirmation p {
   width: 50%;
   background-color: #edd1d3;
   color: #ff0000;
@@ -679,46 +681,47 @@ nav ul li .router-link-active a {
   letter-spacing: 2px;
   border-radius: 5px;
 }
-.deleteConfirmation div{
+.deleteConfirmation div {
   width: 100%;
   display: flex;
-  flex-direction: row!important;
-  justify-content: end!important;
+  flex-direction: row !important;
+  justify-content: end !important;
 }
-.deleteConfirmation div button{
+.deleteConfirmation div button {
   margin: 0 1rem;
 }
-.deleteConfirmation div button:nth-child(2){
-  background-color: #ff0000!important;
-  color: #fff!important;
+.deleteConfirmation div button:nth-child(2) {
+  background-color: #ff0000 !important;
+  color: #fff !important;
 }
 @media (max-width: 1400px) {
-  #logo{
-  width: 60%;
-  height: 10%;
+  #logo {
+    width: 60%;
+    height: 10%;
   }
-  .uploadLogoBtn, .resetLogoBtn{
+  .uploadLogoBtn,
+  .resetLogoBtn {
     width: 5rem;
     line-height: 1rem;
     height: 3rem;
   }
 }
 @media (max-width: 1300px) {
-  #logo{
-  width: 80%;
-  height: 10%;
+  #logo {
+    width: 80%;
+    height: 10%;
   }
   nav ul li a {
-  font-size: 1.2rem;
-}
+    font-size: 1.2rem;
+  }
 }
 @media (max-width: 900px) {
-  #logo{
-  width: 80%;
-  height: 10%;
+  #logo {
+    width: 80%;
+    height: 10%;
   }
-    nav ul li a {
-  font-size: 1rem;
-}
+  nav ul li a {
+    font-size: 1rem;
+  }
 }
 </style>
